@@ -2,8 +2,9 @@
 #   npm install
 #   coffee generate_readme.coffee > README.md
 
-forge                   = require 'node-forge'
-{log, p, pretty, type}  = require 'lightsaber'
+lightsaber  = require 'lightsaber'
+
+{log, p, pretty, type, sha384} = lightsaber
 
 main = ->
   say """
@@ -27,17 +28,17 @@ main = ->
   predicate = 'published'
   object    = 'A Declaration of Independence of Cyberspace'
 
-  sphere.nodes[sha384hex canocial_json content: subject]   = content: subject
-  sphere.nodes[sha384hex canocial_json content: predicate] = content: predicate
-  sphere.nodes[sha384hex canocial_json content: object]    = content: object
+  sphere.nodes[sha384 canocial_json content: subject]   = content: subject
+  sphere.nodes[sha384 canocial_json content: predicate] = content: predicate
+  sphere.nodes[sha384 canocial_json content: object]    = content: object
 
   edge = {
-    subject:   sha384hex canocial_json { content: subject }
-    predicate: sha384hex canocial_json { content: predicate }
-    object:    sha384hex canocial_json { content: object }
+    subject:   sha384 canocial_json { content: subject }
+    predicate: sha384 canocial_json { content: predicate }
+    object:    sha384 canocial_json { content: object }
   }
 
-  sphere.edges[sha384hex canocial_json edge] = edge
+  sphere.edges[sha384 canocial_json edge] = edge
 
   log indent sane pretty sphere
 
@@ -47,7 +48,7 @@ main = ->
       
   """
 
-  log indent sane sha384hex canocial_json content: subject
+  log indent sane sha384 canocial_json content: subject
 
   say """
 
@@ -63,7 +64,7 @@ main = ->
       
   """
 
-  log indent sane sha384hex canocial_json edge
+  log indent sane sha384 canocial_json edge
 
   say """
 
@@ -84,13 +85,13 @@ main = ->
   sphere_packed =
     nodes: 
       [
-        sha384hex canocial_json { content: subject }
-        sha384hex canocial_json { content: predicate }
-        sha384hex canocial_json { content: object }
+        sha384 canocial_json { content: subject }
+        sha384 canocial_json { content: predicate }
+        sha384 canocial_json { content: object }
       ]
     edges: 
       [
-        sha384hex canocial_json edge
+        sha384 canocial_json edge
       ]
 
   say """
@@ -101,7 +102,7 @@ main = ->
 
   """
 
-  sphere_hash = sha384hex canocial_json sphere_packed
+  sphere_hash = sha384 canocial_json sphere_packed
   log sane pretty sha384: sphere_hash
 
   say """
@@ -146,16 +147,5 @@ canocial_json = minified_json_sorted_by_key = (obj) ->
     else
       "#{JSON.stringify key}:#{JSON.stringify val}"
   "{#{pairs.join(',')}}"
-
-sha384 = (text) ->
-  message_digest = forge.md.sha384.create()
-  message_digest.update text, 'utf-8'
-  { 
-    message_digest
-    hex: message_digest.digest().toHex()    
-  }
-
-sha384hex = (text) ->
-  sha384(text).hex
 
 main()

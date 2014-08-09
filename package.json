@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "coffee-script": "^1.7.1",
-    "node-forge": "^0.6.12",
-    "lightsaber": "^0.1.5"
+    "lightsaber": "^0.1.7"
   },
   "repository": {
     "type": "git",
