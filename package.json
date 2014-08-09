@@ -11,7 +11,7 @@
   "dependencies": {
     "coffee-script": "^1.7.1",
     "node-forge": "^0.6.12",
-    "lightsaber": "^0.0.3"
+    "lightsaber": "^0.1.5"
   },
   "repository": {
     "type": "git",

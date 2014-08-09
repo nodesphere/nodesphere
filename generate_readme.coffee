@@ -1,11 +1,9 @@
 # Usage:
+#   npm install
 #   coffee generate_readme.coffee > README.md
 
-forge             = require 'node-forge'
-lightsaber        = require 'lightsaber'
-
-{log, p, pretty}  = lightsaber.log
-type              = lightsaber.type
+forge                   = require 'node-forge'
+{log, p, pretty, type}  = require 'lightsaber'
 
 main = ->
   say """
