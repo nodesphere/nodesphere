@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Simple management for collections of nodes and edges",
   "main": "index.js",
+  "private": true,
   "scripts": {
   },
   "author": "Harlan T Wood",
