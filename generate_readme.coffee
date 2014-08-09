@@ -1,10 +1,11 @@
 # Usage:
 #   coffee generate_readme.coffee > README.md
 
-forge = require 'node-forge'
+forge             = require 'node-forge'
+lightsaber        = require 'lightsaber'
 
-{log, p, pretty}  = require '../light/lib/log'
-type              = require '../light/lib/type'
+{log, p, pretty}  = lightsaber.log
+type              = lightsaber.type
 
 main = ->
   say """
