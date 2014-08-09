@@ -1,0 +1,25 @@
+{
+  "name": "nodesphere",
+  "version": "0.0.1",
+  "description": "Simple management for collections of nodes and edges",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "Harlan T Wood",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.7.1",
+    "node-forge": "^0.6.12",
+    "lightsaber": "^0.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enlightenedstructure/nodesphere.git"
+  },
+  "keywords": [
+    "graph", "node", "edge"
+  ],
+  "bugs": {
+    "url": "https://github.com/enlightenedstructure/nodesphere/issues"
+  }
+}
