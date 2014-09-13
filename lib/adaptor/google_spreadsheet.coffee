@@ -1,3 +1,11 @@
+
+# NOTE: THIS IS A STUB ONLY!
+# NOTE: THIS IS A STUB ONLY!
+# NOTE: THIS IS A STUB ONLY!
+
+
+
+
 define (require, exports, module) ->
 
   # NodeSphere        = require 'core/node_sphere'
