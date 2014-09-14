@@ -1,1 +1,1 @@
-coffee --watch --compile lib
+coffee --watch --compile lib/adaptor

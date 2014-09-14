@@ -1,32 +1,65 @@
+`if (typeof define !== 'function') { var define = require('amdefine')(module) }`
+
 define (require, exports, module) ->
 
-  # NodeSphere        = require 'core/node_sphere'
-  # { log, p }        = require 'lightsaber/log'
+  NodeSphere        = require '../core/nodesphere'
+  # { log, p }        = require 'lightsaber'
+
+  # sphere
+  #   title
+  #   nodegroup
+  #     node
+  #       title
+  #       content
+  #       tag
+
+  # nodes:
+  #   ''    # <-- "this nodesphere"
+  #   ES
+  #   {
+  #     title: "Core Network"
+  #     content: "CN is ..."
+  #   }
+  # 
+
+  # edges:
+  #   '' has title ES
+  #   '' has sphere d8427e548
+  #   d8427e548 has node 
+  # 
+  # 
+  # 
+  # 
+
 
   ####################################################################
   class RevealDeck
   ####################################################################
 
-    @as_sphere: (callback) ->
-      @load_slides()
-      sphere = new NodeSphere()
-      sphere.describe @meta
-      for slide in @slides
-        sphere.add slide.name, slide.meta
-      callback sphere
+    SECTION_SELECTOR = '.reveal > .slides section:not(:has(section))'  # leaf node sections only
 
-    @load_slides: ->
-      self = this
-      self.slides = []
-      sections = $ '.reveal > .slides section:not(:has(section))'  # leaf node sections only
-      sections.each (index) ->
-        if index==0
-          home_slide = new RevealSlide sections.first(), index
-          self.meta =
-            name: home_slide.name
-            url: home_slide.meta.url
-        else
-          self.slides.push(new RevealSlide $(this), index)
+    constructor: (options={}) ->
+      # @meta = {}
+      @slides = []
+      
+      @$sections = if options.content
+        $(options.content).select SECTION_SELECTOR
+      else
+        $ SECTION_SELECTOR
+
+      self = @
+      @$sections.each (index) ->
+        $section = $(this)
+        self.slides.push(new RevealSlide $section, index)
+
+    as_sphere: (content, callback) ->
+      sphere = new NodeSphere()
+      name = $('title').first().text() or $('h1').first().text()
+      sphere.put_edge @sphere.key(), 'has name', name        if name
+      sphere.put_edge @sphere.key(), 'has url',  options.url if options.url
+      for slide in @slides
+        sphere.integrate slide.as_sphere()
+      callback sphere
 
   ####################################################################
   class RevealSlide
@@ -44,11 +77,10 @@ define (require, exports, module) ->
       slide_id = @$section.attr 'id'
       @meta.url = if slide_id then "#/#{slide_id}" else "#/#{section_index or ''}"
 
-    add_meta: (key, value) ->
-      throw "Expected key (#{key}) to be present" unless key?
-      throw "Expected value (#{value}) to be an array" unless type(value) is 'array'
-      @meta[key] ?= []
-      @meta[key].push value...
+    as_sphere: ->
+      sphere = new NodeSphere()
+      sphere.put_edge @sphere.key(), 'has url',  options.url if options.url
+
 
     # Given the example string "  foo  bar  BAZ, yes!!!! "
     # return the id "foo-bar-BAZ-yes"
@@ -61,3 +93,8 @@ define (require, exports, module) ->
         .replace(/(-$)/, '')            # no dash at end
 
   module.exports = RevealDeck
+
+
+
+
+

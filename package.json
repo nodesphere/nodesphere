@@ -5,11 +5,16 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "start": "node server.js"
   },
   "author": "Harlan T Wood",
   "license": "ISC",
   "dependencies": {
-    "coffee-script": "^1.7.1",
+    "amdefine": "^0.1.0",
+    "body-parser": "^1.8.1",
+    "coffee-script": "^1.8.0",
+    "express": "^4.9.0",
+    "http-request": "^0.6.3",
     "lightsaber": "^0.1.7"
   },
   "repository": {
@@ -17,7 +22,9 @@
     "url": "https://github.com/enlightenedstructure/nodesphere.git"
   },
   "keywords": [
-    "graph", "node", "edge"
+    "graph",
+    "node",
+    "edge"
   ],
   "bugs": {
     "url": "https://github.com/enlightenedstructure/nodesphere/issues"
