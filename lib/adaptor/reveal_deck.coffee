@@ -77,7 +77,7 @@ define (require, exports, module) ->
 
       @meta = {}
       @meta.tags = @$section.closest("[data-tags]").data('tags') ? []
-      @$section.attr('id', pretty_html_id @name) if @name and not @$section.attr 'id'
+      @$section.attr('id', _pretty_html_id @name) if @name and not @$section.attr 'id'
       slide_id = @$section.attr 'id'
       @meta.url = if slide_id then "#/#{slide_id}" else "#/#{section_index or ''}"
       @meta.content = @$section.html()
@@ -93,7 +93,7 @@ define (require, exports, module) ->
     # Given the example string "  foo  bar  BAZ, yes!!!! "
     # return the id "foo-bar-BAZ-yes"
     # These IDs are designed to be both 'pretty' and widely compatible
-    pretty_html_id = (name) ->
+    _pretty_html_id = (name) ->
       name
         .replace(/^[^a-z]+/i, '')       # must start with a letter
         .replace(/[^a-z0-9-]/gi, '-')   # leave only letters, numbers, dashes

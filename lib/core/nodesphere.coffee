@@ -12,7 +12,7 @@ class NodeSphere
     "key-#{chars.join('')}"
 
   constructor: () ->
-    @keys = [ rand_key 44 ]
+    @keys = [rand_key 44]
     @edges = {}
     @nodes = {}
 
@@ -20,27 +20,34 @@ class NodeSphere
     @keys[0] or raise("No keys found")
 
   put_edge: (subject, predicate, object) ->
-    json = canonical_json
+    data =
       subject: @put_node subject
       predicate: @put_node predicate
       object: @put_node object
-    hash = @hash json
-    @edges[hash] = json
+    hash = _hash canonical_json data
+    @edges[hash] = data
     hash
 
   put_node: (node) ->
-    hash = @hash node
-    @nodes[hash] = node
+    data = { content: node }
+    hash = _hash canonical_json data
+    @nodes[hash] = data
     hash
-
-  hash: (data) ->
-    sha384 data
 
   integrate: (sphere) ->
     @edges = _.merge @edges, sphere.edges
     @nodes = _.merge @nodes, sphere.nodes
 
   to_json: ->
+    canonical_json
+      nodes: @nodes
+      edges: @edges
+
+  _hash = (data) ->
+    sha384 data
 
 
 module.exports = NodeSphere
+
+
+
