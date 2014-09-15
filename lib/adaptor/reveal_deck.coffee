@@ -1,5 +1,8 @@
 `if (typeof define !== 'function') { var define = require('amdefine')(module) }`
 
+lightsaber  = require 'lightsaber'
+{log, p, pretty, type, sha384} = lightsaber
+
 define (require, exports, module) ->
 
   NodeSphere        = require '../core/nodesphere'
@@ -38,48 +41,53 @@ define (require, exports, module) ->
 
     SECTION_SELECTOR = '.reveal > .slides section:not(:has(section))'  # leaf node sections only
 
-    constructor: (options={}) ->
+    constructor: (@params={}) ->
       # @meta = {}
       @slides = []
-      
-      @$sections = if options.content
-        $(options.content).select SECTION_SELECTOR
-      else
-        $ SECTION_SELECTOR
+
+      throw "params.content not found" unless @params.content
+      @$content = $ @params.content
+      @$sections = @$content.select SECTION_SELECTOR
+      @content_id = sha384 content
 
       self = @
       @$sections.each (index) ->
         $section = $(this)
         self.slides.push(new RevealSlide $section, index)
 
-    as_sphere: (content, callback) ->
+    as_sphere: ->
       sphere = new NodeSphere()
-      name = $('title').first().text() or $('h1').first().text()
-      sphere.put_edge @sphere.key(), 'has name', name        if name
-      sphere.put_edge @sphere.key(), 'has url',  options.url if options.url
+      name = @$content.select('title').first().text() or @$content.select('h1').first().text()
+      sphere.put_edge @content_id, 'has name', name        if name
+      for own key, value of @params
+        sphere.put_edge @content_id, "has #{key}", value
       for slide in @slides
         sphere.integrate slide.as_sphere()
-      callback sphere
+      sphere
 
   ####################################################################
   class RevealSlide
   ####################################################################
 
     constructor: (@$section, section_index) ->
-      @meta = {}
       @name = @$section.data('title')
       @name or= @$section.children().first().text()
       @name = @name.trim().replace(/\s+/g, ' ') if @name?
+      @content_id = sha384 @$section.html()
 
+      @meta = {}
       @meta.tags = @$section.closest("[data-tags]").data('tags') ? []
-
       @$section.attr('id', pretty_html_id @name) if @name and not @$section.attr 'id'
       slide_id = @$section.attr 'id'
       @meta.url = if slide_id then "#/#{slide_id}" else "#/#{section_index or ''}"
+      @meta.content = @$section.html()
 
     as_sphere: ->
       sphere = new NodeSphere()
-      sphere.put_edge @sphere.key(), 'has url',  options.url if options.url
+      sphere.put_edge @content_id, 'has name', @name if @name
+      for own key, value of @meta
+        sphere.put_edge @content_id, "has #{key}", value
+      sphere
 
 
     # Given the example string "  foo  bar  BAZ, yes!!!! "
