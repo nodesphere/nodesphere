@@ -46,8 +46,4 @@ class NodeSphere
   _hash = (data) ->
     sha384 data
 
-
 module.exports = NodeSphere
-
-
-
