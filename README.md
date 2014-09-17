@@ -1,6 +1,6 @@
 # Nodesphere
 
-A nodesphere is a graph, in a simple JSON format, with conent-addressable nodes and edges.
+A nodesphere is a graph, in a simple JSON format, with content-addressable nodes and edges.
 
 ## Saving a Graph
 

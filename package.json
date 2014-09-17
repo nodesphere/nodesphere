@@ -1,7 +1,7 @@
 {
   "name": "nodesphere",
   "version": "0.0.1",
-  "description": "Conent-addressable graph storage in simple JSON",
+  "description": "Content-addressable graph storage in simple JSON [work in progress]",
   "scripts": {
   },
   "author": "Harlan T Wood <code@harlantwood.net>",
