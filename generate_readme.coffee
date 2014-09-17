@@ -8,7 +8,7 @@ lightsaber  = require 'lightsaber'
 
 main = ->
   say """
-    # NodeSphere
+    # Nodesphere
 
     Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and links.
 
