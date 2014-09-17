@@ -103,7 +103,7 @@ main = ->
   """
 
   sphere_hash = sha384 canocial_json sphere_packed
-  log sane pretty sha384: sphere_hash
+  log indent sane pretty sha384: sphere_hash
 
   say """
 

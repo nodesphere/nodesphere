@@ -52,9 +52,9 @@ Note that the JSON is minified and sorted by keys.
 
 The expected response to the `PUT` request is one or more keys:
 
-{
-    "sha384": "5923e083"
-}
+    {
+        "sha384": "5923e083"
+    }
 
 Where, for example, `5923e083` is the hash of the JSON of the entire "packed" sphere:
 
