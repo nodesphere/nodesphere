@@ -10,13 +10,13 @@ main = ->
   say """
     # Nodesphere
 
-    Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and links.
+    Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and edges.
 
     ## Saving a Graph
     
     ### HTTP PUT request
 
-    For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and links:
+    For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and edges:
 
     """
 
