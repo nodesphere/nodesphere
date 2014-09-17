@@ -107,7 +107,7 @@ main = ->
 
   say """
 
-  Where, for example, `#{sane sphere_hash}` is the hash of the JSON of the entire "packed" sphere:
+  Where `#{sane sphere_hash}` is the hash of the JSON of the entire "packed" sphere:
 
   """
 
