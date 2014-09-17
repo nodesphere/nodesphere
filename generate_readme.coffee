@@ -28,17 +28,17 @@ main = ->
   predicate = 'published'
   object    = 'A Declaration of Independence of Cyberspace'
 
-  sphere.nodes[sha384 canocial_json content: subject]   = content: subject
-  sphere.nodes[sha384 canocial_json content: predicate] = content: predicate
-  sphere.nodes[sha384 canocial_json content: object]    = content: object
+  sphere.nodes[sha384 canonical_json content: subject]   = content: subject
+  sphere.nodes[sha384 canonical_json content: predicate] = content: predicate
+  sphere.nodes[sha384 canonical_json content: object]    = content: object
 
   edge = {
-    subject:   sha384 canocial_json { content: subject }
-    predicate: sha384 canocial_json { content: predicate }
-    object:    sha384 canocial_json { content: object }
+    subject:   sha384 canonical_json { content: subject }
+    predicate: sha384 canonical_json { content: predicate }
+    object:    sha384 canonical_json { content: object }
   }
 
-  sphere.edges[sha384 canocial_json edge] = edge
+  sphere.edges[sha384 canonical_json edge] = edge
 
   log indent sane pretty sphere
 
@@ -48,7 +48,7 @@ main = ->
       
   """
 
-  log indent sane sha384 canocial_json content: subject
+  log indent sane sha384 canonical_json content: subject
 
   say """
 
@@ -56,7 +56,7 @@ main = ->
       
   """
 
-  log indent quote canocial_json content: subject
+  log indent quote canonical_json content: subject
 
   say """
 
@@ -64,7 +64,7 @@ main = ->
       
   """
 
-  log indent sane sha384 canocial_json edge
+  log indent sane sha384 canonical_json edge
 
   say """
 
@@ -72,7 +72,7 @@ main = ->
       
   """
 
-  log indent quote sane canocial_json edge
+  log indent quote sane canonical_json edge
 
   say """
 
@@ -85,13 +85,13 @@ main = ->
   sphere_packed =
     nodes: 
       [
-        sha384 canocial_json { content: subject }
-        sha384 canocial_json { content: predicate }
-        sha384 canocial_json { content: object }
+        sha384 canonical_json { content: subject }
+        sha384 canonical_json { content: predicate }
+        sha384 canonical_json { content: object }
       ]
     edges: 
       [
-        sha384 canocial_json edge
+        sha384 canonical_json edge
       ]
 
   say """
@@ -102,7 +102,7 @@ main = ->
 
   """
 
-  sphere_hash = sha384 canocial_json sphere_packed
+  sphere_hash = sha384 canonical_json sphere_packed
   log sane pretty sha384: sphere_hash
 
   say """
@@ -111,7 +111,7 @@ main = ->
 
   """
 
-  log indent quote sane canocial_json sphere_packed
+  log indent quote sane canonical_json sphere_packed
 
   say """
 
