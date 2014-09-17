@@ -4,7 +4,10 @@
   "description": "Conent-addressable graph storage in simple JSON",
   "scripts": {
   },
-  "author": "Harlan T Wood",
+  "author": "Harlan T Wood <code@harlantwood.net>",
+  "contributors": [
+    "Jack Senechal"
+  ],
   "dependencies": {
     "coffee-script": "^1.7.1",
     "lightsaber": "^0.1.7"
