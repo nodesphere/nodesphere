@@ -1,6 +1,6 @@
 {
   "name": "nodesphere",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Content-addressable graph storage in simple JSON [work in progress]",
   "scripts": {
   },
