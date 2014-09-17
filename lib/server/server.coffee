@@ -1,6 +1,7 @@
 express = require 'express'
-Adaptor = require '../adaptor/adaptor.coffee'
 { p }   = require 'lightsaber'
+
+Adaptor = require "#{__dirname}/../adaptor/adaptor.coffee"
 
 app = express()
 

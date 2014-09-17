@@ -1,6 +1,6 @@
 http = require 'http-request'
 
-RevealDeck = require './reveal_deck.coffee'
+RevealDeck = require "#{__dirname}/reveal_deck.coffee"
 
 class Adaptor
 

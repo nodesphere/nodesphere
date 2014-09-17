@@ -1,7 +1,9 @@
-lightsaber  = require 'lightsaber'
-{log, p, pretty, type, sha384} = lightsaber
-{canonical_json} = require './lib/util'
 _ = require 'lodash-node'
+lightsaber  = require 'lightsaber'
+
+{canonical_json} = require "#{__dirname}/../util"
+
+{log, p, sha384} = lightsaber
 
 class NodeSphere
 
