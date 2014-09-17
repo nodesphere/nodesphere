@@ -2,7 +2,6 @@
   "name": "nodesphere",
   "version": "0.0.1",
   "description": "Simple management for collections of nodes and edges",
-  "private": true,
   "scripts": {
   },
   "author": "Harlan T Wood",
