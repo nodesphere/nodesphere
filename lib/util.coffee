@@ -1,4 +1,4 @@
-module.exports {
+module.exports = {
   # argument `obj` can be an oject with one level of key/values deep only.
   # values can be numeric, string, or array
   canocial_json: (obj) -> 
