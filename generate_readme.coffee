@@ -10,7 +10,7 @@ main = ->
   say """
     # NodeSphere
 
-    Simple GET and PUT operations for _nodespheres_, which are simply collections of nodes and links.
+    Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and links.
 
     ## PUT
     
