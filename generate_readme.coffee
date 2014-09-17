@@ -10,7 +10,7 @@ main = ->
   say """
     # Nodesphere
 
-    Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and edges.
+    A nodesphere is a graph, in a simple JSON format, with conent-addressable nodes and edges.
 
     ## Saving a Graph
     
