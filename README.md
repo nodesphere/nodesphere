@@ -29,11 +29,11 @@ For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and
         }
     }
 
-The ID of each node can be any unique string.  In this case we use the SHA-384 of the node's sorted minified JSON.  For example:
+The ID of each node can be any unique string.  In this case we use the hash of the node's sorted minified JSON.  For example:
 
     7db403b1
 
-is the SHA-384 of
+is the hash of
 
     '{"content":"John Perry Barlow"}'
 
@@ -41,7 +41,7 @@ And:
 
     1068b6e0
 
-is the SHA-384 of
+is the hash of
 
     '{"object":"015db549","predicate":"0ae5fb5c","subject":"7db403b1"}'
 
@@ -56,7 +56,7 @@ The expected response to the `PUT` request is one or more keys:
     "sha384": "5923e083"
 }
 
-Where, for example, `5923e083` is the SHA-384 of the JSON of the entire "packed" sphere:
+Where, for example, `5923e083` is the hash of the JSON of the entire "packed" sphere:
 
     '{"edges":["1068b6e0"],"nodes":["015db549","0ae5fb5c","7db403b1"]}'
 

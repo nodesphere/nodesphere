@@ -44,7 +44,7 @@ main = ->
 
   say """
 
-  The ID of each node can be any unique string.  In this case we use the SHA-384 of the node's sorted minified JSON.  For example:
+  The ID of each node can be any unique string.  In this case we use the hash of the node's sorted minified JSON.  For example:
       
   """
 
@@ -52,7 +52,7 @@ main = ->
 
   say """
 
-  is the SHA-384 of 
+  is the hash of 
       
   """
 
@@ -68,7 +68,7 @@ main = ->
 
   say """
 
-  is the SHA-384 of 
+  is the hash of 
       
   """
 
@@ -107,7 +107,7 @@ main = ->
 
   say """
 
-  Where, for example, `#{sane sphere_hash}` is the SHA-384 of the JSON of the entire "packed" sphere:
+  Where, for example, `#{sane sphere_hash}` is the hash of the JSON of the entire "packed" sphere:
 
   """
 
