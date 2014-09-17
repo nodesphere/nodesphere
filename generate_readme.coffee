@@ -12,9 +12,9 @@ main = ->
 
     Simple GET and PUT operations for _nodespheres_, which are simply graphs: collections of nodes and links.
 
-    ## PUT
+    ## Saving a Graph
     
-    ### The PUT request
+    ### HTTP PUT request
 
     For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and links:
 
@@ -96,7 +96,7 @@ main = ->
 
   say """
 
-  ### The PUT response
+  ### HTTP PUT response
 
   The expected response to the `PUT` request is one or more keys:
 
