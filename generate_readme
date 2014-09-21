@@ -1,6 +1,7 @@
+#!/usr/bin/env coffee
+#
 # Usage:
 #   npm install
-#   coffee generate_readme.coffee > README.md
 
 lightsaber  = require 'lightsaber'
 {log, p, pretty, type, sha384} = lightsaber
