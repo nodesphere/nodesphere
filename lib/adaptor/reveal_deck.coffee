@@ -1,11 +1,21 @@
 `if (typeof define !== 'function') { var define = require('amdefine')(module) }`
 
 lightsaber  = require 'lightsaber'
-{log, p, pretty, type, sha384} = lightsaber
+
+NodeSphere = require '../core/nodesphere'
+
+{
+  log
+  p
+  pretty
+  type
+  sha384
+  jquery
+} = lightsaber
+$ = jquery
 
 define (require, exports, module) ->
 
-  NodeSphere        = require '../core/nodesphere'
   # { log, p }        = require 'lightsaber'
 
   # sphere
@@ -33,7 +43,6 @@ define (require, exports, module) ->
   # 
   # 
   # 
-
 
   ####################################################################
   class RevealDeck
