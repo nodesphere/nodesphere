@@ -11,7 +11,7 @@ class Adaptor
       else
         # res.code
         # res.headers
-        content = res.buffer.toString()
+        content = source_response.buffer.toString()
 
         # initially, we support only Reveal:
         reveal_deck = new RevealDeck
