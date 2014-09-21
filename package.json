@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/enlightenedstructure/nodesphere.git"
+    "url": "https://github.com/nodesphere/nodesphere.git"
   },
   "keywords": [
     "graph",
@@ -28,6 +28,6 @@
     "edge"
   ],
   "bugs": {
-    "url": "https://github.com/enlightenedstructure/nodesphere/issues"
+    "url": "https://github.com/nodesphere/nodesphere/issues"
   }
 }
