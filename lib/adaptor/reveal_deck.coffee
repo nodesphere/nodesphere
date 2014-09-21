@@ -1,22 +1,18 @@
 `if (typeof define !== 'function') { var define = require('amdefine')(module) }`
 
 lightsaber  = require 'lightsaber'
-
 NodeSphere = require '../core/nodesphere'
 
 {
+  doc
   log
   p
   pretty
   type
   sha384
-  jquery
 } = lightsaber
-$ = jquery
 
 define (require, exports, module) ->
-
-  # { log, p }        = require 'lightsaber'
 
   # sphere
   #   title
@@ -55,9 +51,10 @@ define (require, exports, module) ->
       @slides = []
 
       throw "params.content not found" unless @params.content
-      @$content = $ @params.content
-      @$sections = @$content.select SECTION_SELECTOR
+      content = @params.content
       @content_id = sha384 content
+      @$content = doc content
+      @$sections = @$content SECTION_SELECTOR
 
       self = @
       @$sections.each (index) ->
@@ -66,8 +63,8 @@ define (require, exports, module) ->
 
     as_sphere: ->
       sphere = new NodeSphere()
-      name = @$content.select('title').first().text() or @$content.select('h1').first().text()
-      sphere.put_edge @content_id, 'has name', name        if name
+      name = @$content('title').first().text() or @$content('h1').first().text()
+      sphere.put_edge @content_id, 'has name', name if name
       for own key, value of @params
         sphere.put_edge @content_id, "has #{key}", value
       for slide in @slides

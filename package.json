@@ -15,7 +15,7 @@
     "coffee-script": "^1.8.0",
     "express": "^4.9.0",
     "http-request": "^0.6.3",
-    "lightsaber": "^0.1.7",
+    "lightsaber": "^0.1.11",
     "lodash-node": "^2.4.1"
   },
   "repository": {
