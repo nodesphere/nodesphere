@@ -2,10 +2,20 @@
 #
 # Usage:
 #   npm install
+#   ./generate_readme.coffee > README.md
 
-lightsaber  = require 'lightsaber'
-{log, p, pretty, type, sha384} = lightsaber
-{canonical_json} = require './lib/util'
+lightsaber = require 'lightsaber'
+{
+  canonical_json
+  indent
+  log
+  p
+  pretty
+  quote
+  sane
+  say
+  sha384
+} = lightsaber
 
 main = ->
   say """
