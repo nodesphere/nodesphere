@@ -18,8 +18,8 @@ class Adaptor
           content: content
           url: source_url
 
-        reveal_deck.as_sphere (nodesphere) ->
-          callback nodesphere.to_json()
+        nodesphere = reveal_deck.as_sphere()
+        callback nodesphere.to_json()
 
         #   return the json as the response plz : )
 
