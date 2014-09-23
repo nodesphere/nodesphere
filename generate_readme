@@ -5,7 +5,6 @@
 #   ./generate_readme.coffee > README.md
 
 {
-  canonical_json
   indent
   log
   p
@@ -15,6 +14,8 @@
   say
   sha384
 } = require 'lightsaber'
+
+{ nodesphere_json } = require './lib/json'
 
 main = ->
   say """
@@ -61,7 +62,7 @@ main = ->
     object:    sha384 object
   }
 
-  sphere.edges[sha384 canonical_json edge] = edge
+  sphere.edges[sha384 nodesphere_json edge] = edge
 
   log indent sane pretty sphere
 
@@ -87,7 +88,7 @@ main = ->
       
   """
 
-  log indent sane sha384 canonical_json edge
+  log indent sane sha384 nodesphere_json edge
 
   say """
 
@@ -95,7 +96,7 @@ main = ->
       
   """
 
-  log indent quote sane canonical_json edge
+  log indent quote sane nodesphere_json edge
 
   say """
 
@@ -114,7 +115,7 @@ main = ->
       ]
     edges: 
       [
-        sha384 canonical_json edge
+        sha384 nodesphere_json edge
       ]
 
   say """
@@ -125,7 +126,7 @@ main = ->
 
   """
 
-  sphere_hash = sha384 canonical_json sphere_packed
+  sphere_hash = sha384 nodesphere_json sphere_packed
   log indent sane pretty sha384: sphere_hash
 
   say """
@@ -134,7 +135,7 @@ main = ->
 
   """
 
-  log indent quote sane canonical_json sphere_packed
+  log indent quote sane nodesphere_json sphere_packed
 
   say """
 
