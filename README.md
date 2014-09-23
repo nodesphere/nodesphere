@@ -10,40 +10,34 @@ For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and
 
     {
         "nodes": {
-            "7db403b1": {
-                "content": "John Perry Barlow"
-            },
-            "0ae5fb5c": {
-                "content": "published"
-            },
-            "015db549": {
-                "content": "A Declaration of Independence of Cyberspace"
-            }
+            "e9381b02": "John Perry Barlow",
+            "85c3ef1e": "published",
+            "b8925d6f": "A Declaration of Independence of Cyberspace"
         },
         "edges": {
-            "1068b6e0": {
-                "subject": "7db403b1",
-                "predicate": "0ae5fb5c",
-                "object": "015db549"
+            "dbfaa3ef": {
+                "subject": "e9381b02",
+                "predicate": "85c3ef1e",
+                "object": "b8925d6f"
             }
         }
     }
 
 The ID of each node can be any unique string.  In this case we use the hash of the node's sorted minified JSON.  For example:
 
-    7db403b1
+    e9381b02
 
 is the hash of
 
-    '{"content":"John Perry Barlow"}'
+    'John Perry Barlow'
 
 And:
 
-    1068b6e0
+    dbfaa3ef
 
 is the hash of
 
-    '{"object":"015db549","predicate":"0ae5fb5c","subject":"7db403b1"}'
+    '{"object":"b8925d6f","predicate":"85c3ef1e","subject":"e9381b02"}'
 
 Note that the JSON is minified and sorted by keys.
 
@@ -53,12 +47,12 @@ Note that the JSON is minified and sorted by keys.
 The expected response to the `PUT` request is one or more keys:
 
     {
-        "sha384": "5923e083"
+        "sha384": "490c56e9"
     }
 
-Where `5923e083` is the hash of the JSON of the entire "packed" sphere:
+Where `490c56e9` is the hash of the JSON of the entire "packed" sphere:
 
-    '{"edges":["1068b6e0"],"nodes":["015db549","0ae5fb5c","7db403b1"]}'
+    '{"edges":["dbfaa3ef"],"nodes":["85c3ef1e","b8925d6f","e9381b02"]}'
 
 Note that the array values are sorted, as well as the object keys.
 

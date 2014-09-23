@@ -39,14 +39,14 @@ main = ->
   predicate = 'published'
   object    = 'A Declaration of Independence of Cyberspace'
 
-  sphere.nodes[sha384 canonical_json content: subject]   = content: subject
-  sphere.nodes[sha384 canonical_json content: predicate] = content: predicate
-  sphere.nodes[sha384 canonical_json content: object]    = content: object
+  sphere.nodes[sha384 subject]   = subject
+  sphere.nodes[sha384 predicate] = predicate
+  sphere.nodes[sha384 object]    = object
 
   edge = {
-    subject:   sha384 canonical_json { content: subject }
-    predicate: sha384 canonical_json { content: predicate }
-    object:    sha384 canonical_json { content: object }
+    subject:   sha384 subject
+    predicate: sha384 predicate
+    object:    sha384 object
   }
 
   sphere.edges[sha384 canonical_json edge] = edge
@@ -59,7 +59,7 @@ main = ->
       
   """
 
-  log indent sane sha384 canonical_json content: subject
+  log indent sane sha384 subject
 
   say """
 
@@ -67,7 +67,7 @@ main = ->
       
   """
 
-  log indent quote canonical_json content: subject
+  log indent quote subject
 
   say """
 
@@ -96,9 +96,9 @@ main = ->
   sphere_packed =
     nodes: 
       [
-        sha384 canonical_json { content: subject }
-        sha384 canonical_json { content: predicate }
-        sha384 canonical_json { content: object }
+        sha384 subject
+        sha384 predicate
+        sha384 object
       ]
     edges: 
       [
