@@ -1,6 +1,19 @@
 # Nodesphere
 
-A nodesphere is a graph, in a simple JSON format, with content-addressable nodes and edges.
+Nodesphere is an interchange format for node networks. It has three primary objectives:
+
+1. Create interoperability among graph visualization interfaces
+2. Provide adaptors to connect these interfaces to personal data ecosystems,
+including social network data, online drives, and ultimately, any public or private data
+3. Abstract data storage and retrieval, allowing transitions
+from traditional server & database systems toward secure, distributed public and private storage,
+as these systems become practical and performant
+
+Tehcnically, a nodesphere is a graph, in a simple JSON format, with content-addressable nodes and edges.
+The JSON has a deterministic order so that content addresses are always consistent:
+
+- Arrays of content IDs are sorted
+- Key-value "objects" are sorted by their keys
 
 ## Saving a Graph
 
