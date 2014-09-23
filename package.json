@@ -9,8 +9,8 @@
     "Jack Senechal"
   ],
   "dependencies": {
-    "coffee-script": "^1.7.1",
-    "lightsaber": "^0.1.7"
+    "coffee-script": "^1.8.0",
+    "lightsaber": "^0.1.12"
   },
   "repository": {
     "type": "git",
