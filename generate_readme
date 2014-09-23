@@ -4,7 +4,6 @@
 #   npm install
 #   ./generate_readme.coffee > README.md
 
-lightsaber = require 'lightsaber'
 {
   canonical_json
   indent
@@ -15,7 +14,7 @@ lightsaber = require 'lightsaber'
   sane
   say
   sha384
-} = lightsaber
+} = require 'lightsaber'
 
 main = ->
   say """
