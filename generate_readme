@@ -1,10 +1,21 @@
+#!/usr/bin/env coffee
+#
 # Usage:
 #   npm install
-#   coffee generate_readme.coffee > README.md
+#   ./generate_readme.coffee > README.md
 
-lightsaber  = require 'lightsaber'
-
-{log, p, pretty, type, sha384} = lightsaber
+lightsaber = require 'lightsaber'
+{
+  canonical_json
+  indent
+  log
+  p
+  pretty
+  quote
+  sane
+  say
+  sha384
+} = lightsaber
 
 main = ->
   say """
@@ -118,34 +129,5 @@ main = ->
   Note that the array values are sorted, as well as the object keys.
       
   """
-
-say = (text) ->
-  for line in text.split("\n")
-    log line.trim()
-
-indent =  (text, line_prefix='    ') ->
-  lines = for line in text.split("\n")
-    "#{line_prefix}#{line}"
-  lines.join "\n"
-
-# replace SHA-384 hex hashes with the first n characters of the hash only
-sane = (text, size=8) ->
-  text.replace /// \b([0-9a-f]{#{size}})[0-9a-f]{#{384/4-size}}\b ///g, "$1"
-
-quote  = (text) ->
-  "'#{text}'"
-
-# argument `obj` can be an oject with one level of key/values deep only.
-# values can be numeric, string, or array
-canonical_json = minified_json_sorted_by_key = (obj) -> 
-  pairs = for key in Object.keys(obj).sort()
-    val = obj[key]
-    if type(val) is 'object' 
-      throw "Error: Object depth of one expected"
-    else if type(val) is 'array'
-      "#{JSON.stringify key}:#{JSON.stringify val.sort()}"
-    else
-      "#{JSON.stringify key}:#{JSON.stringify val}"
-  "{#{pairs.join(',')}}"
 
 main()
