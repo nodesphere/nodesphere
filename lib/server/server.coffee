@@ -29,8 +29,8 @@ app.get '/*', (nodesphere_request, nodesphere_response) ->
 
 io.on "connection", (socket) ->
   socket.on "getNodesphere", (address) ->
-    console.log "getNodesphere"
-    {
+    console.log "getNodesphere", address
+    socket.emit "receiveNodesphere", {
         "nodes": {
             "e9381b02": "John Perry Barlow",
             "85c3ef1e": "published",
@@ -38,9 +38,9 @@ io.on "connection", (socket) ->
         },
         "edges": {
             "dbfaa3ef": {
-                "subject": "e9381b02",
-                "predicate": "85c3ef1e",
-                "object": "b8925d6f"
+                "from": "e9381b02",
+                "type": "85c3ef1e",
+                "to": "b8925d6f"
             }
         }
     }    
