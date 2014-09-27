@@ -29,6 +29,7 @@ app.get '/*', (nodesphere_request, nodesphere_response) ->
 
 io.on "connection", (socket) ->
   socket.on "getNodesphere", (address) ->
+    console.log "getNodesphere"
     {
         "nodes": {
             "e9381b02": "John Perry Barlow",
