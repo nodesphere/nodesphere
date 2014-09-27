@@ -31,18 +31,18 @@ io.on "connection", (socket) ->
   socket.on "getNodesphere", (address) ->
     console.log "getNodesphere", address
     socket.emit "receiveNodesphere", {
-        "nodes": {
-            "e9381b02": "John Perry Barlow",
-            "85c3ef1e": "published",
-            "b8925d6f": "A Declaration of Independence of Cyberspace"
-        },
-        "edges": {
-            "dbfaa3ef": {
-                "from": "e9381b02",
-                "type": "85c3ef1e",
-                "to": "b8925d6f"
-            }
+      "nodes": {
+        "e9381b02": "John Perry Barlow",
+        "85c3ef1e": "published",
+        "b8925d6f": "A Declaration of Independence of Cyberspace"
+      },
+      "edges": {
+        "dbfaa3ef": {
+          "from": "e9381b02",
+          "type": "85c3ef1e",
+          "to": "b8925d6f"
         }
+      }
     }    
     
   
