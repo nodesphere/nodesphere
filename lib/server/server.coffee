@@ -17,7 +17,9 @@ nodes = {}
 app.get "/", (req, res) ->
   res.sendfile "#{__dirname}/index.html"
 
-# GET to eg: [server]/enlightenedstructure.org/Core_Network/
+# GET to eg: 
+#   - [server]/enlightenedstructure.org/Core_Network/
+#   - [server]/docs.google.com/a/rlan.me/spreadsheet/ccc?key=0AnVa7rwgRKG2dEFxdUJwc2FaMlRGLXBOclNYY3F5VXc
 app.get '/*', (nodesphere_request, nodesphere_response) ->
   source = nodesphere_request.originalUrl.slice 1  # trim leading slash from path
   protocol = 'http'  # TODO detect if we are serving from http or https and use that protocol
@@ -29,22 +31,8 @@ app.get '/*', (nodesphere_request, nodesphere_response) ->
 
 io.on "connection", (socket) ->
   socket.on "getNodesphere", (address) ->
-    console.log "getNodesphere", address
-    socket.emit "receiveNodesphere", {
-      "nodes": {
-        "e9381b02": "John Perry Barlow",
-        "85c3ef1e": "published",
-        "b8925d6f": "A Declaration of Independence of Cyberspace"
-      },
-      "edges": {
-        "dbfaa3ef": {
-          "from": "e9381b02",
-          "type": "85c3ef1e",
-          "to": "b8925d6f"
-        }
-      }
-    }    
-    
+    adaptor = new Adaptor address
+    adaptor.sphere_json address, (json) -> socket.emit "receiveNodesphere", json
   
   socket.on "getNode", (address) ->
     getNode socket, address

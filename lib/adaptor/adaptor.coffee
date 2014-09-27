@@ -1,26 +1,28 @@
 http = require 'http-request'
 
-RevealDeck = require "#{__dirname}/reveal_deck.coffee"
+GoogleSpreadsheet = require "./google_spreadsheet.coffee"
+RevealDeck        = require "./reveal_deck.coffee"
 
 class Adaptor
 
   sphere_json: (source_url, callback) ->
-    http.get source_url, (source_error, source_response) ->
-      if source_error
-        console.error source_error
-      else
-        # res.code
-        # res.headers
-        content = source_response.buffer.toString()
-
-        # initially, we support only Reveal:
-        reveal_deck = new RevealDeck
-          content: content
-          url: source_url
-
-        nodesphere = reveal_deck.as_sphere()
+    if GoogleSpreadsheet.understands source_url
+      gsheet = new GoogleSpreadsheet url: source_url
+      gsheet.as_sphere (nodesphere) -> 
         callback nodesphere.to_json()
-
-        #   return the json as the response plz : )
+    else 
+      http.get source_url, (source_error, source_response) ->
+        if source_error
+          console.error source_error
+        else
+          content = source_response.buffer.toString()
+          if RevealDeck.understands content
+            reveal_deck = new RevealDeck
+              content: content
+              url: source_url
+            nodesphere = reveal_deck.as_sphere()
+            callback nodesphere.to_json()
+          else 
+            console.error "No known adaptor for the content retrieved from #{source_url}"
 
 module.exports = Adaptor

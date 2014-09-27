@@ -32,28 +32,34 @@
         switch(command)
         {
           case "createn":
-            socket.emit('createNamedNode', {t: message, name: message} );
+            socket.emit('createNamedNode', {t: message, name: message});
             break;
 
           case "create":
-            socket.emit('createNode', {t: message} );
+            socket.emit('createNode', {t: message});
             break;
 
           case "get":
-            socket.emit('getNode', message );  
+            socket.emit('getNode', message);
             break;
 
           case "getn":
-            socket.emit('getNodeByName', message );  
+            socket.emit('getNodeByName', message);  
             break;
 
+          case "getns":
+            socket.emit('getNodesphere', message);
+            break;
         }
 
         $('#m').val('');
         return false;
       });
-      socket.on('receiveNode', function(node){
-        $('#messages').append($('<li>').text(JSON.stringify(node)));
+      socket.on('receiveNode', function(data){
+        $('#messages').append($('<li>').text(JSON.stringify(data)));
+      });
+      socket.on('receiveNodeshpere', function(data){
+        $('#messages').append($('<li>').text(JSON.stringify(data)));
       });
     </script>
   </body>
