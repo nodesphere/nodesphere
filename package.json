@@ -9,8 +9,9 @@
   },
   "author": "Harlan T Wood",
   "license": "ISC",
-  "engines": {
-    "node": "0.11.x"
+  "engines" : { 
+    "node" : "0.10.31",
+    "npm" : "1.4.25" 
   },
   "dependencies": {
     "amdefine": "^0.1.0",
