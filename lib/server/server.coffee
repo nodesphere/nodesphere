@@ -28,6 +28,23 @@ app.get '/*', (nodesphere_request, nodesphere_response) ->
 
 
 io.on "connection", (socket) ->
+  socket.on "getNodesphere", (address) ->
+    {
+        "nodes": {
+            "e9381b02": "John Perry Barlow",
+            "85c3ef1e": "published",
+            "b8925d6f": "A Declaration of Independence of Cyberspace"
+        },
+        "edges": {
+            "dbfaa3ef": {
+                "subject": "e9381b02",
+                "predicate": "85c3ef1e",
+                "object": "b8925d6f"
+            }
+        }
+    }    
+    
+  
   socket.on "getNode", (address) ->
     getNode socket, address
   
