@@ -41,10 +41,16 @@ class Nodesphere
   #   @nodes = _.merge @nodes, sphere.nodes
 
   to_json: ->
-    # canonical_json
-    pjson
+    pjson _data  # pretty printed json
+
+  _data: ->
+    data =
       nodes: @nodes
       edges: @edges
+    hash = _hash data
+    @keys.push hash unless hash in @keys
+    data.keys = @keys
+    data
 
   _hash = (data) ->
     sha384 _canonicalize data
