@@ -22,14 +22,14 @@ class Nodesphere
     @keys[0] or raise("No keys found")
 
   put_edge: (subject, predicate, object) ->
-    if subject and object  # required for an edge
-      data =
-        subject: @put_node subject
-        object:  @put_node object
-      data.predicate = @put_node predicate if predicate
-      hash = _hash data
-      @edges[hash] = data
-      hash
+    return unless subject and object  # required for an edge
+    data = {}
+    data.subject   = @put_node subject
+    data.object    = @put_node object
+    data.predicate = @put_node predicate if predicate
+    hash = _hash data
+    @edges[hash] = data
+    hash
 
   put_node: (data) ->
     hash = _hash data
