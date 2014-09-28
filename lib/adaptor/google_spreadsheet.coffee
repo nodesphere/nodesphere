@@ -9,7 +9,7 @@ Nodesphere = require '../core/nodesphere'
 
 class GoogleSpreadsheet
 
-  URL_PATTERN = /// ^https?://.+\.google.com/.+/spreadsheet/.*key=([\w-]{44}) ///
+  URL_PATTERN = /// ^\s*https?://.+\.google.com/.+/spreadsheet/.*key=([\w-]{44}) ///
 
   @understands: (url) ->      
     URL_PATTERN.exec(url)?
