@@ -1,18 +1,20 @@
-_ = require 'lodash-node'
+_ = require 'lodash-node' 
 lightsaber  = require 'lightsaber'
 
-{log, p, sha384, canonical_json} = lightsaber
+{
+  canonical_json
+  log
+  p
+  pjson
+  pretty
+  sha384
+  type
+} = lightsaber
 
-class NodeSphere
-
-  rand_key = (key_length=88) ->
-    alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, 1, or l chars
-    chars = for i in [0...key_length]
-      alphabet[Math.floor(Math.random()*alphabet.length)]
-    "key-#{chars.join('')}"
+class Nodesphere
 
   constructor: () ->
-    @keys = [rand_key 44]
+    @keys = [_rand_key()]
     @edges = {}
     @nodes = {}
 
@@ -20,30 +22,43 @@ class NodeSphere
     @keys[0] or raise("No keys found")
 
   put_edge: (subject, predicate, object) ->
-    data =
-      subject: @put_node subject
-      predicate: @put_node predicate
-      object: @put_node object
-    hash = _hash canonical_json data
-    @edges[hash] = data
-    hash
+    if subject and object  # required for an edge
+      data =
+        subject: @put_node subject
+        object:  @put_node object
+      data.predicate = @put_node predicate if predicate
+      hash = _hash data
+      @edges[hash] = data
+      hash
 
-  put_node: (node) ->
-    data = { content: node }
-    hash = _hash canonical_json data
+  put_node: (data) ->
+    hash = _hash data
     @nodes[hash] = data
     hash
 
-  integrate: (sphere) ->
-    @edges = _.merge @edges, sphere.edges
-    @nodes = _.merge @nodes, sphere.nodes
+  # integrate: (sphere) ->
+  #   @edges = _.merge @edges, sphere.edges
+  #   @nodes = _.merge @nodes, sphere.nodes
 
   to_json: ->
-    canonical_json
+    # canonical_json
+    pjson
       nodes: @nodes
       edges: @edges
 
   _hash = (data) ->
-    sha384 data
+    sha384 _canonicalize data
 
-module.exports = NodeSphere
+  _canonicalize = (data) ->
+    if type(data) is 'string'
+      data
+    else
+      canonical_json data
+
+  _rand_key = (key_length=88) ->
+    alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, 1, or l chars
+    chars = for i in [0...key_length]
+      alphabet[Math.floor(Math.random()*alphabet.length)]
+    "key-#{chars.join('')}"
+
+module.exports = Nodesphere
