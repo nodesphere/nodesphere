@@ -41,7 +41,7 @@ class Nodesphere
   #   @nodes = _.merge @nodes, sphere.nodes
 
   to_json: ->
-    pjson _data  # pretty printed json
+    pjson @_data()  # pretty printed json
 
   _data: ->
     data =
