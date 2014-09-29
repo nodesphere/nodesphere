@@ -1,0 +1,146 @@
+#!/usr/bin/env coffee
+#
+# Usage:
+#   npm install
+#   ./generate_readme.coffee > README.md
+
+{
+  indent
+  log
+  p
+  pretty
+  quote
+  sane
+  say
+  sha384
+} = require 'lightsaber'
+
+{ nodesphere_json } = require './lib/json'
+
+main = ->
+  say """
+    # Nodesphere
+
+    Nodesphere is an interchange format for node networks. It has three primary objectives:
+
+    1. Create interoperability among graph visualization interfaces
+    2. Provide adaptors to connect these interfaces to personal data ecosystems, 
+       including social network data, online drives, and ultimately, any public or private data
+    3. Abstract data storage and retrieval, allowing transitions 
+       from traditional server & database systems toward secure, distributed public and private storage, 
+       as these systems become practical and performant
+
+    Tehcnically, a nodesphere is a graph, in a simple JSON format, with content-addressable nodes and edges.
+    The JSON has a deterministic order so that content addresses are always consistent: 
+
+    - Arrays of content IDs are sorted
+    - Key-value "objects" are sorted by their keys
+
+    ## Saving a Graph
+    
+    ### HTTP PUT request
+
+    For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and edges:
+
+    """
+
+  sphere =
+    nodes: {}
+    edges: {}
+
+  subject   = 'John Perry Barlow'
+  predicate = 'published'
+  object    = 'A Declaration of Independence of Cyberspace'
+
+  sphere.nodes[sha384 subject]   = subject
+  sphere.nodes[sha384 predicate] = predicate
+  sphere.nodes[sha384 object]    = object
+
+  edge = {
+    subject:   sha384 subject
+    predicate: sha384 predicate
+    object:    sha384 object
+  }
+
+  sphere.edges[sha384 nodesphere_json edge] = edge
+
+  log indent sane pretty sphere
+
+  say """
+
+  The ID of each node can be any unique string.  In this case we use the hash of the node's sorted minified JSON.  For example:
+      
+  """
+
+  log indent sane sha384 subject
+
+  say """
+
+  is the hash of 
+      
+  """
+
+  log indent quote subject
+
+  say """
+
+  And:
+      
+  """
+
+  log indent sane sha384 nodesphere_json edge
+
+  say """
+
+  is the hash of 
+      
+  """
+
+  log indent quote sane nodesphere_json edge
+
+  say """
+
+  Note that the JSON is minified and sorted by keys.
+      
+  """
+
+  #####
+
+  sphere_packed =
+    nodes: 
+      [
+        sha384 subject
+        sha384 predicate
+        sha384 object
+      ]
+    edges: 
+      [
+        sha384 nodesphere_json edge
+      ]
+
+  say """
+
+  ### HTTP PUT response
+
+  The expected response to the `PUT` request is one or more keys:
+
+  """
+
+  sphere_hash = sha384 nodesphere_json sphere_packed
+  log indent sane pretty sha384: sphere_hash
+
+  say """
+
+  Where `#{sane sphere_hash}` is the hash of the JSON of the entire "packed" sphere:
+
+  """
+
+  log indent quote sane nodesphere_json sphere_packed
+
+  say """
+
+  Note that the array values are sorted, as well as the object keys.
+      
+  """
+
+main()

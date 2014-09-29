@@ -1,8 +1,7 @@
 {
   "name": "nodesphere",
-  "version": "0.0.1",
-  "description": "Simple management for collections of nodes and edges",
-  "private": true,
+  "version": "0.0.3",
+  "description": "Content-addressable graph storage in simple JSON [work in progress]",
   "scripts": {
     "start": "node server.js"
   },
@@ -33,6 +32,7 @@
     "graph",
     "node",
     "edge"
+    "blockchain"
   ],
   "bugs": {
     "url": "https://github.com/nodesphere/nodesphere/issues"
