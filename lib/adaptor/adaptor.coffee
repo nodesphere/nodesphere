@@ -7,7 +7,7 @@ class Adaptor
 
   sphere_json: (source_url, callback) ->
     if GoogleSpreadsheet.understands source_url
-      gsheet = new GoogleSpreadsheet url: source_url
+      gsheet = new GoogleSpreadsheet url: source_url, gsheet_orientation: 'rows'
       gsheet.as_sphere (nodesphere) -> 
         callback nodesphere.to_json()
     else 
