@@ -1,1 +1,1 @@
-coffee --watch --compile lib/adaptor
+coffee --watch --output tmp/generated_js --compile lib
