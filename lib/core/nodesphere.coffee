@@ -65,6 +65,6 @@ class Nodesphere
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, 1, or l chars
     chars = for i in [0...key_length]
       alphabet[Math.floor(Math.random()*alphabet.length)]
-    "key-#{chars.join('')}"
+    chars.join ''
 
 module.exports = Nodesphere
