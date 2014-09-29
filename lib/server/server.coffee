@@ -13,6 +13,9 @@ Adaptor = require "#{__dirname}/../adaptor/adaptor.coffee"
 addresses = {} # names -> addresses
 nodes = {}
 
+# favicon requests > /dev/null
+app.get "/favicon.ico", ->
+
 # Serve static page for manual socket.io actions
 app.get "/", (req, res) ->
   res.sendfile "#{__dirname}/index.html"
