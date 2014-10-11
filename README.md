@@ -86,6 +86,14 @@ npm install
 npm start
 ```
 
+### Deploying to Heroku
+
+```
+heroku create
+git push heroku master
+heroku open
+```
+
 ### Coffeescript
 
 If you are more familiar with Javascript than Coffeescript,
