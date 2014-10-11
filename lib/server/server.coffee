@@ -1,14 +1,16 @@
+path = require 'path'
 app = require("express")()
 http = require("http").Server(app)
 io = require("socket.io")(http)
-lightsaber = require "lightsaber"
-
-Adaptor = require "../adaptor/adaptor.coffee"
-
 {
   canonical_json
+  p
   sha384
-} = lightsaber
+} = require "lightsaber"
+Adaptor = require "../adaptor/adaptor.coffee"
+
+APP_ROOT = path.resolve __dirname, '../..'
+PUB_ROOT = path.resolve APP_ROOT, 'pub'
 
 addresses = {} # names -> addresses
 nodes = {}
@@ -16,9 +18,8 @@ nodes = {}
 # favicon requests > /dev/null
 app.get "/favicon.ico", ->
 
-# Serve static page for manual socket.io actions
 app.get "/", (req, res) ->
-  res.sendfile "#{__dirname}/index.html"
+  res.sendFile "#{PUB_ROOT}/index.html"
 
 # GET to eg: 
 #   - [server]/enlightenedstructure.org/Core_Network/
