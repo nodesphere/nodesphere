@@ -161,6 +161,18 @@ main = ->
   npm start
   ```
       
+  ### Coffeescript
+
+  If you are more familiar with Javascript than Coffeescript, 
+  you may like to continuously compile all Coffeescript to JS:
+
+  ```
+  bin/watch-coffee
+  ```
+
+  Generated Javascript files are in subdirs of `./tmp/js/`.  
+  Note that these are for training purposes only and are not used by the application.
+      
   """
 
 main()

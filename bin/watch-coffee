@@ -1,1 +1,1 @@
-coffee --watch --output tmp/generated_js --compile lib
+coffee --watch --output tmp/js --compile lib
