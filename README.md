@@ -76,3 +76,13 @@ Where `490c56e9` is the hash of the JSON of the entire "packed" sphere:
 
 Note that the array values are sorted, as well as the object keys.
 
+
+## Development
+
+### Starting a Local server
+
+```
+npm install
+npm start
+```
+

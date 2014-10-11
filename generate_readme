@@ -150,4 +150,17 @@ main = ->
       
   """
 
+  say """
+
+  ## Development
+  
+  ### Starting a Local server
+
+  ```
+  npm install
+  npm start
+  ```
+      
+  """
+
 main()
