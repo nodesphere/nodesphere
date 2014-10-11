@@ -3,7 +3,7 @@ http = require("http").Server(app)
 io = require("socket.io")(http)
 lightsaber = require "lightsaber"
 
-Adaptor = require "#{__dirname}/../adaptor/adaptor.coffee"
+Adaptor = require "../adaptor/adaptor.coffee"
 
 {
   canonical_json
