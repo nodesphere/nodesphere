@@ -37,44 +37,44 @@ io.on "connection", (socket) ->
     adaptor = new Adaptor address
     adaptor.sphere_json address, (json) -> socket.emit "receiveNodesphere", json
   
-  socket.on "getNode", (address) ->
-    getNode socket, address
+  # socket.on "getNode", (address) ->
+  #   getNode socket, address
   
-  # io.emit('chat message', msg);
-  socket.on "getNodeByName", (name) ->
-    getNodeByName socket, name
+  # # io.emit('chat message', msg);
+  # socket.on "getNodeByName", (name) ->
+  #   getNodeByName socket, name
   
-  # io.emit('chat message', msg);
-  socket.on "createNamedNode", (newNode) ->
-    console.log "createNamedNode --> ", newNode
-    createNode newNode
+  # # io.emit('chat message', msg);
+  # socket.on "createNamedNode", (newNode) ->
+  #   console.log "createNamedNode --> ", newNode
+  #   createNode newNode
   
-  # io.emit('chat message', msg);
-  socket.on "createNode", (newNode) ->
-    console.log "createNode --> ", newNode
-    createNode newNode
+  # # io.emit('chat message', msg);
+  # socket.on "createNode", (newNode) ->
+  #   console.log "createNode --> ", newNode
+  #   createNode newNode
 
 # io.emit('chat message', msg);
 
-getNodeByName = (socket, name) ->
-  node = nodes[addresses[name]]
-  socket.emit "receiveNode", node
-  console.log node
-  node
+# getNodeByName = (socket, name) ->
+#   node = nodes[addresses[name]]
+#   socket.emit "receiveNode", node
+#   console.log node
+#   node
 
-getNode = (socket, address) ->
-  node = nodes[address]
-  socket.emit "receiveNode", node
-  console.log node
-  node
+# getNode = (socket, address) ->
+#   node = nodes[address]
+#   socket.emit "receiveNode", node
+#   console.log node
+#   node
 
-createNode = (newNode) ->
-  address = sha384 canonical_json newNode
-  nodes[address] = newNode
+# createNode = (newNode) ->
+#   address = sha384 canonical_json newNode
+#   nodes[address] = newNode
   
-  # Store address (name)
-  addresses[newNode.name] = address if newNode.name
-  console.log nodes
+#   # Store address (name)
+#   addresses[newNode.name] = address if newNode.name
+#   console.log nodes
 
 port = process.env.PORT or 7000
 http.listen port, ->
