@@ -10,9 +10,9 @@
     "Jack Senechal (https://github.com/jacksenechal)"
   ],
   "license": "CC0",
-  "engines" : { 
-    "node" : "0.10.31",
-    "npm" : "1.4.25" 
+  "engines": {
+    "node": "0.10.31",
+    "npm": "1.4.25"
   },
   "dependencies": {
     "body-parser": "^1.8.1",
