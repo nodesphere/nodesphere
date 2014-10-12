@@ -21,6 +21,7 @@
     "http-request": "^0.6.3",
     "lightsaber": "^0.1.11",
     "lodash-node": "^2.4.1",
+    "newrelic": "^1.12.0",
     "socket.io": "^1.1.0"
   },
   "repository": {
