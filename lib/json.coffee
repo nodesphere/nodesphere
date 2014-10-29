@@ -14,6 +14,5 @@ nodesphere_json = (data) ->
     JSON.stringify data
 
 module.exports = { 
-  nodesphere_json: nodesphere_json
-  ns_json:         nodesphere_json
+  nodesphere_json
 }
