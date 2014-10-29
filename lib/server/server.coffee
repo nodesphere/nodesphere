@@ -11,6 +11,7 @@ Adaptor = require "../adaptor/adaptor.coffee"
 
 APP_ROOT = path.resolve __dirname, '../..'
 PUB_ROOT = path.resolve APP_ROOT, 'pub'
+# DEMO_DATA = 'docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dDl5QVhBajZaMjNBbjBTSkZ1OGJVdlE'
 
 addresses = {} # names -> addresses
 nodes = {}
@@ -27,6 +28,7 @@ app.get "/", (req, res) ->
 #   - [server]/docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEFxdUJwc2FaMlRGLXBOclNYY3F5VXc
 app.get '/*', (nodesphere_request, nodesphere_response) ->
   source = nodesphere_request.originalUrl.slice 1  # trim leading slash from path
+  # if source.length is 0 then source = DEMO_DATA
   protocol = 'http'  # TODO detect if we are serving from http or https and use that protocol
   source_url = "#{protocol}://#{source}"
   adaptor = new Adaptor source_url
