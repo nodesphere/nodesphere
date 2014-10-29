@@ -24,7 +24,7 @@ app.get "/", (req, res) ->
 
 # GET to eg: 
 #   - [server]/enlightenedstructure.org/Core_Network/
-#   - [server]/docs.google.com/a/rlan.me/spreadsheet/ccc?key=0AnVa7rwgRKG2dEFxdUJwc2FaMlRGLXBOclNYY3F5VXc
+#   - [server]/docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEFxdUJwc2FaMlRGLXBOclNYY3F5VXc
 app.get '/*', (nodesphere_request, nodesphere_response) ->
   source = nodesphere_request.originalUrl.slice 1  # trim leading slash from path
   protocol = 'http'  # TODO detect if we are serving from http or https and use that protocol
