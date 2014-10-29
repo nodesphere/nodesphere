@@ -11,18 +11,18 @@ class Adaptor
       gsheet.as_sphere (nodesphere) -> 
         callback nodesphere.to_json()
     else 
-      http.get source_url, (source_error, source_response) ->
-        if source_error
-          console.error source_error
-        else
-          # content = source_response.buffer.toString()
-          # if RevealDeck.understands content
-          #   reveal_deck = new RevealDeck
-          #     content: content
-          #     url: source_url
-          #   nodesphere = reveal_deck.as_sphere()
-          #   callback nodesphere.to_json()
-          # else 
-          console.error "No known adaptor for the content retrieved from #{source_url}"
+      console.error "No known adaptor for the content retrieved from #{source_url}"
+      # http.get source_url, (source_error, source_response) ->
+      #   if source_error
+      #     console.error source_error
+      #   else
+      #     # content = source_response.buffer.toString()
+      #     # if RevealDeck.understands content
+      #     #   reveal_deck = new RevealDeck
+      #     #     content: content
+      #     #     url: source_url
+      #     #   nodesphere = reveal_deck.as_sphere()
+      #     #   callback nodesphere.to_json()
+      #     # else 
 
 module.exports = Adaptor
