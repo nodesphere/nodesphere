@@ -19,7 +19,8 @@ nodes = {}
 app.get "/favicon.ico", ->
 
 app.get "/", (req, res) ->
-  res.sendFile "#{PUB_ROOT}/index.html"
+  # res.sendFile "#{PUB_ROOT}/index.html"
+  res.redirect "http://nodesphere.org/"
 
 # GET to eg: 
 #   - [server]/enlightenedstructure.org/Core_Network/
