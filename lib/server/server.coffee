@@ -80,5 +80,5 @@ io.on "connection", (socket) ->
 
 port = process.env.PORT or 7000
 http.listen port, ->
-  console.log "listening on :#{port}"
+  console.log "listening on port #{port}"
 
