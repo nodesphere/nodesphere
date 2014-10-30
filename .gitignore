@@ -1,5 +1,6 @@
 /newrelic_agent.log
 /node_modules/
 /npm-debug.log
+/this.sublime-project
 /tmp/
 .DS_Store
