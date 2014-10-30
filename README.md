@@ -11,7 +11,7 @@ as these systems become practical and performant
 
 ## Philosophical
 
-Everything we want to share is a graph, or more colloquially, a group of knowledge nodes; a sphere of nodes; a nodeshpere.
+Everything we want to share is a graph, or more colloquially, a group of knowledge nodes; a sphere of nodes; a nodesphere.
 Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data!
 
 ## Technical
