@@ -1,16 +1,19 @@
+require 'newrelic'
 path = require 'path'
 app = require("express")()
 http = require("http").Server(app)
 io = require("socket.io")(http)
+lightsaber = require "lightsaber"
+adaptor = require "../adaptor/adaptor.coffee"
+
 {
   canonical_json
   p
   sha384
-} = require "lightsaber"
-adaptor = require "../adaptor/adaptor.coffee"
+} = lightsaber
 
 APP_ROOT = path.resolve __dirname, '../..'
-PUB_ROOT = path.resolve APP_ROOT, 'pub'
+# PUB_ROOT = path.resolve APP_ROOT, 'pub'
 EXAMPLE_DATA_URL = 'https://docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dDl5QVhBajZaMjNBbjBTSkZ1OGJVdlE'
 
 addresses = {} # names -> addresses

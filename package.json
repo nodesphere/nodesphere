@@ -3,7 +3,10 @@
   "version": "0.0.3",
   "description": "Content-addressable graph storage in simple JSON [work in progress]",
   "scripts": {
-    "start": "node server.js"
+    "serve-dev": "./node_modules/.bin/nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
+    "serve-production": "node lib/server/server.js",
+    "serve": "npm run serve-dev",
+    "start": "npm run serve-production"
   },
   "author": "Harlan T Wood & Chris Larcombe <code@nodesphere.org> (http://nodesphere.org/)",
   "contributors": [
@@ -37,5 +40,8 @@
   ],
   "bugs": {
     "url": "https://github.com/nodesphere/nodesphere/issues"
+  },
+  "devDependencies": {
+    "nodemon": "^1.2.1"
   }
 }
