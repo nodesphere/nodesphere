@@ -20,12 +20,13 @@ class GoogleSpreadsheet
       @options.id = URL_PATTERN.exec(@options.url)[1]
       @options.url = null
 
-    @json_url = if @options.id
-      "https://spreadsheets.google.com/feeds/cells/#{@options['id']}/1/public/basic?alt=json"
-    else if @options.fixture
-      "/fixtures/#{@options.fixture}.json"
-    else 
-      throw "GoogleSpreadsheet#as_sphere expected options.id or options.fixture, got neither"
+    @json_url = "https://spreadsheets.google.com/feeds/cells/#{@options['id']}/1/public/basic?alt=json"
+    # @json_url = if @options.id
+    #   "https://spreadsheets.google.com/feeds/cells/#{@options['id']}/1/public/basic?alt=json"
+    # else if @options.fixture
+    #   "/fixtures/#{@options.fixture}.json"
+    # else 
+    #   throw "GoogleSpreadsheet#as_sphere expected options.id or options.fixture, got neither"
 
   as_sphere: (callback) ->
     http.get @json_url, (error, response) =>
