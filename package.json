@@ -10,9 +10,10 @@
     "start": "npm run serve-production",
     "test": "node_modules/.bin/mocha --recursive --compilers coffee:coffee-script/register"
   },
-  "author": "Harlan T Wood & Chris Larcombe <code@nodesphere.org> (http://nodesphere.org/)",
+  "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
   "contributors": [
-    "Jack Senechal (https://github.com/jacksenechal)"
+    "Jack Senechal (https://github.com/jacksenechal)",
+    "Chris Larcombe (http://chrislarcombe.com)"
   ],
   "license": "CC0",
   "engines": {
