@@ -39,6 +39,7 @@ class GoogleSpreadsheet
 
   sphere_from_json: (spreadsheet) =>
     sphere = new Nodesphere()
+    sphere.meta 'url', @json_url
 
     # populate row headers and col headers:
     primary_headers = {}
@@ -49,15 +50,11 @@ class GoogleSpreadsheet
 
     # populate nodes:
     @each_cell spreadsheet, (text, primary_index, secondary_index) =>
-      primary_header = primary_headers[primary_index]
-      secondary_header = secondary_headers[secondary_index] 
+      # primary_header = primary_headers[primary_index]
+      secondary_header = secondary_headers[secondary_index]
 
       if primary_index > 1 and secondary_index > 1
-        # eg: '1: Beauty' node has metadata 'Codon Ring': 'Fire'
-        sphere.put_edge primary_header, secondary_header or null, text
-
-      if secondary_header?.toLowerCase() in ['direct link', 'url']
-        sphere.put_edge primary_header, 'url', text
+        sphere.add_data primary_headers[primary_index], secondary_header or '', text
 
     sphere
 
