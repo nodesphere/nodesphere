@@ -5,17 +5,13 @@
 #   ./generate_readme.coffee > README.md
 
 {
-  indent
-  log
-  p
+  code
   pretty
-  quote
-  sane
   say
-  sha384
 } = require 'lightsaber'
 
-Nodesphere = require './lib/core/nodesphere'
+nodesphere = require './lib/core/nodesphere'
+#trustnode = require './lib/core/trust_node'
 
 say """
 # Nodesphere
@@ -23,153 +19,329 @@ say """
 Nodesphere is an interchange format for node networks. It has three primary objectives:
 
 1. Create interoperability among graph visualization interfaces
-2. Provide adaptors to connect these interfaces to personal data ecosystems, 
-   including social network data, online drives, and ultimately, any public or private data
-3. Abstract data storage and retrieval, allowing transitions 
-   from traditional server & database systems toward secure, distributed public and private storage, 
-   as these systems become practical and performant
+2. Provide adaptors to connect these interfaces to personal data ecosystems,
+including social network data, online drives, and ultimately, any public or private data
+3. Abstract data storage and retrieval, allowing transitions
+from traditional server & database systems toward secure, distributed public and private storage,
+as these systems become practical and performant
 
 ## Philosophical
 
-Everything we want to share is a graph, or more colloquially, a group of knowledge nodes; a sphere of nodes; a nodesphere.
-Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data!
+Everything we want to share is a graph, which can be seen as a group of knowledge nodes.
+We think of this as a "sphere" of nodes; thus the name _nodesphere_.
+Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
 
-## Technical
+"""
 
-Let's get down to the bare metal. A nodesphere is a graph, in a simple JSON format, with content-addressable nodes and edges.
-The JSON has a deterministic order so that content addresses are always consistent: 
+say """
 
-- Arrays of content IDs are sorted
-- Objects are sorted by their keys
+## Terminology
 
-## Development
+### Node
+
+Everything we care to reference is a _node_, which is simply an _ID_ with _attributes_ attached.
+For example, a movie, a person, or a knowledge base are all _nodes_.
+
+We define a `Node` as our base concept:
+  - Nodes are composed of attributes
+  - Each attribute has a unique key (a string)
+  - Each attribute can have multiple values (of type string, number, boolean or null)
+  - Values must be unique, but only within the scope of that attribute
+
+An example of a Node:
+
+"""
+
+code """
+{
+  "name": [
+    "Venus"
+  ],
+  "Archetype": [
+    "lover",
+    "artist"
+  ],
+  "_id": [
+    "SPnxgs4j9BDcLVJEZXvASxhi2NukZAPTT6iXwbZrG2MtohJtPcC1boLbL7zeXVJcevYSfZL76xfpsHH8Qi1pzCfM"
+  ],
+}
+"""
+
+say """
+### ID
+
+Every node has one ID at its core.
+These IDs can be any string, however a 512 bit namespace is recommended
+to ensure the likelihood of uniqueness in the global interoperability graph.
+
+IDs are typically random -- Nodesphere itself creates an 88 characters string
+using the [base 58](http://en.wikipedia.org/wiki/Base58) alphabet,
+meeting the 512 bit namespace recommendation (58^88 > 2^512).
+
+### Attributes
+
+Attributes have two parts, a name (key) and a value.
+For example the node referring to this document might have the following attributes:
+
+- tag: Nodesphere
+- tag: Giant Global Graph
+- created at: 12 November 2014
+
+### Nodesphere
+
+A nodesphere is a collection of nodes, each of which may have any number of attributes.
+
+For example:
+
+"""
+
+code """
+{
+  "_name": [
+    "Planetary forces"
+  ],
+  "Venus": [
+    "SPnxgs4j9BDcLVJEZXvASxhi2NukZAPTT6iXwbZrG2MtohJtPcC1boLbL7zeXVJcevYSfZL76xfpsHH8Qi1pzCfM"
+  ],
+  "Jupiter": [
+    "PwrofMF6WVXyFsRYHZWYdyzo2wnQVALB4B3V8AKZxkdZb8mA93KFLAFF5uyTuwfNYiQJZuc6qQzp7sb18ws5hAmM"
+  ],
+  "_id": [
+    "XaAbGQUB6t4DdysVCYCAmpN7RTXUXWac1sPzyz8nGgiiR3wsDc2AAQT71u4sBAo3H8iWWBb8VhtSWPGvxKyrqSFE"
+  ]
+}
+"""
+
+say """
+## Graph Modeling
+
+Every _nodesphere_ is modeled as a directed multigraph (multidigraph),
+also known as a [quiver](https://en.wikipedia.org/wiki/Quiver_%28mathematics%29) -- that is, a directed graph allowing for multiple edges which share the same vertices.
+
+Each _node_ is modeled as a [vertex](https://en.wikipedia.org/wiki/Vertex_%28graph_theory%29), where the label on the vertex is the _ID_ of the _node_.  (Note that we speak only of graph vertices, never "graph nodes", to avoid confusion with nodesphere's concept of a node.)
+
+Each _attribute_ is modeled as an [arc (directed edge)](https://en.wikipedia.org/wiki/Glossary_of_graph_theory#Direction), which has a tail (the vertex of the _node_), a label (the attribute name), and a head (the vertex of the attribute value).
+
+Both the _vertices_ and the _arcs_ are [labeled](https://en.wikipedia.org/wiki/Graph_labeling), where the labels are the graph data itself.
+
+"""
+
+###
+
+# Examples:
+
+http://localhost:7000/example
+
+## Command Line
+
+First
+
+  npm install -g nodesphere
+
+Crunch google spreadsheet into nodesphere:
+
+    nodesphere --source-gsheet 0AnVa7rwgRKG2dDhvanM3eHFYcDFKbXhrTVVTbExFbnc
+
+Multiply two local json nodespheres:
+
+    nodesphere-multiply --source-file ./examples/lingua-astra.json --source-file ./examples/access-granted.json
+
+###
+
+say """
+## Development  [![CI](https://travis-ci.org/nodesphere/nodesphere.svg?branch=dev)](https://travis-ci.org/nodesphere/nodesphere)
 
 ### Starting a Local server
 
 ```
 npm install
-npm start
+npm run serve
 ```
-    
+
+You should now be able to see an example at: <http://localhost:7000/example>
+
+### In the browser
+
+If you are creating a client side application using Nodesphere, consider using
+polyfills to ensure maximum browser compatibility.
+For example, include this line before all other javascript tags:
+
+    <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
+
 ### Deploying to Heroku
 
-```
-heroku create
-git push heroku master
-heroku open
-```
-    
-### Coffeescript
+The usual incantation should "just work":
 
-If you are more familiar with Javascript than Coffeescript, 
-you may like to continuously compile all Coffeescript to JS:
+```
+heroku create && git push heroku master && heroku open
+```
+
+### Javascript Programmers
+
+If you are more familiar with Javascript than Coffeescript,
+you may like to continuously compile all Coffeescript to JS
+to inspect the results of coffeescript source file changes:
 
 ```
 bin/watch-coffee
 ```
 
-Generated Javascript files are in subdirs of `./tmp/js/`.  
-Note that these are for training purposes only and are not used by the application.
-  
+Generated Javascript files are in subdirs of `./tmp/js/`.
+Note that these are for learning purposes only and are not used by the application.
+
 """
 
+# WEIGHTED SPHERES
+#
+#- Each attribute value has a weight
+#- Weights can range from -1 to 1, where 0 to 1 is the "normal" range, and -1 is typically reserved for spam or abuse
 
-
-
-
-
-# say """
-#   ## Saving a Graph
-
-#   ### HTTP PUT request
-
-#   For example, suppose you perform an HTTP `PUT`, with a json payload of nodes and edges:
-
-#   """
-
-# sphere = new Nodesphere()
-# sphere.put_edge 'John Perry Barlow', 'published', 'A Declaration of Independence of Cyberspace'
-# log indent sane sphere.to_json()
-
-# say """
-
-# The ID of each node can be any unique string.  In this case we use the hash of the node's sorted minified JSON.  For example:
-  
-# """
-
-# subject      = 'John Perry Barlow'
-# subject_id   = sha384 subject
-
-# log indent sane subject_id
-
-# say """
-
-# is the hash of 
-  
-# """
-
-# log indent quote subject
-
-# say """
-
-# And:
-  
-# """
-
-# edges = sphere.edge_array()
-# edge = edges[0]
-# [edge_id, edge_json] = edge
-# log indent sane edge_id
-
-# say """
-
-# is the hash of 
-  
-# """
-
-# # log indent quote sane edge_json
-
-# say """
-
-# Note that the JSON is minified and sorted by keys.
-  
-# """
-
-# ####
-
-# sphere_packed =
-#   nodes: 
-#     [
-#       subject_id
-#       predicate_id
-#       object_id
-#     ]
-#   edges: 
-#     [
-#       sha384 nodesphere_json edge
-#     ]
-
-# say """
-
-# ### HTTP PUT response
-
-# The expected response to the `PUT` request is one or more keys:
-
-# """
-
-# sphere_hash = sha384 nodesphere_json sphere_packed
-# log indent sane pretty sha384: sphere_hash
-
-# say """
-
-# Where `#{sane sphere_hash}` is the hash of the JSON of the entire "packed" sphere:
-
-# """
-
-# log indent quote sane nodesphere_json sphere_packed
-
-# say """
-
-# Note that the array values are sorted, as well as the object keys.
-  
-# """
+# TRUST SPHERES
+#
+#- IDs for a person or organization should be a _public key_ (or the SHA-512 of a public key),
+#  allowing that person to sign other nodes with their corresponding private key.
+#
+#
+#Attributes can also reference other node IDs as their values, for example:
+#
+#- created by: `public key of author`
+#- signature: `ID of this document, signed by author's private key`
+#
+#
+#
+### Example Applications
+#
+#### Private Sharing
+#
+#"""
+#
+#jill = new trustnode name: 'Jill'
+##   # citizen: true
+#
+#jack = new trustnode name: 'Jack'
+##   # citizen: true
+#
+#nodal_web = new trustnode name: 'Nodal Web'
+#
+#say """
+#Jill creates a private sharing group called "Nodal Web":
+#
+#"""
+#
+#code """
+#<public key(Jill)> <group> <nodal web>
+#
+#"""
+#
+#jill.add group: nodal_web.data.id
+#
+#say """
+#She shares a public key for that group in her public graph:
+#
+#"""
+#
+#code """
+#<nodal web> <public key> <public key(nodal web)>
+#
+#"""
+#
+#say """
+#To add Jack to the group, she shares the group's private key with him, encrypted with his own public key, so that only he can use this group key:
+#
+#"""
+#
+#code """
+#    <public key(Jill)> <key> <private key(nodal web) encrypted with Jack's public key>
+#
+#"""
+#
+#encrypted_nodal_web_private_key = jack.encrypt nodal_web.private_key
+#jill.add key: encrypted_nodal_web_private_key
+#
+#say """
+#Now when Jill posts to the group, she encrypts the post with the group's public key, so that only Jack (and others in the group) can read the private post:
+#
+#"""
+#
+#code """
+#    <public key(Jill)> <post> <Nodal Web article encrypted with public key(nodal web)>
+#
+#"""
+#
+#post = "Nodal Web, Enlightened Structures, and Thee"
+#encryped_post = nodal_web.encrypt post
+#jill.add post: encryped_post
+#
+#say """
+#We then have 3 nodes -- Jill:
+#
+#"""
+#
+#code jill.to_json()
+#
+#say """
+#
+#Jack:
+#
+#"""
+#
+#code jack.to_json()
+#
+#say """
+#
+#And the Nodal Web group:
+#
+#"""
+#
+#code nodal_web.to_json()
+#
+#say """
+#Notice that all data is available in Jill's public graph, and yet the content of her private sharing is available only to the people she adds to her sharing groups.
+#
+#"""
+#
+## say """
+## Jack can decrypt the private key to the nodal web group:
+#
+## """
+#
+## decrypted_nodal_web_private_key = jack.decrypt encrypted_nodal_web_private_key
+#
+## code decrypted_nodal_web_private_key
+#
+## say """
+#
+## And with that, he can decrypt Jill's post:
+#
+## """
+#
+## decrypted_post = nodal_web.decrypt encryped_post
+#
+## code decrypted_post
+#
+#
+#
+#
+#
+#
+#"""
+#
+#### Bookmarks (deprecated example)
+#
+#Take for example web "bookmarks".  Say I use a commercial service to save my bookmarks.
+#When I convert these to a nodesphere, I want both:
+#
+#- An ID that is the same every time I request a nodesphere created from (example url) `https://api.bookmarksite.com/myusername.json`.  When a nodesphere is generated from the content at a URL, we use the SHA-512 of the URL as the ID.
+#- A hash, or content address, of the entire bookmark collection, which changes when a bookmark is added, but remains the same accross multiple requests if no content has changed.
+#
+#My bookmarks are tagged of course.  I sign my tags with my private key by making an edge with the following nodes:
+#
+#- http://www.scientificamerican.com/article/milky-way-found-to-belong-to-a-supersize-supercluster-video/
+#- taggged
+#- awe inspiring
+#- by
+#- [public key]
+#- with signature
+#- [The string "http://www.scientificamerican.com/article/milky-way-found-to-belong-to-a-supersize-supercluster-video/ tagged awe inspiring", signed with the private key corresponding to the public key above]
+#
+#"""
