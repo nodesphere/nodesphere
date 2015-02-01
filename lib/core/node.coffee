@@ -9,10 +9,16 @@ class Node
 
   @KEY = KEY = 'key'
 
-  constructor: (dict={}) ->
+  constructor: (dict={}, options={}) ->
+    DEFAULT_OPTIONS =
+      id_length: 0
+
+    options = merge DEFAULT_OPTIONS, options
+
     @_data = {}
     @add_dict dict
-    @meta 'id', Node.random_key(), skip_if_exists: 'key'
+    if options.id_length > 0
+      @meta 'id', Node.random_key(options.id_length), skip_if_exists: 'key'
 
   meta: (key, value, options={}) ->
     @add_data @_meta_ize(key), value, options
@@ -56,8 +62,11 @@ class Node
       throw "Expected value to be of type 'number', got: #{type(value)}:" unless type(value) is 'number'
       @_data[key][index] += amount
 
+  label: ->
+    @_get_key() ? id()
+
   id: ->
-    @_data._id?[0] or throw "no _id property found for #{pjson @}"
+    @_data._id?[0]  # or throw "no _id property found for #{pjson @}"
 
   data: ->
     @_data
@@ -66,6 +75,9 @@ class Node
   # omit metadata: anything starting with underscore
   props: ->
     omit @_data, (value, key) -> starts_with key, '_'
+
+  _get_key: ->
+    @get_keys()?[0]
 
   get_keys: ->
     @_get_meta KEY
