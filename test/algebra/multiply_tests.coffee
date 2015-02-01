@@ -10,43 +10,42 @@ describe 'multiply', ->
   it 'should create an analysis nodesphere', ->
     content_sphere = Nodesphere.digest [
       {
-        "_key": [ "time poem" ]
-        "the": [ 25 ]
-        "time": [ 3 ]
-        "is": [ 31 ]
+        "_key": "time poem"
+        "the": 25
+        "time": 3
+        "is": 31
       }
       {
-        "_key": ["beauty poem"]
-        "beautiful": [2]
-        "clocks": [1]
+        "_key": "beauty poem"
+        "beautiful": 2
+        "clocks": 1
       }
     ]
 
     filter_sphere = Nodesphere.digest [
       {
-        "_key": [ "Saturn" ]
-        "time": [ 1 ]
-        "clocks": [ .25 ]
+        "_key": "Saturn"
+        "time": 1
+        "clocks": .25
       }
       {
-        "_key": [ "Venus" ]
-        "beautiful": [ 1 ]
-        "vanity": [ .25 ]
+        "_key": "Venus"
+        "beautiful": 1
+        "vanity": .25
       }
     ]
 
-    expected_data =
+    expected_data = [
       [
-        {
-          "_key": ["time poem"]
-          "Saturn": [ 3 ]
-        }
-        {
-          "_key": ["beauty poem"]
-          "Venus": [ 2 ]
-          "Saturn": [ .25 ]
-        }
+        { "_key": "time poem" }
+        { "Saturn": 3 }
       ]
+      [
+        { "_key": "beauty poem" }
+        { "Saturn": .25 }
+        { "Venus": 2 }
+      ]
+    ]
 
-    result_sphere = multiply [content_sphere, filter_sphere]
-    result_sphere.node_data(omit_keys: '_id').should.deep.equal expected_data
+    result_sphere = multiply content_sphere, filter_sphere
+    result_sphere.node_data().should.deep.equal expected_data

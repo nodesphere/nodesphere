@@ -3,9 +3,9 @@ omit = require "lodash.omit"
 reject = require 'lodash.reject'
 values = require "lodash.values"
 is_empty = require "lodash.isempty"
+{ first, keys, size } = require "lodash"
 
-{ json, log, p, pjson } = require 'lightsaber/lib/log'
-{ type } = require 'lightsaber/lib/type'
+{ indent, json, log, p, pjson, type } = require 'lightsaber'
 
 Node = require './node'
 
@@ -17,7 +17,8 @@ class Nodesphere
   constructor: () ->
     throw "expected 0 arguments, got #{pjson arguments}" if arguments.length isnt 0
     @_nodes = []
-    @_meta = new Node name: 'meta'
+    @_meta = new Node
+    @_meta.add_key 'metadata'
 
   add_node: (node) ->
     @_nodes.push node
@@ -46,27 +47,36 @@ class Nodesphere
 
   # pretty printed json
   to_json: ->
-    json @data(), null, 2
+    nodes_json = for node in @_all_updated_nodes()
+      node.to_json()
+    nodes_json = nodes_json.join(",\n")
+    "[\n#{indent nodes_json}\n]\n"
 
   nodes: ->
     @_nodes
 
   node_data: (options = {}) ->
-    for node in @_nodes
-      if options.omit_keys
-        omit node.data(), (value, key) ->
-          key is options.omit_keys or key in options.omit_keys
-      else
-        node.data()
+     for node in @_nodes
+       node.data options
 
   data: ->
-    for node in @_nodes
-      @_meta.add_data_unless_exists 'node', node.id()
-    data = [@_meta.data()]
+    for node in @_all_updated_nodes()
+      node.data()
 
+  _all_updated_nodes: ->
+    @_update_meta()
+    @_all_nodes()
+
+  _update_meta: ->
     for node in @_nodes
-      data.push node.data()
-    data
+      @_meta.add_data_unless_exists 'node', node.label()
+
+  # meta + nodes as a single array
+  _all_nodes: ->
+    nodes = [@_meta]
+    for node in @_nodes
+      nodes.push node
+    nodes
 
 class Nodesphere.Dragon
 
@@ -76,46 +86,73 @@ class Nodesphere.Dragon
 
   constructor: (data) ->
     @sphere = new Nodesphere()
-    if type(data) is 'array'
-      for item in data
-        @digest_tree item
-    else if type(data) is 'object'
+    if type(data) is 'object'
       for own key, value of data
-        @digest_tree value, parent_key: key
+        @_digest_tree value, parent_key: key
+    else if type(data) is 'array'
+      if @_all_single_attribute_objects data
+        @_digest_tree data
+      else
+        for item in data
+          @_digest_tree item
     else
-      @digest_tree data
+      @_digest_tree data
 
-  digest_tree: (data, options={}) ->
-    node = new Node()
+  _digest_tree: (data, options={}) ->
+    node = new Node {}, id: true
     if type(data) is 'array'
-      for item in data
-        value = @node_id_or_literal item
-        node.add_data '', value
+      if @_all_single_attribute_objects data
+        for item in data
+          [key, value] = @_attribute item
+          node.add_data key, @_node_id_or_literal(value)
+      else
+        for item in data
+          value = @_node_id_or_literal item
+          node.add_data '', value
     else if type(data) is 'object'
       node.add_key options.parent_key if options.parent_key?
       for own key, value of data
         if type(value) is 'array'
           for item in value
-            attr_value = @node_id_or_literal item, parent_key: key
+            attr_value = @_node_id_or_literal item, parent_key: key
             node.add_data key, attr_value
         else
-          attr_value = @node_id_or_literal value, parent_key: key
+          attr_value = @_node_id_or_literal value, parent_key: key
           node.add_data key, attr_value
     else
       throw "Unexpected type '#{type(data)}' -- '#{pjson data}'"
     @sphere.add_node node
     node
 
-  node_id_or_literal: (data, options={}) ->
+  _node_id_or_literal: (data, options={}) ->
     if type(data) in ['string', 'number', 'boolean']
       data
     else if type(data) in ['null', 'undefined']
       null
     else if type(data) in ['array', 'object']
-      node = @digest_tree data, options
-      node.id()
+      node = @_digest_tree data, options
+      node.id() or throw("No node.id() for node: #{pjson node}")
     else
       throw type(data)
+
+  _all_single_attribute_objects: (array) ->
+    for object in array
+      if not @_valid_attribute object
+        return false
+    return true
+
+  _attribute: (object) ->
+    @_validate_attribute(object)
+    key = first keys object
+    value = object[key]
+    [key, value]
+
+  _validate_attribute: (attribute) ->
+    unless @_valid_attribute(attribute)
+      throw "invalid attribute #{pjson attribute}"
+
+  _valid_attribute: (attribute) ->
+    type(attribute) is 'object' and size(attribute) is 1
 
 module.exports = Nodesphere
 

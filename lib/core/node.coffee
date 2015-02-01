@@ -1,27 +1,34 @@
-has = require "lodash.has"
-omit = require "lodash.omit"
-obj_values = require "lodash.values"
-starts_with = require "lodash-node/compat/string/startsWith"  # pre-release
-{ log, p, pjson } = require 'lightsaber/lib/log'
-{ type } = require 'lightsaber/lib/type'
+_ = require "lodash"
+obj_keys = _.keys
+obj_values = _.values
+{ filter, flatten, has, merge, omit, reduce } = _
+{ indent, json, log, p, pjson, type } = require 'lightsaber'
 
 class Node
 
   @KEY = KEY = 'key'
 
-  constructor: (dict={}, options={}) ->
+  constructor: (data={}, options={}) ->
     DEFAULT_OPTIONS =
-      id_length: 0
-
+      id: false
     options = merge DEFAULT_OPTIONS, options
-
-    @_data = {}
-    @add_dict dict
-    if options.id_length > 0
-      @meta 'id', Node.random_key(options.id_length), skip_if_exists: 'key'
+    @_attrs = []
+    @_add_dict_or_array data
+    if options.id
+      @meta 'id', Node.random_key(), skip_if_exists: 'key'
 
   meta: (key, value, options={}) ->
-    @add_data @_meta_ize(key), value, options
+    if _.size(arguments) is 0
+      @_get_meta_attrs()
+    else
+      @add_data @_meta_ize(key), value, options
+
+  _add_dict_or_array: (data) ->
+    if type(data) is 'array'
+      for item in data
+        @add_dict item
+    else
+      @add_dict data
 
   add_dict: (dict) ->
     if type(dict) isnt 'object'
@@ -32,49 +39,91 @@ class Node
   add_data_unless_exists: (key, value) ->
     @add_data key, value, skip_if_exists: 'value'
 
+  # alias for add_data
+  add_value: -> @add_data arguments...
+
   add_data: (key, value, options={}) ->
     return if options.skip_if_exists is 'key'   and @_has key
     return if options.skip_if_exists is 'value' and @_has key, value
     if type(value) is 'array'
       for item in value
-        @_add_item key, item, options
+        @_add_attr key, item, options
     else
-      @_add_item key, value, options
-
-  _add_item: (key, value) ->
-    throw "Expected key to be of type 'string', got: '#{type(key)}'" unless type(key) is 'string'
-    @_data[key] ?= []
-    if type(value) in ['boolean', 'number', 'string']
-      @_data[key].push value
-    else if type(value) in ['date']
-      @_data[key].push value.toISOString()
-    else if type(value) in ['regexp', 'function']
-      @_data[key].push value.toString()
-    else if type(value) in ['null', 'undefined']
-      @_data[key].push null
-    else
-      throw "Unexpected value '#{value}' of type '#{type(value)}' for key '#{key}'"
+      @_add_attr key, value, options
 
   increment: (key, amount = 1) ->
-    throw "Expected key to be of type 'string', got: '#{type(key)}'" unless type(key) is 'string'
-    @_data[key] ?= [ 0 ]
-    for value, index in @_data[key]
-      throw "Expected value to be of type 'number', got: #{type(value)}:" unless type(value) is 'number'
-      @_data[key][index] += amount
+    unless type(key) is 'string'
+      throw "Expected key to be of type 'string', got: '#{type(key)}'"
+    success = false
+    for attr in @_attrs
+      if _key(attr) is key and type(_value(attr)) is 'number'
+        attr[_key attr] = _value(attr) + amount
+        success = true
+    if not success
+      @_add_attr key, amount
 
   label: ->
-    @_get_key() ? id()
+    @_get_key() ? @id()
 
   id: ->
-    @_data._id?[0]  # or throw "no _id property found for #{pjson @}"
+    for attr in @_attrs
+      if _key(attr) is '_id'
+        return _value(attr)
+    return null # throw "no _id property found for #{pjson @}"
 
-  data: ->
-    @_data
+  # pretty printed json
+  to_json: ->
+    attributes = for attribute in @data()
+      for key, value of attribute
+        "{ #{json key}: #{json value} }"
+    attributes = attributes.join(",\n")
+    "[\n#{indent attributes}\n]"
 
+  data: (options = {}) ->
+    _friendly_sort @_filter_attrs(options)
 
   # omit metadata: anything starting with underscore
   props: ->
-    omit @_data, (value, key) -> starts_with key, '_'
+    _.filter @_attrs, (attr) -> not _.startsWith _key(attr), '_'
+
+  # only metadata: anything starting with underscore
+  _get_meta_attrs: ->
+    _.filter @_attrs, (attr) -> _.startsWith _key(attr), '_'
+
+  _filter_attrs: (options = {}) ->
+    if options.omit_keys
+      _.filter @_attrs, (attr) ->
+        _key(attr) isnt options.omit_keys
+    else
+      @_attrs
+
+  _friendly_sort = (attrs) ->
+    attrs.sort _friendly_attr_order
+
+  _friendly_attr_order = (attr1, attr2) ->
+    key_sort_order = _friendly_item_order(_key(attr1), _key(attr2))
+    if key_sort_order is 0
+      value_sort_order = _friendly_item_order(_value(attr1), _value(attr2))
+    key_sort_order or value_sort_order
+
+  _friendly_item_order = (a, b) ->
+    if type(a) is type(b) is 'string'
+      if _.startsWith(a, '_') and not _.startsWith(b, '_')
+        return -1
+      else if not _.startsWith(a, '_') and _.startsWith(b, '_')
+        return 1
+      else if a.toLowerCase() < b.toLowerCase()
+        return -1
+      else if a.toLowerCase() > b.toLowerCase()
+        return 1
+      else
+        return 0
+    if a < b
+      return -1
+    else if a > b
+      return 1
+    else
+      return 0
 
   _get_key: ->
     @get_keys()?[0]
@@ -92,47 +141,100 @@ class Node
     @_has_meta KEY, key
 
   _get_meta: (key) ->
-    @_data[@_meta_ize key]
+    @get_values @_meta_ize key
 
   _has_meta: (search_key, search_value) ->
     @_has @_meta_ize(search_key), search_value
 
+  get_values: (search_key) ->
+    reduce @_attrs, @_accumulate_values, [], {search_key}
+
+  _accumulate_values: (search_values, attr) ->
+    if _key(attr) is @search_key
+      search_values.push _value(attr)
+    search_values
+
   _has: (search_key, search_value) ->
     if search_value?
-      for own key, values of @_data
-        for value in values
-          if key is search_key and value is search_value
-            return true
-      return false
+      @_has_attr_key_and_value search_key, search_value
     else
-      has @_data, search_key
+      @_has_attr_key search_key
+
+  _has_attr_key_and_value: (search_key, search_value) ->
+    for attr in @_attrs
+      if _key(attr) is search_key and _value(attr) is search_value
+        return true
+    return false
+
+  _has_attr_key: (search_key) ->
+    for attr in @_attrs
+      if _key(attr) is search_key and _value(attr) is search_value
+        return true
+    return false
 
   _meta_ize: (key) ->
-    if starts_with key, '_' then key else "_#{key}"
+    if _.startsWith key, '_' then key else "_#{key}"
+
+  ##################################################################################
+  # Weights
+  ##################################################################################
 
   weights: ->
     weights = {}
-    if @_numeric_values()
-      for own key, values of @props()
-        for value in values
-          value = parseFloat value
-          if not Number.isNaN value
-            weights[key] ?= 0
-          weights[key] += value
+    for attr in @meta()
+      @_add_data_weights weights, attr
+    if @_numeric_props()
+      for attr in @props()
+        value = parseFloat _value(attr)
+        if not Number.isNaN value
+          weights[_key attr] ?= 0
+          weights[_key attr] += value
     else
-      for own key, values of @_data
-        weights[key] ?= 0             # keys are weighted = 0, values = 1
-        for value in values
-          weights[value] ?= 0
-          weights[value] += 1
+      for attr in @props()
+        @_add_data_weights weights, attr
     weights
 
-  _numeric_values: ->
-    for values in obj_values(@props())
-      for value in values
-        if Number.isNaN parseFloat value
-          return false
+  _numeric_props: ->
+    for attr in @props()  # check only props, which ignores metadata
+      if Number.isNaN parseFloat _value attr
+        return false
     return true
+
+  _add_data_weights: (weights, attr) ->
+    weights[_key attr] ?= 0             # keys are weighted = 0, values = 1
+    weights[_value attr] ?= 0
+    weights[_value attr] += 1
+
+  ##################################################################################
+  # Node attributes
+  ##################################################################################
+
+  _add_attr: (key, raw_value) ->
+    unless type(key) is 'string'
+      throw "Expected key to be of type 'string', got: '#{pjson key}'"
+    value = if type(raw_value) in ['boolean', 'number', 'string']
+      raw_value
+    else if type(raw_value) in ['date']
+      raw_value.toISOString()
+    else if type(raw_value) in ['regexp', 'function']
+      raw_value.toString()
+    else if type(raw_value) in ['null', 'undefined']
+      null
+    else
+      throw "Unexpected value '#{raw_value}' of type '#{type raw_value}' for key '#{key}'"
+    attr = {}
+    attr[key] = value
+    @_attrs.push attr
+
+  _key = (attr) ->
+    _.first _.keys attr
+
+  _value = (attr) ->
+    _.first _.values attr
+
+  ##################################################################################
+  # Utilities
+  ##################################################################################################
 
   @random_key = (key_length=88) ->
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, 1, or l chars
