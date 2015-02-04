@@ -1,13 +1,10 @@
-merge = require 'lodash.merge'
-omit = require "lodash.omit"
-reject = require 'lodash.reject'
-values = require "lodash.values"
-is_empty = require "lodash.isempty"
-{ first, keys, size } = require "lodash"
-
-{ indent, json, log, p, pjson, type } = require 'lightsaber'
-
+lodash = require "lodash"
+lightsaber = require 'lightsaber'
 Node = require './node'
+
+obj_values = lodash.values
+{ merge, omit, reject, is_empty, first, keys, size } = lodash
+{ indent, json, log, p, pjson, type } = lightsaber
 
 class Nodesphere
 

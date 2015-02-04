@@ -1,8 +1,9 @@
 http = require 'http-request'
 lightsaber  = require 'lightsaber'
-starts_with = require "lodash-node/compat/string/startsWith"  # pre-release
+lodash = require 'lodash'
 Nodesphere = require '../core/nodesphere'
 
+starts_with = lodash.startsWith
 { log, p } = lightsaber
 
 class GoogleSpreadsheet

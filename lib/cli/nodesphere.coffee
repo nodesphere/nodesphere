@@ -1,7 +1,8 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
-snake_case = require "lodash-node/compat/string/snakeCase"  # pre-release
+lodash = require "lodash"
+snake_case = lodash.snakeCase
 
 { log, p } = lightsaber
 

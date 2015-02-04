@@ -1,7 +1,8 @@
-_ = require "lodash"
-obj_keys = _.keys
-obj_values = _.values
-{ filter, flatten, has, merge, omit, reduce } = _
+lodash = require "lodash"
+obj_keys = lodash.keys
+obj_values = lodash.values
+starts_with = lodash.startsWith
+{ filter, first, flatten, has, merge, omit, reduce, size } = lodash
 { indent, json, log, p, pjson, type } = require 'lightsaber'
 
 class Node
@@ -18,7 +19,7 @@ class Node
       @meta 'id', Node.random_key(), skip_if_exists: 'key'
 
   meta: (key, value, options={}) ->
-    if _.size(arguments) is 0
+    if size(arguments) is 0
       @_get_meta_attrs()
     else
       @add_data @_meta_ize(key), value, options
@@ -84,15 +85,15 @@ class Node
 
   # omit metadata: anything starting with underscore
   props: ->
-    _.filter @_attrs, (attr) -> not _.startsWith _key(attr), '_'
+    filter @_attrs, (attr) -> not starts_with _key(attr), '_'
 
   # only metadata: anything starting with underscore
   _get_meta_attrs: ->
-    _.filter @_attrs, (attr) -> _.startsWith _key(attr), '_'
+    filter @_attrs, (attr) -> starts_with _key(attr), '_'
 
   _filter_attrs: (options = {}) ->
     if options.omit_keys
-      _.filter @_attrs, (attr) ->
+      filter @_attrs, (attr) ->
         _key(attr) isnt options.omit_keys
     else
       @_attrs
@@ -108,9 +109,9 @@ class Node
 
   _friendly_item_order = (a, b) ->
     if type(a) is type(b) is 'string'
-      if _.startsWith(a, '_') and not _.startsWith(b, '_')
+      if starts_with(a, '_') and not starts_with(b, '_')
         return -1
-      else if not _.startsWith(a, '_') and _.startsWith(b, '_')
+      else if not starts_with(a, '_') and starts_with(b, '_')
         return 1
       else if a.toLowerCase() < b.toLowerCase()
         return -1
@@ -173,7 +174,7 @@ class Node
     return false
 
   _meta_ize: (key) ->
-    if _.startsWith key, '_' then key else "_#{key}"
+    if starts_with key, '_' then key else "_#{key}"
 
   ##################################################################################
   # Weights
@@ -227,10 +228,10 @@ class Node
     @_attrs.push attr
 
   _key = (attr) ->
-    _.first _.keys attr
+    first obj_keys attr
 
   _value = (attr) ->
-    _.first _.values attr
+    first obj_values attr
 
   ##################################################################################
   # Utilities
