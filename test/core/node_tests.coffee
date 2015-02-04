@@ -121,3 +121,43 @@ describe 'Node#weights', ->
       'MAIDSAFE': 2
       'telehash': 1
       'Tahoe LAFS': 1
+
+describe 'Node#get_keys', ->
+
+  it 'should return a single key', ->
+    node = new Node
+    node.add_key 'foo'
+    node.get_keys().should.deep.equal ['foo']
+
+  it 'should return multiple keys', ->
+    node = new Node
+    node.add_key 'foo'
+    node.add_key 'bar'
+    node.get_keys().should.deep.equal ['foo', 'bar']
+
+describe 'Node#increment', ->
+
+  it 'should increment an existing attribute', ->
+    node = new Node 'hits': 33
+    node.increment 'hits'
+    node.get_values('hits').should.deep.equal [34]
+
+  it 'should create numeric value if none exists', ->
+    node = new Node
+    node.increment 'x'
+    node.get_values('x').should.deep.equal [1]
+
+  it 'should increment multiple existing attributes if they exist', ->
+    node = new Node
+    node.add_value 'x', 3
+    node.add_value 'x', 100
+    node.increment 'x'
+    node.get_values('x').should.deep.equal [4, 101]
+
+  it 'should ignore non-numeric values and create a new numeric value', ->
+    node = new Node
+    node.add_value 'x', 'foobar'
+    node.add_value 'x', null
+    node.increment 'x'
+    node.get_values('x').should.deep.equal ['foobar', null, 1]
+
