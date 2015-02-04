@@ -1,17 +1,14 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
-snake_case = require "lodash-node/compat/string/snakeCase"  # pre-release
+snake_case = require("lodash").snakeCase
 multiply = require "../algebra/multiply"
 
 { log, p, pjson } = require 'lightsaber/lib/log'
 
-collect = (val, memo) ->
-  memo.push val
-  memo
-
 config
-  .option '-s, --source-file [path]', 'JSON nodesphere', collect, []
+  .option '-s, --content-file [path]', 'content nodesphere (JSON)'
+  .option '-s, --filter-file [path]', 'filter nodesphere (JSON)'
   .parse process.argv
 
 # make all config options available as snake case as well as camel camel case, eg:
@@ -21,9 +18,8 @@ config
 for own key, value of config
   config[snake_case key] = value
 
-sphere_files = config.source_file
-spheres = for sphere_file in sphere_files
-  Adaptor.get_sync sphere_file
-product = multiply spheres
+content = Adaptor.get_sync config.content_file
+filter  = Adaptor.get_sync config.filter_file
+product = multiply content, filter
 
 log product.to_json()

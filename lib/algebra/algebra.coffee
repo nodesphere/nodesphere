@@ -4,9 +4,7 @@ Node = require '../core/node'
 Nodesphere = require '../core/nodesphere'
 
 class Algebra
-  @multiply: (spheres) ->
-    throw spheres.length unless spheres.length is 2
-    [content_sphere, filter_sphere]  = spheres
+  @multiply: (content_sphere, filter_sphere) ->
     product = new Nodesphere()
     for content_node in content_sphere.nodes()
       product_node = new Node()
