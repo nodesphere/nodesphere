@@ -1,10 +1,8 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
-lodash = require "lodash"
-snake_case = lodash.snakeCase
-
-{ log, p } = lightsaber
+{ lodash_snake_case, log, p, snake_case_keys } = require 'lightsaber'
+{ snake_case } = lodash_snake_case
 
 config
   .option '-d, --source-dir <source directory>', 'Directory to recursively import'
@@ -14,12 +12,7 @@ config
   #  .option '-c, --cayley-url <url>', "Cayley (graph DB) server (default: http://127.0.0.1:64210)" , 'http://127.0.0.1:64210'
   .parse process.argv
 
-# make all config options available as snake case as well as camel camel case, eg:
-# source_gsheet: foo
-# as well as:
-# sourceGsheet: foo
-for own key, value of config
-  config[snake_case key] = value
+config = snake_case_keys config
 
 adaptor = new Adaptor config
 adaptor.process()

@@ -1,10 +1,9 @@
-lodash = require "lodash"
 lightsaber = require 'lightsaber'
 Node = require './node'
 
-obj_values = lodash.values
-{ merge, omit, reject, is_empty, first, keys, size } = lodash
-{ indent, json, log, p, pjson, type } = lightsaber
+{ indent, json, lodash_snake_case, log, p, pjson, type } = lightsaber
+{ merge, omit, reject, first, keys, size } = lodash_snake_case
+obj_values = lodash_snake_case.values
 
 class Nodesphere
 

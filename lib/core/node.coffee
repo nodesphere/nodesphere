@@ -1,9 +1,8 @@
-lodash = require "lodash"
-obj_keys = lodash.keys
-obj_values = lodash.values
-starts_with = lodash.startsWith
-{ filter, first, flatten, has, merge, omit, reduce, size } = lodash
-{ indent, json, log, p, pjson, type } = require 'lightsaber'
+lightsaber = require 'lightsaber'
+{ indent, json, lodash_snake_case, log, p, pjson, snake_case_keys, type } = lightsaber
+obj_keys = lodash_snake_case.keys
+obj_values = lodash_snake_case.values
+{ filter, first, flatten, has, merge, omit, reduce, size, starts_with } = lodash_snake_case
 
 class Node
 

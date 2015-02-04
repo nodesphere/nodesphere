@@ -1,4 +1,3 @@
-lodash = require "lodash"
 glob = require 'glob'
 http = require 'http-request'
 path = require 'path'
@@ -11,8 +10,8 @@ GoogleSpreadsheet = require "./google_spreadsheet"
 Cayley = require "./cayley"
 Log = require "./log"
 
-{ last } = lodash
-{ log, p, pjson } = lightsaber
+{ lodash_snake_case, log, p, pjson } = lightsaber
+{ last } = lodash_snake_case
 
 class Adaptor
 

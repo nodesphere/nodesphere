@@ -1,8 +1,7 @@
 require('chai').should()
-lodash = require "lodash"
 lightsaber = require 'lightsaber'
-{ reject } = lodash
-{ log, p } = lightsaber
+{ lodash_snake_case, log, p } = lightsaber
+{ reject } = lodash_snake_case
 
 Nodesphere = require '../../lib/core/nodesphere'
 

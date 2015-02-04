@@ -1,22 +1,16 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
-snake_case = require("lodash").snakeCase
 multiply = require "../algebra/multiply"
-
-{ log, p, pjson } = require 'lightsaber/lib/log'
+{ lodash_snake_case, log, p, pjson, snake_case_keys } = require 'lightsaber'
+{ snake_case } = lodash_snake_case
 
 config
   .option '-s, --content-file [path]', 'content nodesphere (JSON)'
   .option '-s, --filter-file [path]', 'filter nodesphere (JSON)'
   .parse process.argv
 
-# make all config options available as snake case as well as camel camel case, eg:
-# source_gsheet: foo
-# as well as:
-# sourceGsheet: foo
-for own key, value of config
-  config[snake_case key] = value
+config = snake_case_keys config
 
 content = Adaptor.get_sync config.content_file
 filter  = Adaptor.get_sync config.filter_file
