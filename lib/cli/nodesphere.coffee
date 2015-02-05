@@ -1,8 +1,7 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
-{ lodash_snake_case, log, p, snake_case_keys } = require 'lightsaber'
-{ snake_case } = lodash_snake_case
+{ log, p, snake_case_keys } = require 'lightsaber'
 
 config
   .option '-d, --source-dir <source directory>', 'Directory to recursively import'
@@ -14,6 +13,5 @@ config
   .parse process.argv
 
 config = snake_case_keys config
-
 adaptor = new Adaptor config
 adaptor.process()

@@ -2,8 +2,7 @@ config = require 'commander'
 lightsaber = require 'lightsaber'
 Adaptor = require "../adaptor/adaptor.coffee"
 multiply = require "../algebra/multiply"
-{ lodash_snake_case, log, p, pjson, snake_case_keys } = require 'lightsaber'
-{ snake_case } = lodash_snake_case
+{ log, p, pjson, snake_case_keys } = require 'lightsaber'
 
 config
   .option '-s, --content-file [path]', 'content nodesphere (JSON)'
