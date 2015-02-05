@@ -206,7 +206,6 @@ class Node
     return true
 
   _add_data_weights: (weights, attr) ->
-    weights[_key attr] ?= 0             # keys are weighted = 0, values = 1
     weights[_value attr] ?= 0
     weights[_value attr] += 1
 

@@ -108,8 +108,6 @@ describe 'Node#weights', ->
       'Node Secure': ['MAIDSAFE', 'Tahoe LAFS']
 
     node.weights().should.deep.equal
-      'Node Store': 0
-      'Node Secure': 0
       'MAIDSAFE': 2
       'telehash': 1
       'Tahoe LAFS': 1

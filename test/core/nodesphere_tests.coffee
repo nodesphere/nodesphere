@@ -129,12 +129,9 @@ describe 'Nodesphere#weights', ->
       [
         {_key: "Ethereum"}
         {Blockchain: 2}
-        {'contract substrate': 0}
-        {tag: 0}
       ]
       [
         {_key: "Ripple"}
         {Blockchain: 1}
-        {tag: 0}
       ]
     ]
