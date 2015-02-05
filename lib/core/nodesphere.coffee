@@ -16,9 +16,6 @@ class Nodesphere
     @_meta = new Node
     @_meta.add_key 'metadata'
 
-  add_node: (node) ->
-    @_nodes.push node
-
   meta: (key, value) ->
     @_meta.add_data key, value
 
@@ -32,6 +29,7 @@ class Nodesphere
     if not match
       node = @add_node()
       node.add_key node_key
+      node.add_data attribute, value
 
   add_dict: (dict) ->
     @add_node new Node dict
