@@ -70,7 +70,7 @@ class Node
     for attr in @_attrs
       if _key(attr) is '_id'
         return _value(attr)
-    return null # throw "no _id property found for #{pjson @}"
+    return null
 
   # pretty printed json
   to_json: ->
@@ -97,34 +97,6 @@ class Node
         _key(attr) isnt options.omit_keys
     else
       @_attrs
-
-  _friendly_sort = (attrs) ->
-    attrs.sort _friendly_attr_order
-
-  _friendly_attr_order = (attr1, attr2) ->
-    key_sort_order = _friendly_item_order(_key(attr1), _key(attr2))
-    if key_sort_order is 0
-      value_sort_order = _friendly_item_order(_value(attr1), _value(attr2))
-    key_sort_order or value_sort_order
-
-  _friendly_item_order = (a, b) ->
-    if type(a) is type(b) is 'string'
-      if starts_with(a, '_') and not starts_with(b, '_')
-        return -1
-      else if not starts_with(a, '_') and starts_with(b, '_')
-        return 1
-      else if a.toLowerCase() < b.toLowerCase()
-        return -1
-      else if a.toLowerCase() > b.toLowerCase()
-        return 1
-      else
-        return 0
-    if a < b
-      return -1
-    else if a > b
-      return 1
-    else
-      return 0
 
   _get_key: ->
     @get_keys()?[0]
@@ -169,12 +141,44 @@ class Node
 
   _has_attr_key: (search_key) ->
     for attr in @_attrs
-      if _key(attr) is search_key and _value(attr) is search_value
+      if _key(attr) is search_key
         return true
     return false
 
   _meta_ize: (key) ->
     if starts_with key, '_' then key else "_#{key}"
+
+  ##################################################################################
+  # Sorting
+  ##################################################################################
+
+  _friendly_sort = (attrs) ->
+    attrs.sort _friendly_attr_order
+
+  _friendly_attr_order = (attr1, attr2) ->
+    key_sort_order = _friendly_item_order(_key(attr1), _key(attr2))
+    if key_sort_order is 0
+      value_sort_order = _friendly_item_order(_value(attr1), _value(attr2))
+    key_sort_order or value_sort_order
+
+  _friendly_item_order = (a, b) ->
+    if type(a) is type(b) is 'string'
+      if starts_with(a, '_') and not starts_with(b, '_')
+        return -1
+      else if not starts_with(a, '_') and starts_with(b, '_')
+        return 1
+      else if a.toLowerCase() < b.toLowerCase()
+        return -1
+      else if a.toLowerCase() > b.toLowerCase()
+        return 1
+      else
+        return 0
+    if a < b
+      return -1
+    else if a > b
+      return 1
+    else
+      return 0
 
   ##################################################################################
   # Weights
