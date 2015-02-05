@@ -59,8 +59,9 @@ class Adaptor
     else throw "No known source #{@config.source}"
 
   put: (nodesphere) =>
+    output = if @config.weights then nodesphere.weight_sphere() else nodesphere
     for target in @targets
-      target.put nodesphere
+      target.put output
 
   @sphere_json: (source_url, callback) ->
     if GoogleSpreadsheet.understands source_url

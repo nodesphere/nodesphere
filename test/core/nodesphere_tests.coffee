@@ -4,6 +4,7 @@ lightsaber = require 'lightsaber'
 { reject } = lodash_snake_case
 
 Nodesphere = require '../../lib/core/nodesphere'
+Node = require '../../lib/core/node'
 
 describe 'Nodesphere.digest', ->
 
@@ -105,3 +106,35 @@ describe 'Nodesphere.digest', ->
 
     nodesphere = Nodesphere.digest input
     nodesphere.node_data(omit_keys: '_id').should.deep.equal expected_data
+
+describe 'Nodesphere#weights', ->
+
+  it 'should return a new nodesphere with weights of keywords', ->
+    nodesphere = new Nodesphere
+
+    nodesphere.add_node new Node [
+      {_key: "Ethereum"}
+      {tag: "Blockchain"}
+      {'contract substrate': "Blockchain"}
+    ]
+
+    nodesphere.add_node new Node [
+      {_key: "Ripple"}
+      {tag: "Blockchain"}
+    ]
+
+    weights = nodesphere.weight_sphere()
+
+    weights.node_data().should.deep.equal [
+      [
+        {_key: "Ethereum"}
+        {Blockchain: 2}
+        {'contract substrate': 0}
+        {tag: 0}
+      ]
+      [
+        {_key: "Ripple"}
+        {Blockchain: 1}
+        {tag: 0}
+      ]
+    ]

@@ -96,10 +96,6 @@ describe 'Node#weights', ->
       'Tahoe LAFS': 0.5
 
     node.weights().should.deep.equal
-      _key: 0
-      _id: 0
-      'Q5pvcx41GjN29': 1
-      'Node Services': 1
       'MAIDSAFE': 2
       'telehash': 0.5
       'Tahoe LAFS': 0.5
@@ -112,12 +108,8 @@ describe 'Node#weights', ->
       'Node Secure': ['MAIDSAFE', 'Tahoe LAFS']
 
     node.weights().should.deep.equal
-      _key: 0
-      _id: 0
       'Node Store': 0
       'Node Secure': 0
-      'xyz123': 1
-      'Node Services': 1
       'MAIDSAFE': 2
       'telehash': 1
       'Tahoe LAFS': 1

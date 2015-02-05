@@ -59,6 +59,12 @@ class Nodesphere
     for node in @_all_updated_nodes()
       node.data()
 
+  weight_sphere: ->
+    weight_sphere = new Nodesphere()
+    for node in @_nodes
+      weight_sphere.add_node node.weight_node()
+    weight_sphere
+
   _all_updated_nodes: ->
     @_update_meta()
     @_all_nodes()

@@ -13,7 +13,7 @@ class Node
       id: false
     options = merge DEFAULT_OPTIONS, options
     @_attrs = []
-    @_add_dict_or_array data
+    @add data
     if options.id
       @meta 'id', Node.random_key(), skip_if_exists: 'key'
 
@@ -23,7 +23,7 @@ class Node
     else
       @add_data @_meta_ize(key), value, options
 
-  _add_dict_or_array: (data) ->
+  add: (data) ->
     if type(data) is 'array'
       for item in data
         @add_dict item
@@ -39,8 +39,9 @@ class Node
   add_data_unless_exists: (key, value) ->
     @add_data key, value, skip_if_exists: 'value'
 
-  # alias for add_data
+  # aliases for add_data
   add_value: -> @add_data arguments...
+  attr:      -> @add_data arguments...
 
   add_data: (key, value, options={}) ->
     return if options.skip_if_exists is 'key'   and @_has key
@@ -179,10 +180,14 @@ class Node
   # Weights
   ##################################################################################
 
+  weight_node: ->
+    weight_node = new Node
+    weight_node.add @meta()
+    weight_node.add @weights()
+    weight_node
+
   weights: ->
     weights = {}
-    for attr in @meta()
-      @_add_data_weights weights, attr
     if @_numeric_props()
       for attr in @props()
         value = parseFloat _value(attr)
