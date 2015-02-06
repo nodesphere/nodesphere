@@ -7,7 +7,6 @@ fs = require 'fs'
 Nodesphere = require '../core/nodesphere'
 Node = require '../core/node'
 GoogleSpreadsheet = require "./google_spreadsheet"
-#Cayley = require "./cayley"
 Log = require "./log"
 
 { lodash_snake_case, log, p, pjson } = lightsaber
