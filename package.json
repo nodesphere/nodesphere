@@ -1,7 +1,7 @@
 {
   "name": "nodesphere",
-  "version": "0.1.0-dev",
-  "description": "Content-addressable graph storage in simple JSON [work in progress]",
+  "version": "0.1.0",
+  "description": "Simple graph storage designed for universal interoperability",
   "main": "lib/exports.js",
   "scripts": {
     "serve-dev": "./node_modules/.bin/nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
