@@ -18,7 +18,7 @@
   "license": "CC0",
   "engines": {
     "node": "0.10.31",
-    "npm": "1.4.25"
+    "npm": "^2.5.0"
   },
   "bin": {
     "nodesphere": "bin/nodesphere",
