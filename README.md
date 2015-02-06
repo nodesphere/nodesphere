@@ -24,10 +24,9 @@ Everything we care to reference is a _node_, which is simply an _ID_ with _attri
 For example, a movie, a person, or a knowledge base are all _nodes_.
 
 We define a `Node` as our base concept:
-- Nodes are composed of attributes
+- Nodes are composed of a list of attributes
 - Each attribute has a unique key (a string)
 - Each attribute can have multiple values (of type string, number, boolean or null)
-- Values must be unique, but only within the scope of that attribute
 
 An example of a Node:
 
@@ -59,9 +58,8 @@ For example the node referring to this document might have the following attribu
 
 ### Nodesphere
 
-A nodesphere is a collection of nodes, each of which may have any number of attributes.
-
-For example:
+A nodesphere is a list of nodes, optionally also including a metadata node, which may summarize the other nodes,
+as in the example below:
 
     [
         [
