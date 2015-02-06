@@ -31,18 +31,13 @@ We define a `Node` as our base concept:
 
 An example of a Node:
 
-    {
-      "name": [
-        "Venus"
-      ],
-      "Archetype": [
-        "lover",
-        "artist"
-      ],
-      "_id": [
-        "SPnxgs4j9BDcLVJEZXvASxhi2NukZAPTT6iXwbZrG2MtohJtPcC1boLbL7zeXVJcevYSfZL76xfpsHH8Qi1pzCfM"
-      ],
-    }
+    [
+        { "_key": "Maidsafe" },
+        { "node service": "Node Foundation" },
+        { "node service": "Node Store" },
+        { "tag": "Distributed File System" },
+        { "URL": "http://maidsafe.net/" }
+    ]
 ### ID
 
 Every node has one ID at its core.
@@ -68,20 +63,37 @@ A nodesphere is a collection of nodes, each of which may have any number of attr
 
 For example:
 
-    {
-      "_name": [
-        "Planetary forces"
-      ],
-      "Venus": [
-        "SPnxgs4j9BDcLVJEZXvASxhi2NukZAPTT6iXwbZrG2MtohJtPcC1boLbL7zeXVJcevYSfZL76xfpsHH8Qi1pzCfM"
-      ],
-      "Jupiter": [
-        "PwrofMF6WVXyFsRYHZWYdyzo2wnQVALB4B3V8AKZxkdZb8mA93KFLAFF5uyTuwfNYiQJZuc6qQzp7sb18ws5hAmM"
-      ],
-      "_id": [
-        "XaAbGQUB6t4DdysVCYCAmpN7RTXUXWac1sPzyz8nGgiiR3wsDc2AAQT71u4sBAo3H8iWWBb8VhtSWPGvxKyrqSFE"
-      ]
-    }
+    [
+        [
+            { "_key": "metadata" },
+            { "node": "Camlistore" },
+            { "node": "Maidsafe" },
+            { "node": "telehash" },
+            { "url": "https://spreadsheets.google.com/feeds/cells/0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc/1/public/basic?alt=json" }
+        ],
+        [
+            { "_key": "Maidsafe" },
+            { "node service": "Node Foundation" },
+            { "node service": "Node Store" },
+            { "tag": "Distributed File System" },
+            { "URL": "http://maidsafe.net/" }
+        ],
+        [
+            { "_key": "telehash" },
+            { "node service": "Node Foundation" },
+            { "node service": "Node Store" },
+            { "tag": "Distributed Hash Table" },
+            { "URL": "http://telehash.org/" }
+        ],
+        [
+            { "_key": "Camlistore" },
+            { "node service": "Node Foundation" },
+            { "node service": "Node Store" },
+            { "node service": "Node Sync" },
+            { "tag": "Distributed File System" },
+            { "URL": "http://camlistore.org/" }
+        ]
+    ]
 ## Graph Modeling
 
 Every _nodesphere_ is modeled as a directed multigraph (multidigraph),
