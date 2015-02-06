@@ -103,6 +103,31 @@ Each _attribute_ is modeled as an [arc (directed edge)](https://en.wikipedia.org
 
 Both the _vertices_ and the _arcs_ are [labeled](https://en.wikipedia.org/wiki/Graph_labeling), where the labels are the graph data itself.
 
+
+# Examples:
+
+## Resource crunching via JSON endpoints:
+
+<https://peaceful-journey-7085.herokuapp.com/docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc>
+
+## Command Line
+
+First
+
+npm install -g nodesphere
+
+Crunch google spreadsheet into nodesphere:
+
+bin/nodesphere --source-gsheet 0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc --gsheet-orientation rows
+
+Crunch local directory into word frequency counts:
+
+bin/nodesphere --source-dir some/directory
+
+Multiply two local json nodespheres:
+
+bin/nodesphere-multiply --content-file ./examples/sphere1.json --filter-file ./examples/sphere2.json
+
 ## Development  [![CI](https://travis-ci.org/nodesphere/nodesphere.svg?branch=dev)](https://travis-ci.org/nodesphere/nodesphere)
 
 ### Starting a Local server

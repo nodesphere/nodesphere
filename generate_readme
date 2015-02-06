@@ -136,11 +136,13 @@ Both the _vertices_ and the _arcs_ are [labeled](https://en.wikipedia.org/wiki/G
 
 """
 
-###
+say """
 
 # Examples:
 
-http://localhost:7000/example
+## Resource crunching via JSON endpoints:
+
+<https://peaceful-journey-7085.herokuapp.com/docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc>
 
 ## Command Line
 
@@ -150,13 +152,17 @@ First
 
 Crunch google spreadsheet into nodesphere:
 
-    nodesphere --source-gsheet 0AnVa7rwgRKG2dDhvanM3eHFYcDFKbXhrTVVTbExFbnc
+    bin/nodesphere --source-gsheet 0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc --gsheet-orientation rows
+
+Crunch local directory into word frequency counts:
+
+    bin/nodesphere --source-dir some/directory
 
 Multiply two local json nodespheres:
 
-    nodesphere-multiply --source-file ./examples/lingua-astra.json --source-file ./examples/access-granted.json
+    bin/nodesphere-multiply --content-file ./examples/sphere1.json --filter-file ./examples/sphere2.json
 
-###
+"""
 
 say """
 ## Development  [![CI](https://travis-ci.org/nodesphere/nodesphere.svg?branch=dev)](https://travis-ci.org/nodesphere/nodesphere)
