@@ -1,6 +1,6 @@
 {
   "name": "nodesphere",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple graph storage designed for universal interoperability",
   "main": "lib/exports.js",
   "scripts": {
