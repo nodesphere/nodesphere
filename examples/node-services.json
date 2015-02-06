@@ -38,6 +38,7 @@
     ],
     [
         { "_key": "Maidsafe" },
+        { "availability": "Soon" },
         { "node service": "Node Foundation" },
         { "node service": "Node Store" },
         { "tag": "Distributed File System" },
@@ -45,6 +46,7 @@
     ],
     [
         { "_key": "Ceptr" },
+        { "availability": "Later" },
         { "node service": "Node Foundation" },
         { "node service": "Node Store" },
         { "tag": "Semantic Tree Based" },
@@ -52,16 +54,19 @@
     ],
     [
         { "_key": "Node Name" },
+        { "availability": "Later" },
         { "node service": "Node Foundation" },
         { "URL": "https://gist.github.com/harlantwood/e2fe5e7370c9a8ca10e7" }
     ],
     [
         { "_key": "JSON-LD" },
+        { "availability": "Now" },
         { "node service": "Node Foundation" },
         { "URL": "http://json-ld.org/" }
     ],
     [
         { "_key": "telehash" },
+        { "availability": "Later" },
         { "node service": "Node Foundation" },
         { "node service": "Node Store" },
         { "tag": "Distributed Hash Table" },
@@ -69,6 +74,7 @@
     ],
     [
         { "_key": "Camlistore" },
+        { "availability": "Now" },
         { "node service": "Node Foundation" },
         { "node service": "Node Store" },
         { "node service": "Node Sync" },
@@ -77,18 +83,21 @@
     ],
     [
         { "_key": "Hyperboria" },
+        { "availability": "Now" },
         { "node service": "Node Store" },
         { "tag": "CJDNS" },
         { "URL": "https://wiki.projectmeshnet.org/Hyperboria" }
     ],
     [
         { "_key": "Raw Git" },
+        { "availability": "Now" },
         { "node service": "Node Store" },
         { "tag": "Serve static assert cached from github" },
         { "URL": "https://rawgit.com/" }
     ],
     [
         { "_key": "Base Paradigm" },
+        { "availability": "Soon" },
         { "node service": "Distributed Graph" },
         { "node service": "Node Chain" },
         { "node service": "Node Foundation" },
@@ -96,33 +105,39 @@
     ],
     [
         { "_key": "Nodesphere" },
+        { "availability": "Later" },
         { "node service": "Distributed Graph" },
         { "node service": "Node Chain" },
         { "URL": "https://github.com/nodesphere/nodesphere" }
     ],
     [
         { "_key": "BigData" },
+        { "availability": "Now" },
         { "node service": "Distributed Graph" },
         { "tag": "Graph Database" },
         { "URL": "http://bigdata.com/" }
     ],
     [
         { "_key": "cayley" },
+        { "availability": "Now" },
         { "node service": "Distributed Graph" },
         { "tag": "Graph Database" },
         { "URL": "https://github.com/google/cayley" }
     ],
     [
         { "_key": "XDI" },
+        { "node service": "Distributed Graph" },
         { "URL": "http://en.wikipedia.org/wiki/XDI" }
     ],
     [
         { "_key": "Red Matrix" },
+        { "node service": "Distributed Graph" },
         { "tag": "Distributed Social Network" },
         { "URL": "https://redmatrix.me/" }
     ],
     [
         { "_key": "Cozy Cloud" },
+        { "availability": "Now" },
         { "node service": "Node Store" },
         { "node service": "Node Sync" },
         { "tag": "Personal Cloud" },
@@ -130,80 +145,94 @@
     ],
     [
         { "_key": "Web Sockets" },
+        { "availability": "Now" },
         { "node service": "Node Sync" },
         { "URL": "http://socket.io/" }
     ],
     [
         { "_key": "Strongsync" },
+        { "availability": "Now" },
         { "node service": "Node Sync" },
         { "tag": "Sync" },
         { "URL": "https://secure.expandrive.com/strongsync" }
     ],
     [
         { "_key": "Syncthing" },
+        { "availability": "Now" },
         { "node service": "Node Sync" },
         { "tag": "Sync " },
         { "URL": "http://syncthing.net/" }
     ],
     [
         { "_key": "Tribler" },
+        { "node service": "Node Sync" },
         { "URL": "https://github.com/Tribler/tribler/wiki" }
     ],
     [
         { "_key": "Web Payments" },
+        { "availability": "Soon" },
         { "node service": "Node Trust" },
         { "tag": "Payment" },
         { "URL": "https://web-payments.org/" }
     ],
     [
         { "_key": "Open Transactions" },
+        { "availability": "Now" },
         { "node service": "Node Trust" },
         { "tag": "Blockchain" },
         { "URL": "http://opentransactions.org/" }
     ],
     [
         { "_key": "Ripple" },
+        { "node service": "Node Trust" },
         { "tag": "Blockchain" },
         { "URL": "https://ripple.com/" }
     ],
     [
         { "_key": "Community Forge" },
+        { "availability": "Now" },
         { "node service": "Node Trust" },
         { "tag": "local currencies" },
         { "URL": "http://communityforge.net/" }
     ],
     [
         { "_key": "Oasis JS" },
+        { "availability": "Now" },
         { "node service": "Node Trust" },
         { "tag": "capability-based security" },
         { "URL": "http://oasisjs.com/" }
     ],
     [
         { "_key": "Trust Exchange" },
+        { "availability": "Later" },
         { "node service": "Node Trust" },
         { "tag": "Relevance Engines" },
         { "URL": "http://zttc83etm2rgrjmkx8ofpughrn3xl4.herokuapp.com/#/2" }
     ],
     [
         { "_key": "Gitbook" },
+        { "availability": "Now" },
         { "node service": "Node Publish" },
         { "tag": "Forkable" },
         { "URL": "https://www.gitbook.io/" }
     ],
     [
         { "_key": "Softcover" },
+        { "availability": "Beta" },
         { "node service": "Node Publish" },
         { "tag": "Forkable" },
         { "URL": "http://www.softcover.io/" }
     ],
     [
         { "_key": "Metamaps" },
+        { "availability": "Now" },
         { "node service": "Node Nav" },
         { "tag": "Visualisation" },
         { "URL": "http://metamaps.cc/" }
     ],
     [
         { "_key": "Noomap" },
+        { "availability": "Soon" },
         { "node service": "Distributed Graph" },
         { "node service": "Node Nav" },
         { "node service": "Node Publish" },
@@ -212,6 +241,7 @@
     ],
     [
         { "_key": "Core Network" },
+        { "availability": "Soon" },
         { "node service": "Distributed Graph" },
         { "node service": "Node Nav" },
         { "tag": "Visualisation" },
@@ -219,6 +249,7 @@
     ],
     [
         { "_key": "UMeOS" },
+        { "availability": "Soon" },
         { "node service": "Node Nav" },
         { "tag": "Visualisation" },
         { "URL": "http://www.umeos.com/" }
@@ -226,10 +257,12 @@
     [
         { "_key": "Ethereum" },
         { "node service": "Distributed Graph" },
+        { "node service": "Node Chain" },
         { "URL": "https://www.ethereum.org/" }
     ],
     [
         { "_key": "Adept" },
+        { "node service": "Node Chain" },
         { "node service": "Node Store" },
         { "URL": "https://gigaom.com/2014/09/09/check-out-ibms-proposal-for-an-internet-of-things-architecture-using-bitcoins-block-chain-tech/" }
     ]
