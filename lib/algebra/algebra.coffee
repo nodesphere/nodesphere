@@ -1,4 +1,4 @@
-{ log, p } = require 'lightsaber'
+{ log, p, similar } = require 'lightsaber'
 
 Node = require '../core/node'
 Nodesphere = require '../core/nodesphere'
@@ -17,7 +17,7 @@ class Algebra
             filter_names = filter_node.get_keys()
             if filter_names
               for filter_key, filter_weight of filter_node.weights()
-                if content_key is filter_key
+                if similar content_key, filter_key
                   for filter_name in filter_names
                     weight = content_weight * filter_weight
                     if weight > 0
