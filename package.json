@@ -4,6 +4,9 @@
   "description": "Simple graph storage designed for universal interoperability",
   "main": "lib/exports.js",
   "scripts": {
+    "clean": "rm -rf ./lib/",
+    "compile": "./node_modules/.bin/coffee -o lib/ src/",
+    "prepublish": "npm run compile",
     "serve-dev": "./node_modules/.bin/nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
     "serve-production": "node lib/server/server.js",
     "serve": "npm run serve-dev",
@@ -26,7 +29,6 @@
   },
   "dependencies": {
     "body-parser": "^1.8.1",
-    "coffee-script": "^1.8.0",
     "commander": "^2.5.0",
     "crawler": "^0.4.1",
     "express": "^4.9.4",
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "chai": "^1.10.0",
+    "coffee-script": "^1.8.0",
     "mocha": "^2.0.1",
     "nodemon": "^1.2.1"
   },
