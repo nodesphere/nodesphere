@@ -5,4 +5,4 @@
 .DS_Store
 /*.sublime-project
 /*.sublime-workspace
-/zz-scratch.coffee
+/zz-scratch.*
