@@ -19,7 +19,7 @@
     "Jack Senechal (https://github.com/jacksenechal)",
     "Chris Larcombe (http://chrislarcombe.com)"
   ],
-  "license": "CC0",
+  "license": "ISC",
   "engines": {
     "node": "0.10.31",
     "npm": "^2.5.0"
