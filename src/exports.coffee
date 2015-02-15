@@ -1,1 +1,1 @@
-module.exports = require('./core/nodesphere.coffee');
+module.exports = require './core/nodesphere'

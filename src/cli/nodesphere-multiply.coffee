@@ -1,6 +1,6 @@
 config = require 'commander'
 lightsaber = require 'lightsaber'
-Adaptor = require "../adaptor/adaptor.coffee"
+Adaptor = require "../adaptor/adaptor"
 multiply = require "../algebra/multiply"
 { log, p, pjson, snake_case_keys } = require 'lightsaber'
 

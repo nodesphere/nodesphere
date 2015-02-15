@@ -4,7 +4,7 @@ app = require("express")()
 http = require("http").Server(app)
 io = require("socket.io")(http)
 lightsaber = require "lightsaber"
-adaptor = require "../adaptor/adaptor.coffee"
+adaptor = require "../adaptor/adaptor"
 
 {
   canonical_json
