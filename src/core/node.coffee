@@ -64,7 +64,7 @@ class Node
       @_add_attr key, amount
 
   label: ->
-    @_get_key() ? @id()
+    @key() ? @id()
 
   id: ->
     for attr in @_attrs
@@ -98,9 +98,10 @@ class Node
     else
       @_attrs
 
-  _get_key: ->
-    @get_keys()?[0]
+  key: ->
+    @keys()?[0]
 
+  keys: -> @get_keys()
   get_keys: ->
     @_get_meta KEY
 
