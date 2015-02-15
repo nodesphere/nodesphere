@@ -1,6 +1,7 @@
 /newrelic_agent.log
 /src/
 /tmp/
+/wip/
 /zz-scratch.*
 /*.sublime-project
 /*.sublime-workspace

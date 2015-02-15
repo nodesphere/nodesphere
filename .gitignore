@@ -3,6 +3,7 @@
 /node_modules/
 /npm-debug.log
 /tmp/
+/wip/
 .DS_Store
 /*.sublime-project
 /*.sublime-workspace
