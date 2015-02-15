@@ -35,7 +35,7 @@
     "express": "^4.9.4",
     "glob": "^4.0.6",
     "http-request": "^0.6.3",
-    "lightsaber": "^0.3.3",
+    "lightsaber": "^0.4.0",
     "newrelic": "^1.12.0",
     "node-forge": "^0.6.16",
     "socket.io": "^1.1.0"
