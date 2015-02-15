@@ -22,7 +22,7 @@
   "license": "ISC",
   "engines": {
     "node": "0.10.31",
-    "npm": "^2.5.0"
+    "npm": "^2.5"
   },
   "bin": {
     "nodesphere": "bin/nodesphere",
