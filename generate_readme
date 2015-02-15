@@ -199,11 +199,10 @@ you may like to continuously compile all Coffeescript to JS
 to inspect the results of coffeescript source file changes:
 
 ```
-bin/watch-coffee
+npm run watch
 ```
 
-Generated Javascript files are in subdirs of `./tmp/js/`.
-Note that these are for learning purposes only and are not used by the application.
+Generated Javascript files are in `./lib/`.
 
 """
 

@@ -5,13 +5,14 @@
   "main": "lib/exports.js",
   "scripts": {
     "clean": "rm -rf ./lib/",
-    "compile": "./node_modules/.bin/coffee -o lib/ src/",
+    "compile": "./node_modules/.bin/coffee --output lib/ --compile src/",
     "prepublish": "npm run compile",
     "serve-dev": "./node_modules/.bin/nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
     "serve-production": "node lib/server/server.js",
     "serve": "npm run serve-dev",
     "start": "npm run serve-production",
-    "test": "node_modules/.bin/mocha --recursive --compilers coffee:coffee-script/register"
+    "test": "node_modules/.bin/mocha --recursive --compilers coffee:coffee-script/register",
+    "watch": "./node_modules/.bin/coffee --watch --output lib/ --compile src/"
   },
   "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
   "contributors": [
