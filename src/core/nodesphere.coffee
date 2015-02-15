@@ -2,7 +2,7 @@ lightsaber = require 'lightsaber'
 Node = require './node'
 
 { indent, json, lodash_snake_case, log, p, pjson, type } = lightsaber
-{ merge, omit, reject, first, keys, size } = lodash_snake_case
+{ first, flatten, keys, merge, omit, reject, size } = lodash_snake_case
 obj_values = lodash_snake_case.values
 
 class Nodesphere
@@ -18,6 +18,11 @@ class Nodesphere
 
   meta: (key, value) ->
     @_meta.add_data key, value
+
+  keys: ->
+    keys = for node in @nodes()
+      node.keys()
+    flatten keys
 
   add_data: (node_key, attribute, value) ->
     return unless node_key and attribute and value
