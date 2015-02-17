@@ -1,4 +1,7 @@
-require('chai').should()
+chai = require('chai')
+chai.should()
+#expect = chai.expect
+
 { log, p } = require 'lightsaber'
 
 Node = require '../../lib/core/node'
@@ -151,3 +154,43 @@ describe 'Node#increment', ->
     node.increment 'x'
     node.get_values('x').should.deep.equal ['foobar', null, 1]
 
+describe 'Node#max_keys', ->
+
+  it 'should find the key corresponding to the maximum numeric value', ->
+    node = new Node
+      day: 25
+      time: '4:44pm'
+      date: new Date 'Mon Jan 26 2015 16:43:22 GMT+0000 (UTC)'
+      requires: null
+      dependents: undefined
+      include: true
+      value: -133.2
+      score: 100
+      pattern: /^foobar$/
+
+    node.max_keys().should.deep.equal ['score']
+
+  it 'should find all keys corresponding to the maximum numeric value', ->
+    node = new Node
+      night: 25
+      day: 25
+      requires: null
+      dependents: undefined
+      include: true
+      score: 1
+      pattern: -100
+
+    node.add_value 'day', 25
+
+    node.max_keys().should.deep.equal ['day', 'day', 'night']
+
+  it 'should return an empty array if no numeric value is found', ->
+    node = new Node
+      time: '4:44pm'
+      date: new Date 'Mon Jan 26 2015 16:43:22 GMT+0000 (UTC)'
+      requires: null
+      dependents: undefined
+      include: true
+      pattern: /^foobar$/
+
+    node.max_keys().should.deep.equal []

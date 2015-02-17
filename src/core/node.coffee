@@ -123,6 +123,19 @@ class Node
   get_values: (search_key) ->
     reduce @_attrs, @_accumulate_values, [], {search_key}
 
+  max_keys: ->
+    largest_keys = []
+    largest_value = -Infinity
+    for attr in @_attrs
+      value = _value attr
+      if type(value) is 'number'
+        if value > largest_value
+          largest_keys = [_key attr]
+          largest_value = value
+        else if value is largest_value
+          largest_keys.push _key attr
+    largest_keys.sort()
+
   _accumulate_values: (search_values, attr) ->
     if _key(attr) is @search_key
       search_values.push _value(attr)
