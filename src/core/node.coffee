@@ -129,11 +129,12 @@ class Node
     for attr in @_attrs
       value = _value attr
       if type(value) is 'number'
+        key = _key attr
         if value > largest_value
-          largest_keys = [_key attr]
+          largest_keys = [key]
           largest_value = value
         else if value is largest_value
-          largest_keys.push _key attr
+          largest_keys.push key
     largest_keys.sort()
 
   _accumulate_values: (search_values, attr) ->
