@@ -108,26 +108,34 @@ Both the _vertices_ and the _arcs_ are [labeled](https://en.wikipedia.org/wiki/G
 
 ## Resource crunching via JSON endpoints:
 
+This demo deployment of `nodepshere`:
+
 <https://peaceful-journey-7085.herokuapp.com/docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc>
+
+Fetches the JSON from the corresponding Google spreadsheet:
+
+<https://docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc>
+
+-- or indeed any spreadsheet "published to the web".
 
 ## Command Line
 
-First
-
-npm install -g nodesphere
+First:
+    
+    npm install -g nodesphere
 
 Crunch google spreadsheet into nodesphere:
 
-bin/nodesphere --source-gsheet 0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc --gsheet-orientation rows
+    nodesphere --source-gsheet 0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc --gsheet-orientation rows
 
 Crunch local directory into word frequency counts:
-
-bin/nodesphere --source-dir some/directory
+    
+    nodesphere --source-dir some/directory
 
 Multiply two local json nodespheres:
-
-bin/nodesphere-multiply --content-file ./examples/sphere1.json --filter-file ./examples/sphere2.json
-
+    
+    nodesphere-multiply --content-file ./examples/sphere1.json --filter-file ./examples/sphere2.json
+    
 ## Development  [![CI](https://travis-ci.org/nodesphere/nodesphere.svg?branch=dev)](https://travis-ci.org/nodesphere/nodesphere)
 
 ### Starting a Local server
@@ -162,9 +170,8 @@ you may like to continuously compile all Coffeescript to JS
 to inspect the results of coffeescript source file changes:
 
 ```
-bin/watch-coffee
+npm run watch
 ```
 
-Generated Javascript files are in subdirs of `./tmp/js/`.
-Note that these are for learning purposes only and are not used by the application.
+Generated Javascript files are in `./lib/`.
 
