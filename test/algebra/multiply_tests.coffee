@@ -2,8 +2,8 @@ require('chai').should()
 
 { log, p } = require 'lightsaber'
 
-Nodesphere = require '../../lib/core/nodesphere'
-multiply = require '../../lib/algebra/multiply'
+Nodesphere = require '../../src/core/nodesphere'
+multiply = require '../../src/algebra/multiply'
 
 describe 'multiply', ->
 

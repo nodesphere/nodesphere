@@ -3,8 +3,8 @@ lightsaber = require 'lightsaber'
 { lodash_snake_case, log, p } = lightsaber
 { reject } = lodash_snake_case
 
-Nodesphere = require '../../lib/core/nodesphere'
-Node = require '../../lib/core/node'
+Nodesphere = require '../../src/core/nodesphere'
+Node = require '../../src/core/node'
 
 describe 'Nodesphere.digest', ->
 

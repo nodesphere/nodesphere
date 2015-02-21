@@ -10,8 +10,8 @@
   say
 } = require 'lightsaber'
 
-nodesphere = require './lib/core/nodesphere'
-#trustnode = require './lib/core/trust_node'
+nodesphere = require './src/core/nodesphere'
+#trustnode = require './src/core/trust_node'
 
 say """
 # Nodesphere

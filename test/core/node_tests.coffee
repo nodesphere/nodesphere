@@ -4,7 +4,7 @@ chai.should()
 
 { log, p } = require 'lightsaber'
 
-Node = require '../../lib/core/node'
+Node = require '../../src/core/node'
 
 describe 'new Node()', ->
 
@@ -54,7 +54,7 @@ describe 'Node#data', ->
     node.add_data 'Friend', 'Sam'
     node.add_data 'education', 'MS Comp Sci'
     node.add_data 'gift', 'simplicity'
-    
+
     node.data().should.deep.equal [
       {'_name': 'foo'              }
       {'education': 'MS Comp Sci'  }
