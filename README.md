@@ -1,5 +1,7 @@
 # Nodesphere
 
+> Note: Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
+
 Nodesphere is an interchange format for node networks. It has three primary objectives:
 
 1. Create interoperability among graph visualization interfaces
