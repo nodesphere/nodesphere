@@ -10,7 +10,7 @@ GoogleSpreadsheet = require "./google_spreadsheet"
 Log = require "./log"
 
 { lodash_snake_case, log, p, pjson } = lightsaber
-{ last } = lodash_snake_case
+{ last, starts_with } = lodash_snake_case
 
 class Adaptor
 
@@ -55,6 +55,16 @@ class Adaptor
     else if @config.source_gsheet?
       gsheet = new GoogleSpreadsheet @config
       gsheet.as_sphere put_callback
+    else if @config.source_json?
+      http.get @config.source_json, (error, response) =>
+        if error
+          throw "Error getting '#{@config.source_json}': #{error}"
+        else if not starts_with response.headers?['content-type'], 'application/json'
+          throw "The expected JSON is not available at:\n#{@config.source_json}"
+        else
+          json = response.buffer.toString()
+          nodesphere = Nodesphere.digest JSON.parse json
+          put_callback nodesphere
     else throw "No known source #{@config.source}"
 
   put: (nodesphere) =>
