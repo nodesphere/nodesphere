@@ -1,3 +1,4 @@
+/.env
 /newrelic_agent.log
 /src/
 /tmp/

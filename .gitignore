@@ -1,10 +1,11 @@
+.DS_Store
+/.env
 /lib/
 /newrelic_agent.log
 /node_modules/
 /npm-debug.log
 /tmp/
 /wip/
-.DS_Store
 /*.sublime-project
 /*.sublime-workspace
 /zz-scratch.*
