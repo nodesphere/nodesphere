@@ -9,7 +9,7 @@ config
   .option '-j, --source-json <URL>', "URL of source JSON"
   .option '-w, --weights', "Output a collection of numeric weights"
   .option '-t, --target <target>', "Target to write data (default: log)" , 'log'
-  .option '--gsheet-orientation <google spreadsheet orientation>', "The orientation of the source Google spreadsheet (default: columns; valid: rows)", 'columns'
+  .option '-o, --gsheet-orientation <google spreadsheet orientation>', "The orientation of the source Google spreadsheet (default: columns; valid: rows)", 'columns'
   #  .option '-c, --cayley-url <url>', "Cayley (graph DB) server (default: http://127.0.0.1:64210)" , 'http://127.0.0.1:64210'
   .parse process.argv
 
