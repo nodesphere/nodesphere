@@ -90,6 +90,6 @@ class Adaptor
       #     #     url: source_url
       #     #   nodesphere = reveal_deck.as_sphere()
       #     #   callback nodesphere.to_json()
-      #     # else 
+      #     # else
 
 module.exports = Adaptor
