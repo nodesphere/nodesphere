@@ -1,0 +1,40 @@
+{
+  "name": "nodesphere",
+  "version": "0.5.0-dev",
+  "description": "graph interoperability",
+  "main": "lib/exports.coffee",
+  "scripts": {
+  },
+  "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
+  "contributors": [
+    "Jack Senechal (https://github.com/jacksenechal)"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": "0.10.31",
+    "npm": "^2.5"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "coffee-script": "^1.8.0",
+    "lightsaber": "^0.4.0",
+    "lodash": "^3.10.0",
+    "xhr": "^2.0.3"
+  },
+  "devDependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nodesphere/nodesphere.git"
+  },
+  "keywords": [
+    "blockchain",
+    "content-addressable",
+    "edge",
+    "graph",
+    "node"
+  ],
+  "bugs": {
+    "url": "https://github.com/nodesphere/nodesphere/issues"
+  }
+}
