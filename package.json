@@ -5,16 +5,14 @@
   "main": "lib/exports.js",
   "scripts": {
     "clean": "rm -rf ./lib/",
-    "compile": "./node_modules/.bin/coffee --output lib/ --compile src/",
+    "compile": "coffee --output lib/ --compile src/",
     "link-all": "npm run link-lightsaber",
     "link-lightsaber": "pushd ../lightsaber && npm prune && npm i && popd && npm link ../lightsaber",
     "prepublish": "npm run compile",
-    "serve-dev": "./node_modules/.bin/nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
-    "serve-production": "node lib/server/server.js",
-    "serve": "npm run serve-dev",
-    "start": "npm run serve-production",
+    "dev": "nodemon --ext coffee,js --ignore tmp/ lib/server/server.js",
+    "start": "node lib/server/server.js",
     "test": "node_modules/.bin/mocha --recursive --compilers coffee:coffee-script/register",
-    "watch": "./node_modules/.bin/coffee --watch --output lib/ --compile src/"
+    "watch": "coffee --watch --output lib/ --compile src/"
   },
   "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
   "contributors": [
