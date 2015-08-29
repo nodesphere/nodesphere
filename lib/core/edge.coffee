@@ -9,7 +9,7 @@ class Edge
     throw new Error "end must be of type Node, got #{json @end}" unless @end instanceof Node
     throw new Error "Missing start [ID: #{@start?.id}] and/or end [ID: #{@end?.id}] in 'args' " unless @start? and @end?
 
-  id: -> "#{@start.id} -> #{@end.id}"
+  id: -> "#{@start.id()} -> #{@end.id()}"
 
   # data: -> {@start, @end}
 

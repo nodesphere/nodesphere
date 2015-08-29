@@ -7,6 +7,6 @@ class Node
 
   id: -> @data.id
 
-  name: -> @data.name or @data.id
+  name: -> @data.name #or @data.id
 
 module.exports = Node
