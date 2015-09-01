@@ -1,3 +1,5 @@
+{ json, log, p, pjson } = require 'lightsaber'
+
 class Node
 
   constructor: (@data={}) ->

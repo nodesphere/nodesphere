@@ -29,6 +29,21 @@ For example, include this line before all other javascript tags:
 
 We build with browserify.  Webpack or similar should work fine too.
 
+### IPFS
+
+In order to for the IPFS adaptor to run from client side code served by IPFS itself, you need to configure CORS support in IPFS, eg `ipfs config edit` and then add something like:
+
+```json
+"HTTPHeaders": {
+  "Access-Control-Allow-Methods": [
+    "GET"
+  ],
+  "Access-Control-Allow-Origin": [
+    "http://localhost:8080"
+  ]
+}
+```
+
 ## Notes
 
 - Both Nodes and Edges are implemented as _maps_, or sets of key-value pairs.

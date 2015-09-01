@@ -11,6 +11,4 @@ class Edge
 
   id: -> "#{@start.id()} -> #{@end.id()}"
 
-  # data: -> {@start, @end}
-
 module.exports = Edge
