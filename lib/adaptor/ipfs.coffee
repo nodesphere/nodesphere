@@ -1,28 +1,41 @@
 { json, log, p, pjson } = require 'lightsaber'
 { find, isEmpty, unique, values } = require 'lodash'
 Promise = require 'bluebird'
-ipfsAPI = require 'ipfs-api'
+ipfsApi = require 'ipfs-api'
 
 Node = require '../core/node'
 Edge = require '../core/edge'
 
-class IPFS
-  constructor: (args)->
-    {host, port} = args if args?
-    @ipfs = Promise.promisifyAll if host? and port?
-      ipfsAPI host, port
-    else
-      ipfsAPI()  # Note: host and port are autoconfigured if run from browser
+class ipfsAdaptor
+  @create: (args = {}) ->
+    {host, port} = args
+    host ?= process?.env?.IPFS_HOST
+    port ?= process?.env?.IPFS_PORT
+    if !window? and !host?
+      throw new Error "host must be defined when running outside of a browser"
+    ipfs = Promise.promisifyAll ipfsApi host, port
+    ipfs.versionAsync()
+      .then ->
+        return new ipfsAdaptor {ipfs}
+      # .catch ->
+      #   return null
+
+  constructor: ({@ipfs}) ->
+    unless @ipfs instanceof ipfsApi
+      throw new error "@ipfs is not instanceof ipfsAPI -- try calling .create(...) if you called the constructor directly"
+
+  put: ({content}) ->
+    @ipfs.addAsync new @ipfs.Buffer content
+      .then (items) =>
+        for item in items
+          item.Hash
+      .catch (err) ->
+        console.error err
 
   fetch: ({rootNodeId}) ->
     @ipfs.lsAsync rootNodeId
-    .then (res) =>
-      data = res.Objects[0]  # TODO handle multiple objects
-      for node in data
-        console.log node.Hash
-        console.log 'Links [%d]', node.Links.length
-        node.Links.forEach (link, i) ->
-          console.log '[%d]', i, link
+    .then (response) =>
+      data = response.Objects[0]  # TODO handle multiple objects
       @process {rootNodeId, data}
     .catch (err) ->
       console.error err
@@ -44,4 +57,4 @@ class IPFS
   path: (id) ->
     "/ipfs/#{id}"
 
-module.exports = IPFS
+module.exports = ipfsAdaptor
