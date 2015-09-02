@@ -3,7 +3,9 @@
   "version": "0.4.0-dev",
   "description": "graph interoperability",
   "main": "lib/exports.coffee",
-  "scripts": {},
+  "scripts": {
+    "test": "mocha"
+  },
   "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
   "contributors": [
     "Jack Senechal (https://github.com/jacksenechal)"
@@ -15,13 +17,19 @@
   },
   "dependencies": {
     "bluebird": "^2.9.34",
-    "coffee-script": "^1.8.0",
-    "ipfs-api": "^2.3.0",
+    "coffee-script": "^1.9.3",
+    "ipfs-api": "ipfs/node-ipfs-api",
     "lightsaber": "^0.4.0",
     "lodash": "^3.10.0",
     "xhr": "^2.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "ipfsd-ctl": "^0.3.3",
+    "json-stable-stringify": "^1.0.0",
+    "mocha": "^2.2.5"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:nodesphere/nodesphere.git"
