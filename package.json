@@ -11,10 +11,6 @@
     "Jack Senechal (https://github.com/jacksenechal)"
   ],
   "license": "MIT",
-  "engines": {
-    "node": "0.10.31",
-    "npm": "^2.5"
-  },
   "dependencies": {
     "bluebird": "^2.9.34",
     "coffee-script": "^1.9.3",
