@@ -11,14 +11,12 @@ class ipfsAdaptor
     {host, port} = args
     host ?= process?.env?.IPFS_HOST
     port ?= process?.env?.IPFS_PORT
-    if !window? and !host?
-      throw new Error "host must be defined when running outside of a browser"
+    # if !window? and !host?
+    #   throw new Error "host must be defined when running outside of a browser"
     ipfs = Promise.promisifyAll ipfsApi host, port
     ipfs.versionAsync()
-      .then ->
+      .then =>
         return new ipfsAdaptor {ipfs}
-      # .catch ->
-      #   return null
 
   constructor: ({@ipfs}) ->
     unless @ipfs instanceof ipfsApi
