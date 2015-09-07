@@ -14,7 +14,7 @@ class ipfsAdaptor
     if !window? and !host?
       return Promise.reject "host must be defined when running outside of a browser"
     ipfs = Promise.promisifyAll ipfsApi host, port
-    ipfs.versionAsync()
+    ipfs.commandsAsync()
       .then => return new ipfsAdaptor {ipfs}
 
   constructor: ({@ipfs}) ->
