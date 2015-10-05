@@ -19,7 +19,8 @@ class ipfsAdaptor
 
   constructor: ({@ipfs}) ->
     unless @ipfs instanceof ipfsApi
-      throw new error "@ipfs is not instanceof ipfsAPI -- try calling .create(...) if you called the constructor directly"
+      throw new error "@ipfs is not instanceof ipfsAPI --
+        try calling .create(...) if you called the constructor directly"
 
   put: ({content}) ->
     @ipfs.addAsync new @ipfs.Buffer content
