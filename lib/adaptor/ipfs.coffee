@@ -6,7 +6,7 @@ ipfsApi = require 'ipfs-api'
 Node = require '../core/node'
 Edge = require '../core/edge'
 
-class ipfsAdaptor
+class IpfsAdaptor
   @create: (args = {}) ->
     {host, port} = args
     host ?= process?.env?.IPFS_HOST
@@ -15,7 +15,7 @@ class ipfsAdaptor
       return Promise.reject "host must be defined when running outside of a browser"
     ipfs = Promise.promisifyAll ipfsApi host, port
     ipfs.commandsAsync()
-      .then => return new ipfsAdaptor {ipfs}
+      .then => return new IpfsAdaptor {ipfs}
 
   constructor: ({@ipfs}) ->
     unless @ipfs instanceof ipfsApi
@@ -55,4 +55,4 @@ class ipfsAdaptor
   path: (id) ->
     "/ipfs/#{id}"
 
-module.exports = ipfsAdaptor
+module.exports = IpfsAdaptor
