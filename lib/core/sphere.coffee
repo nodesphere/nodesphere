@@ -28,4 +28,8 @@ class Sphere
     edge = new Edge attrs
     @edges[edge.id()] = edge
 
+  # override this, eg for an adaptor sphere,
+  # which gets its data async
+  load: -> Promise.resolve @
+
 module.exports = Sphere
