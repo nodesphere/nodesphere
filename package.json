@@ -40,5 +40,8 @@
   ],
   "bugs": {
     "url": "https://github.com/nodesphere/nodesphere/issues"
+  },
+  "browserify": {
+    "transform": ["coffeeify"]
   }
 }
