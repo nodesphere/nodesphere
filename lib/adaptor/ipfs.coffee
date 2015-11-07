@@ -50,7 +50,7 @@ class IpfsAdaptor
         ipfsType: link.Type
       nodes.push end
       edges.push new Edge { start, end }
-    {nodes, edges}
+    {nodes, edges, rootNodeId}
 
   path: (id) ->
     "/ipfs/#{id}"
