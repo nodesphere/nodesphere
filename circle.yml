@@ -1,9 +1,3 @@
 machine:
   node:
-    version: stable
-  post:
-    - npm install -g npm@latest
-test:
-  pre:
-    - node -v
-    - npm -v
+    version: 5
