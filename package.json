@@ -14,7 +14,7 @@
   "dependencies": {
     "bluebird": "^2.9.34",
     "coffee-script": "^1.9.3",
-    "ipfs-api": "^2.4.1",
+    "ipfs-api": "^2.7.3",
     "json-stable-stringify": "^1.0.0",
     "lightsaber": "^0.4.0",
     "lodash": "^3.10.0",
@@ -42,6 +42,8 @@
     "url": "https://github.com/nodesphere/nodesphere/issues"
   },
   "browserify": {
-    "transform": ["coffeeify"]
+    "transform": [
+      "coffeeify"
+    ]
   }
 }
