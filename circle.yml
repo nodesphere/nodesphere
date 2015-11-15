@@ -1,3 +1,5 @@
 machine:
   node:
     version: stable
+  post:
+    - npm install -g npm@latest
