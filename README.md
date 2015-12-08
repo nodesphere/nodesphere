@@ -2,7 +2,11 @@
 
 [![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg)](https://travis-ci.org/nodesphere/nodesphere)
 
-> Note: Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
+> Notes:
+>
+> Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
+>
+> Nodesphere had a complete rewrite on a fresh branch with a new history as of v0.4.0.  The older version can be found on the [0.3.x](https://github.com/nodesphere/nodesphere/tree/0.3.x) tree.
 
 ## Objectives
 
