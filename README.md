@@ -1,6 +1,10 @@
 # Nodesphere
 
+[![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg)](https://travis-ci.org/nodesphere/nodesphere)
+
 > Note: Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
+
+## Objectives
 
 Nodesphere is an interchange format for node networks. It has three primary objectives:
 
@@ -17,7 +21,22 @@ Everything we want to share is a graph, which can be seen as a group of knowledg
 We think of this as a "sphere" of nodes; thus the name _nodesphere_.
 Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
 
+## Semantic Crunching
+
+Nodesphere uses semantic crunching technology, which reduces data inputs into their atomic semantic nodes. Regardless of the data source, the important knowledge is digested into an interconnected graph, with appropriate connections between tags, categories, peoples' names, etc.
+
+## Project Genesis
+
+Nodesphere comes from [Enlightened Structure](http://www.enlightenedstructure.net/#/) and [Superluminal ⨕ Systems](http://superluminal.is/).
+
+Nodesphere is being developed primarily in the context of the [Core Network](https://github.com/core-network/core-network) projects.
+
 ## Development  
+
+### Architectural Notes
+
+- Both Nodes and Edges are implemented as _maps_, or sets of key-value pairs.
+- Edges have the special keys `start` and `end` which point to those respective nodes.
 
 ### In the browser
 
@@ -43,8 +62,3 @@ In order to for the IPFS adaptor to run from client side code served by IPFS its
   ]
 }
 ```
-
-## Notes
-
-- Both Nodes and Edges are implemented as _maps_, or sets of key-value pairs.
-- Edges have the special keys `start` and `end` which point to those respective nodes.
