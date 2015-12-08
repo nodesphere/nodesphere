@@ -32,7 +32,6 @@
     "url": "git@github.com:nodesphere/nodesphere.git"
   },
   "keywords": [
-    "blockchain",
     "content-addressable",
     "edge",
     "graph",
