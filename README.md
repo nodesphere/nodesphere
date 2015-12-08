@@ -29,7 +29,7 @@ Nodesphere uses semantic crunching technology, which reduces data inputs into th
 
 Nodesphere comes from [Enlightened Structure](http://www.enlightenedstructure.net/#/) and [Superluminal ⨕ Systems](http://superluminal.is/).
 
-Nodesphere is being developed primarily in the context of the [Core Network](https://github.com/core-network/core-network) projects.
+Nodesphere is being developed primarily in the context of the [Core Network](https://github.com/core-network/core-network) project.
 
 ## Development  
 
