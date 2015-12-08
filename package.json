@@ -12,7 +12,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^2.9.34",
+    "bluebird": "^3.0.6",
     "coffee-script": "^1.10.0",
     "ipfs-api": "jacksenechal/js-ipfs-api#c5085b16de2cd5294113062a0afe27ef2df09f53",
     "json-stable-stringify": "^1.0.0",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
-    "ipfsd-ctl": "^0.3.3",
+    "ipfsd-ctl": "^0.6.3",
     "mocha": "^2.2.5"
   },
   "repository": {
