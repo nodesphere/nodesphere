@@ -1,6 +1,6 @@
 # Nodesphere
 
-[![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg)](https://travis-ci.org/nodesphere/nodesphere)
+[![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg?branch=master)](https://travis-ci.org/nodesphere/nodesphere)
 
 > Notes:
 >
