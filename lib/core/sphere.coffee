@@ -34,4 +34,11 @@ class Sphere
   # which gets its data async
   load: -> Promise.resolve @
 
+  toJson: ->
+    {
+      @id
+      @nodes
+      @edges
+    }
+
 module.exports = Sphere
