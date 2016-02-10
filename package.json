@@ -2,8 +2,12 @@
   "name": "nodesphere",
   "version": "0.4.2",
   "description": "graph interoperability",
-  "main": "lib/exports.coffee",
+  "main": "lib",
   "scripts": {
+    "clean": "rm -rf ./lib/",
+    "compile": "coffee --output lib/ --compile src/",
+    "watch": "coffee --watch --output lib/ --compile src/",
+    "prepublish": "npm run compile",
     "test": "mocha"
   },
   "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",

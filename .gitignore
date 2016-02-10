@@ -1,4 +1,5 @@
 /.env
+/lib/
 /node_modules/
 /tmp/
 .DS_Store

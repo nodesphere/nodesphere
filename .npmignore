@@ -1,5 +1,7 @@
 /.env
 /node_modules/
+/src/
+/test/
 /tmp/
 .DS_Store
 npm-debug.log
