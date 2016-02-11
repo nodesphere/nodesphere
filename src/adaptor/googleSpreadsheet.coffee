@@ -1,4 +1,4 @@
-rest = require 'restler'
+request = require 'request-promise'
 Promise = require 'bluebird'
 lightsaber = require 'lightsaber'
 { log, p } = lightsaber
@@ -34,15 +34,13 @@ class GoogleSpreadsheet
     #   throw new Error "GoogleSpreadsheet#as_sphere expected options.id or options.fixture, got neither"
 
   fetch: ->
-    new Promise (resolve, reject) =>
-      rest.get(@json_url).on 'complete', (result) =>
-        if result instanceof Error
-          throw new Error "Error getting '#{@json_url}': #{result}"  # show result.message and result.stack
-        # else if not startsWith response.headers?['content-type'], 'application/json'
-        #   throw new Error "The expected spreadsheet JSON is not publicly available at:\n#{@json_url}"
-        else
-          # p 222, result
-          resolve @sphere_from result
+    request
+      uri: @json_url
+      json: true
+    .then (result) =>
+      @sphere_from result
+    .catch (error) =>
+      throw new Error "Error getting '#{@json_url}': #{error.stack}"
 
   sphere_from: (spreadsheet) =>
     sphere = new Sphere
