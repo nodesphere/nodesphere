@@ -37,6 +37,7 @@ class GoogleSpreadsheet
     request
       uri: @json_url
       json: true
+    .promise()
     .then (result) =>
       @sphere_from result
     .catch (error) =>
