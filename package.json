@@ -22,7 +22,7 @@
     "json-stable-stringify": "^1.0.0",
     "lightsaber": "^0.4.3",
     "lodash": "^3.10.0",
-    "request-promise": "^2.0.0",
+    "request-promise": "0.4.3",
     "xhr": "^2.0.3"
   },
   "devDependencies": {
