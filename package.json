@@ -10,7 +10,7 @@
     "prepublish": "npm run compile",
     "test": "mocha"
   },
-  "author": "Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
+  "author": "Harlan T Wood (https://github.com/harlantwood)",
   "contributors": [
     "Jack Senechal (https://github.com/jacksenechal)"
   ],
