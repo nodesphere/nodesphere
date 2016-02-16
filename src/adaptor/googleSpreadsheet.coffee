@@ -1,4 +1,4 @@
-request = require 'request-promise'
+request = require 'axios'
 Promise = require 'bluebird'
 lightsaber = require 'lightsaber'
 { log, p } = lightsaber
@@ -35,9 +35,7 @@ class GoogleSpreadsheet
 
   fetch: ->
     request
-      uri: @json_url
-      json: true
-    .promise()
+      url: @json_url
     .then (result) =>
       @sphere_from result
     .catch (error) =>
