@@ -36,8 +36,8 @@ class GoogleSpreadsheet
   fetch: ->
     request
       url: @json_url
-    .then (result) =>
-      @sphere_from result
+    .then (response) =>
+      @sphere_from response.data
     .catch (error) =>
       throw new Error "Error getting '#{@json_url}': #{error.stack}"
 
