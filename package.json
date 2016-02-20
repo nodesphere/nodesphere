@@ -4,6 +4,7 @@
   "description": "graph interoperability",
   "main": "lib",
   "scripts": {
+    "link-all": "npm link",
     "clean": "rm -rf ./lib/",
     "compile": "coffee --output lib/ --compile src/",
     "watch": "coffee --watch --output lib/ --compile src/",
