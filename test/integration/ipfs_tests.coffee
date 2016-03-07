@@ -28,6 +28,7 @@ describe 'IPFS Adaptor', ->
         ipfsAdaptor.create host: ipfsNode.apiAddr
           .then (_adaptor) =>
             adaptor = _adaptor
+            debug 'ipfs adaptor created'
             done()
 
   it 'exists', ->

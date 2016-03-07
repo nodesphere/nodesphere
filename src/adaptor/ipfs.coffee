@@ -13,17 +13,18 @@ class IpfsAdaptor
     port ?= process?.env?.IPFS_PORT
     if !window? and !host?
       return Promise.reject "host must be defined when running outside of a browser"
-    ipfs = Promise.promisifyAll ipfsApi host, port
-    ipfs.commandsAsync()
-      .then => return new IpfsAdaptor {ipfs}
+    ipfs = ipfsApi host, port
+    ipfs.commands()
+      .then =>
+        return new IpfsAdaptor {ipfs}
 
   constructor: ({@ipfs}) ->
-    unless @ipfs instanceof ipfsApi
-      throw new error "@ipfs is not instanceof ipfsAPI --
-        try calling .create(...) if you called the constructor directly"
+    # unless @ipfs instanceof ipfsApi
+    #   throw new Error "@ipfs is not instanceof ipfsAPI --
+    #     try calling .create(...) if you called the constructor directly"
 
   put: ({content}) ->
-    @ipfs.addAsync new @ipfs.Buffer content
+    @ipfs.add new @ipfs.Buffer content
       .then (items) =>
         for item in items
           item.Hash
@@ -31,7 +32,7 @@ class IpfsAdaptor
         console.error err
 
   fetch: ({rootNodeId}) ->
-    @ipfs.lsAsync rootNodeId
+    @ipfs.ls rootNodeId
     .then (response) =>
       data = response.Objects[0]  # TODO handle multiple objects
       @process {rootNodeId, data}
