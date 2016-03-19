@@ -1,13 +1,5 @@
 # Nodesphere
 
-[![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg?branch=master)](https://travis-ci.org/nodesphere/nodesphere)
-
-> Notes:
->
-> Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
->
-> Nodesphere had a complete rewrite on a fresh branch with a new history as of v0.4.0.  The older version can be found on the [0.3.x](https://github.com/nodesphere/nodesphere/tree/0.3.x) tree.
-
 ## Objectives
 
 Nodesphere is an interchange format for node networks. It has three primary objectives:
@@ -35,7 +27,13 @@ Nodesphere comes from [Enlightened Structure](http://www.enlightenedstructure.ne
 
 Nodesphere is being developed primarily in the context of the [Core Network](https://github.com/core-network/core-network) project.
 
-## Development  
+## Development
+
+[![Build Status](https://travis-ci.org/nodesphere/nodesphere.svg?branch=master)](https://travis-ci.org/nodesphere/nodesphere)
+
+> Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
+>
+> Nodesphere had a complete rewrite on a fresh branch with a new history as of v0.4.0.  The older version can be found on the [0.3.x](https://github.com/nodesphere/nodesphere/tree/0.3.x) tree.
 
 ### Architectural Notes
 
