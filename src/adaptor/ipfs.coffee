@@ -7,13 +7,15 @@ Node = require '../core/node'
 Edge = require '../core/edge'
 
 class IpfsAdaptor
-  @create: (args = {}) ->
-    {host, port} = args
+  @create: (options = {}) ->
+    {host, port} = options
+    delete options.host
+    delete options.port
     host ?= process?.env?.IPFS_HOST
     port ?= process?.env?.IPFS_PORT
     if !window? and !host?
       return Promise.reject "host must be defined when running outside of a browser"
-    ipfs = ipfsApi host, port
+    ipfs = ipfsApi host, port, options
     ipfs.commands()
       .then =>
         return new IpfsAdaptor {ipfs}
