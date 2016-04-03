@@ -2,6 +2,7 @@ adaptors =
   Ipfs: require './adaptor/ipfs'
   Json: require './adaptor/json'
   GoogleSpreadsheet: require './adaptor/googleSpreadsheet'
+  Metamaps: require './adaptor/metamaps'
 
 modules =
   Node: require './core/node'
