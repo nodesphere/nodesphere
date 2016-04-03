@@ -30,6 +30,9 @@
 
       metamaps.fetch({domain, mapId})
       .then (function(source) {
+        message.innerHTML += '<br /><br />' +
+          'Retrieved data, printing resulting nodesphere:'
+
         rawData.innerHTML = source.toJson({space: 4})
       })
 
