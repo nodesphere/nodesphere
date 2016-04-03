@@ -11,5 +11,4 @@ Nodesphere =
   adaptors: adaptors
   adaptor: adaptors   # don't break if using old syntax
 
-window?.Nodesphere = Nodesphere
 module.exports = Nodesphere
