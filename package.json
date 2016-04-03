@@ -12,7 +12,7 @@
     "prepublish": "npm run compile",
     "test": "npm run compile && mocha",
     "examples": "npm-run-all build copy-dist-to-examples",
-    "publish": "npm-run-all examples publish:gh-pages publish:gh-pages:notify",
+    "examples:publish": "npm-run-all examples publish:gh-pages publish:gh-pages:notify",
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
     "publish:gh-pages": "gh-pages --dist examples --message 'Update gh-pages [ci skip]'",
     "publish:gh-pages:notify": "echo http://nodesphere.github.io/nodesphere",
