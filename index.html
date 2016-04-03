@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Core Network</title>
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+  </head>
+  <body>
+    <div>
+      <pre id="graph"></pre>
+    </div>
+
+    <script src="../dist/nodesphere.js"></script>
+
+    <script defer="true">
+      Metamaps = Nodesphere.adaptor.Metamaps
+      Ipfs = Nodesphere.adaptor.Ipfs
+
+      domain = 'metamaps.herokuapp.com'
+      mapId = 3
+
+      metamaps = new Metamaps()
+
+      metamaps.fetch({domain, mapId})
+      .then (function(source) {
+        this.source = source
+        graph = document.getElementById('graph')
+        graph.innerHTML = source.toJson({space: 4})
+      })
+
+      // Write map to IPFS:
+      //   return Ipfs.create()
+      // }).then(function(target) {
+      //   return target.put({
+      //     content: this.source.toJson()
+      //   })
+      // }).then(function(ipfsHashes) {
+      //   console.log(ipfsHashes)
+      //   ipfsLink = document.getElementById('ipfsLink')
+      //   ipfsLink.href = "https://ipfs.io/ipfs/" + ipfsHashes[0]
+
+    </script>
+
+  </body>
+</html>
