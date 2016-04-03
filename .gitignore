@@ -1,8 +1,6 @@
-.DS_Store
 /.env
-/dist/
-/examples/nodesphere.js
 /lib/
 /node_modules/
 /tmp/
+.DS_Store
 npm-debug.log
