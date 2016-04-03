@@ -36,8 +36,13 @@ describe 'IPFS Adaptor', ->
   it 'exists', ->
     should.exist adaptor
 
-# TODO: talk to API of disposable IPFS node, or start a real one
-xit 'can fetch an IPFS tree', ->
+  it 'can add a file', ->
+    @timeout 10000
+    adaptor.put content: "Plz add me!\n"
+      .should.eventually.deep.equal ['Qma4hjFTnCasJ8PVp3mZbZK5g2vGDT4LByLJ7m8ciyRFZP']
+
+  # TODO: talk to API of disposable IPFS node, or start a real one
+  xit 'can fetch an IPFS tree', ->
     @timeout 30000
     result = run "#{ipfsNode.exec} init", relaxed: true #quiet: true,
     result = run "#{ipfsNode.exec} add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1"#, quiet: true
@@ -54,8 +59,3 @@ xit 'can fetch an IPFS tree', ->
         "QmfAHGP6WXEEsK75JbnXdQkzXojvmrHLSyqBMxdcndQASU -> QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61"
         "QmfAHGP6WXEEsK75JbnXdQkzXojvmrHLSyqBMxdcndQASU -> QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v"
       ]
-
-  it 'can add a file', ->
-    @timeout 10000
-    adaptor.put content: "Plz add me!\n"
-      .should.eventually.deep.equal ['Qma4hjFTnCasJ8PVp3mZbZK5g2vGDT4LByLJ7m8ciyRFZP']
