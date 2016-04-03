@@ -7,26 +7,30 @@
     <link rel="stylesheet" type="text/css" href="styles/app.css">
   </head>
   <body>
-    <div>
-      <pre id="graph"></pre>
-    </div>
+    <div id="message"></div>
+    <div><pre id="rawData"></pre></div>
 
-    <script src="../dist/nodesphere.js"></script>
+    <script src="nodesphere.js"></script>
 
     <script defer="true">
       Metamaps = Nodesphere.adaptor.Metamaps
       Ipfs = Nodesphere.adaptor.Ipfs
 
+      protocol = 'https://'
       domain = 'metamaps.herokuapp.com'
       mapId = 3
+      url = protocol + domain + '/maps/' + mapId
 
       metamaps = new Metamaps()
+      message = document.getElementById('message')
+      rawData = document.getElementById('rawData')
+
+      message.innerHTML =
+        'Fetching Metamap from <a href="' + url + '">' + url + '</a>...'
 
       metamaps.fetch({domain, mapId})
       .then (function(source) {
-        this.source = source
-        graph = document.getElementById('graph')
-        graph.innerHTML = source.toJson({space: 4})
+        rawData.innerHTML = source.toJson({space: 4})
       })
 
       // Write map to IPFS:
