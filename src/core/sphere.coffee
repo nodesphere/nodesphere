@@ -1,4 +1,4 @@
-{json, p} = require 'lightsaber'
+{pjson, p} = require 'lightsaber'
 
 Node = require './node'
 Edge = require './edge'
@@ -23,10 +23,12 @@ class Sphere
   addNode: (attrs) ->
     node = new Node attrs
     @nodes[node.id()] = node
+    node
 
   addEdge: (attrs) ->
     edge = new Edge attrs
     @edges[edge.id()] = edge
+    edge
 
   getNode: (id) -> @nodes[id]
 

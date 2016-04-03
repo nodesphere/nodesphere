@@ -1,7 +1,7 @@
 { json, log, p, pjson } = require 'lightsaber'
 { defaults, values } = require 'lodash'
 Promise = require 'bluebird'
-xhr = Promise.promisify require 'xhr'
+xhr = Promise.promisify require 'xhr'  # TODO use axios instead, for conistency
 
 Node = require '../core/node'
 Edge = require '../core/edge'

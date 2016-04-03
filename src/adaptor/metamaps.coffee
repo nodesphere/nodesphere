@@ -1,5 +1,6 @@
-Promise = require('bluebird')
-axios = require('axios')
+{ d, pjson } = require 'lightsaber'
+Promise = require 'bluebird'
+axios = require 'axios'
 
 Sphere = require '../core/sphere'
 
@@ -9,7 +10,7 @@ class MetamapsAdaptor
     protocol ?= 'https://'
     canonicalUrl = "#{protocol}#{domain}/api/v1/maps/#{mapId}"
     corsHackUrl =  "#{protocol}cors-anywhere.herokuapp.com/#{domain}/api/v1/maps/#{mapId}"
-    axios.get corsHackUrl
+    axios.get corsHackUrl, headers: {'X-Requested-With': 'XMLHttpRequest'}
     .then (response) ->
       topics = {}
       sphere = new Sphere id: canonicalUrl
@@ -20,7 +21,5 @@ class MetamapsAdaptor
           start: sphere.nodes[synapse.topic1_id]
           end: sphere.nodes[synapse.topic2_id]
       sphere
-    .catch (error) ->
-      throw new Error error
 
 module.exports = MetamapsAdaptor
