@@ -38,7 +38,7 @@ describe 'IPFS Adaptor', ->
 
   it 'can fetch an IPFS tree', ->
     @timeout 30000
-    # result = run "ipfs init", quiet: true, relaxed: true
+    result = run "#{ipfsNode.exec} init", relaxed: true #quiet: true, 
     result = run "#{ipfsNode.exec} add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1"#, quiet: true
     hash = result.output.trim()
     adaptor.fetch rootNodeId: hash
