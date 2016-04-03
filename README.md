@@ -17,9 +17,14 @@ Everything we want to share is a graph, which can be seen as a group of knowledg
 We think of this as a "sphere" of nodes; thus the name _nodesphere_.
 Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
 
-## Semantic Crunching
+## Examples
 
-Nodesphere uses semantic crunching technology, which reduces data inputs into their atomic semantic nodes. Regardless of the data source, the important knowledge is digested into an interconnected graph, with appropriate connections between tags, categories, peoples' names, etc.
+For examples of usage in both Node.js and within a browser, see: https://github.com/nodesphere/nodesphere/tree/master/examples
+
+You can also see example(s) running live in the browser here:
+http://nodesphere.github.io/nodesphere/
+
+These are intentionally written in simple JS directly in the page source.
 
 ## Project Genesis
 
@@ -48,7 +53,7 @@ For example, include this line before all other javascript tags:
 
 <script src="//cdn.polyfill.io/v1/polyfill.min.js"></script>
 
-We build with browserify.  Webpack or similar should work fine too.
+We build with Webpack.  Browserify or similar should work fine too.
 
 ### IPFS
 
