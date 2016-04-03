@@ -36,9 +36,10 @@ describe 'IPFS Adaptor', ->
   it 'exists', ->
     should.exist adaptor
 
-  it 'can fetch an IPFS tree', ->
+# TODO: talk to API of disposable IPFS node, or start a real one
+xit 'can fetch an IPFS tree', ->
     @timeout 30000
-    result = run "#{ipfsNode.exec} init", relaxed: true #quiet: true, 
+    result = run "#{ipfsNode.exec} init", relaxed: true #quiet: true,
     result = run "#{ipfsNode.exec} add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1"#, quiet: true
     hash = result.output.trim()
     adaptor.fetch rootNodeId: hash
