@@ -3,7 +3,7 @@ chai = require 'chai'
 chaiAsPromised = require 'chai-as-promised'
 chai.use chaiAsPromised
 should = chai.should()
-{ json, log, p, pjson, run } = require 'lightsaber'
+{ json, log, d, pjson, run } = require 'lightsaber'
 { keys } = require 'lodash'
 ipfsd = require 'ipfsd-ctl'
 
@@ -37,8 +37,9 @@ describe 'IPFS Adaptor', ->
     should.exist adaptor
 
   it 'can fetch an IPFS tree', ->
-    @timeout 10000
-    result = run "ipfs add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1", quiet: true
+    @timeout 30000
+    # result = run "ipfs init", quiet: true, relaxed: true
+    result = run "#{ipfsNode.exec} add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1"#, quiet: true
     hash = result.output.trim()
     adaptor.fetch rootNodeId: hash
     .then (sphere) =>
