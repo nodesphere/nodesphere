@@ -1,24 +1,20 @@
-{ json, log, p, pjson } = require 'lightsaber'
+{ json, log, d, pjson } = require 'lightsaber'
 { find, isEmpty, unique, values } = require 'lodash'
 Promise = require 'bluebird'
 ipfsApi = require 'ipfs-api'
 
-Node = require '../core/node'
-Edge = require '../core/edge'
+Sphere = require '../../lib/core/sphere'
 
 class IpfsAdaptor
   @create: (options = {}) ->
     {host, port} = options
     delete options.host
     delete options.port
-    host ?= process?.env?.IPFS_HOST
-    port ?= process?.env?.IPFS_PORT
-    if !window? and !host?
-      return Promise.reject "host must be defined when running outside of a browser"
+    host ?= process?.env?.IPFS_API_HOST ? 'localhost'
+    port ?= process?.env?.IPFS_API_PORT ? '5001'
     ipfs = ipfsApi host, port, options
-    ipfs.commands()
-      .then =>
-        return new IpfsAdaptor {ipfs}
+    ipfs.commands()  # hello IPFS server, all good?
+    .then => new IpfsAdaptor {ipfs}
 
   constructor: ({@ipfs}) ->
     # unless @ipfs instanceof ipfsApi
@@ -26,12 +22,13 @@ class IpfsAdaptor
     #     try calling .create(...) if you called the constructor directly"
 
   put: ({content}) ->
-    @ipfs.add new @ipfs.Buffer content
-      .then (items) =>
-        for item in items
-          item.Hash
-      .catch (err) ->
-        console.error err
+    buffer = new @ipfs.Buffer content
+    @ipfs.add buffer
+    .then (items) =>
+      for item in items
+        item.Hash
+    .catch (err) ->
+      console.error err
 
   fetch: ({rootNodeId}) ->
     @ipfs.ls rootNodeId
@@ -42,18 +39,16 @@ class IpfsAdaptor
       console.error err
 
   process: ({rootNodeId, data}) =>
-    start = new Node id: rootNodeId
-    nodes = [start]
-    edges = []
+    sphere = new Sphere
+    start = sphere.addNode id: rootNodeId
     for link in data.Links
-      end = new Node
+      end = sphere.addNode
         id: link.Hash
         name: link.Name
         size: link.Size
         ipfsType: link.Type
-      nodes.push end
-      edges.push new Edge { start, end }
-    {nodes, edges, rootNodeId}
+      sphere.addEdge { start, end }
+    sphere
 
   path: (id) ->
     "/ipfs/#{id}"

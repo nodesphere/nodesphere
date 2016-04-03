@@ -1,12 +1,14 @@
+path = require 'path'
 chai = require 'chai'
 chaiAsPromised = require 'chai-as-promised'
 chai.use chaiAsPromised
 should = chai.should()
-
-{ json, log, p, pjson } = require 'lightsaber'
-
+{ json, log, p, pjson, run } = require 'lightsaber'
+{ keys } = require 'lodash'
 ipfsd = require 'ipfsd-ctl'
+
 ipfsAdaptor = require '../../lib/adaptor/ipfs'
+Sphere = require '../../lib/core/sphere'
 
 DEBUG = 0
 debug = -> log arguments... if DEBUG
@@ -33,6 +35,23 @@ describe 'IPFS Adaptor', ->
 
   it 'exists', ->
     should.exist adaptor
+
+  it 'can fetch an IPFS tree', ->
+    @timeout 10000
+    result = run "ipfs add -r -q #{path.join __dirname, '../fixtures/a'} | tail -n 1", quiet: true
+    hash = result.output.trim()
+    adaptor.fetch rootNodeId: hash
+    .then (sphere) =>
+      sphere.should.be.instanceof Sphere
+      keys(sphere.nodes).sort().should.deep.equal [
+        "QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61"
+        "QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v"
+        "QmfAHGP6WXEEsK75JbnXdQkzXojvmrHLSyqBMxdcndQASU"
+      ]
+      keys(sphere.edges).sort().should.deep.equal [
+        "QmfAHGP6WXEEsK75JbnXdQkzXojvmrHLSyqBMxdcndQASU -> QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61"
+        "QmfAHGP6WXEEsK75JbnXdQkzXojvmrHLSyqBMxdcndQASU -> QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v"
+      ]
 
   it 'can add a file', ->
     @timeout 10000
