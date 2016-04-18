@@ -39,7 +39,7 @@ class GoogleDrive
     sphere
 
   getFiles: promisify (filter, callback) ->
-    gapi.client.load 'drive', 'v2', ->
+    gapi.client.load 'drive', 'v3', ->
       retrievePageOfFiles = (request, result) ->
         request.execute((resp) ->
           result = result.concat resp.items
