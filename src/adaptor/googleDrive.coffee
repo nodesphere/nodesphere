@@ -42,7 +42,7 @@ class GoogleDrive
     gapi.client.load 'drive', 'v3', ->
       retrievePageOfFiles = (request, result) ->
         request.execute((resp) ->
-          result = result.concat resp.items
+          result = result.concat resp.files
           nextPageToken = resp.nextPageToken
           if nextPageToken
             request = gapi.client.drive.files.list
