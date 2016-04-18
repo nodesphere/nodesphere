@@ -15,7 +15,7 @@
     "examples": "npm-run-all build copy-dist-to-examples",
     "examples:publish": "npm-run-all examples publish:gh-pages publish:gh-pages:notify",
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
-    "publish:gh-pages": "gh-pages --dist examples --message 'Update gh-pages [ci skip]'",
+    "ghp": "gh-pages --dist examples --message 'Update gh-pages [ci skip]'",
     "publish:gh-pages:notify": "echo http://nodesphere.github.io/nodesphere",
     "ipfs": "open https://v04x.ipfs.io/ipfs/`ipfs add -r -q examples | tail -n 1`"
   },
