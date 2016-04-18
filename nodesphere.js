@@ -56008,7 +56008,10 @@ var Nodesphere =
 	      retrievePageOfFiles = function(request, result) {
 	        return request.execute(function(resp) {
 	          var nextPageToken;
-	          result = result.concat(resp.items);
+	          d({
+	            resp: resp
+	          });
+	          result = result.concat(resp.files);
 	          nextPageToken = resp.nextPageToken;
 	          if (nextPageToken) {
 	            request = gapi.client.drive.files.list({
@@ -56017,6 +56020,9 @@ var Nodesphere =
 	            });
 	            return retrievePageOfFiles(request, result);
 	          } else {
+	            d({
+	              result: result
+	            });
 	            return callback(null, result);
 	          }
 	        });

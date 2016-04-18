@@ -36,9 +36,7 @@
         }).then (function(sphere) {
           message.innerHTML += '<br /><br />' +
             'Retrieved data, printing resulting nodesphere:'
-
           rawData.innerHTML = sphere.toJson({space: 4})
-          console.log(sphere.toJson({space: 4}))
         }).catch (function(error) {
           console.error(error)
         })
