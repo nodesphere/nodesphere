@@ -21,8 +21,7 @@
       message.innerHTML =
         'Fetching from IPFS...'
 
-      // Ipfs.create({protocol: 'https', host: 'v04x.ipfs.io', port: 443})
-      Ipfs.create()
+      Ipfs.create({protocol: 'http', host: 'v04x.ipfs.io', port: 80})
       .then(function(ipfs) {
         return ipfs.fetch({rootNodeId: 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'})
       }).then(function(sphere) {
