@@ -18,15 +18,14 @@
       GDRIVE_CLIENT_ID = '240536525529-mgoi35jr7ead3ks85q1m5dr2jcsq0v3o.apps.googleusercontent.com'
 
       DEMO_GDRIVE_FOLDER = '0B3Va7rwgRKG2d3EwU0NFOURxUTg'
+      folderId = window.location.hash.slice(1) || DEMO_GDRIVE_FOLDER
 
-      url = 'https://drive.google.com/drive/u/0/folders/' + DEMO_GDRIVE_FOLDER
+      url = 'https://drive.google.com/drive/u/0/folders/' + folderId
       message.innerHTML =
         'Fetching Google Drive folder from <a href="' + url + '">' + url + '</a>...'
 
       window.nodesphere_load_google_drive_folder = function () {
         GoogleDrive = Nodesphere.adaptors.GoogleDrive
-
-        folderId = window.location.hash.slice(1) || DEMO_GDRIVE_FOLDER
 
         GoogleDrive.create({client_id: GDRIVE_CLIENT_ID})
         .then(function(source) {
