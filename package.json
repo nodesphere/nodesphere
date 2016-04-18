@@ -10,6 +10,7 @@
     "compile": "coffee --output lib/ --compile src/",
     "watch": "coffee --watch --output lib/ --compile src/",
     "prepublish": "npm run compile",
+    "shipit": "npm test && git push origin head",
     "test": "npm run compile && mocha",
     "examples": "npm-run-all build copy-dist-to-examples",
     "examples:publish": "npm-run-all examples publish:gh-pages publish:gh-pages:notify",
