@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Nodesphere Demo</title>
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+  </head>
+  <body>
+    <div id="message"></div>
+    <div><pre id="rawData"></pre></div>
+
+    <script src="nodesphere.js"></script>
+
+    <script defer="true">
+      window.nodesphere_load_google_drive_folder = function () {
+        GoogleDrive = Nodesphere.adaptors.GoogleDrive
+
+        DEMO_GDRIVE_FOLDER = '0B3Va7rwgRKG2d3EwU0NFOURxUTg'
+        GDRIVE_CLIENT_ID = '829454621038-tifclohqb9bp5ujnoiocefjalubs0umf.apps.googleusercontent.com'
+
+        folderId = window.location.hash.slice(1) || DEMO_GDRIVE_FOLDER
+
+        GoogleDrive.create({client_id: GDRIVE_CLIENT_ID})
+        .then(function(source) {
+          return source.fetch({
+            rootNodeId: folderId
+          })
+        }).then (function(sphere) {
+          message.innerHTML += '<br /><br />' +
+            'Retrieved data, printing resulting nodesphere:'
+
+          rawData.innerHTML = sphere.toJson({space: 4})
+          console.log(sphere.toJson({space: 4}))
+        }).catch (function(error) {
+          console.error(error)
+        })
+      }
+    </script>
+
+    <script src="https://apis.google.com/js/client.js?onload=nodesphere_load_google_drive_folder"></script>
+
+  </body>
+</html>

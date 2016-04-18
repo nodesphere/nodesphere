@@ -31,6 +31,7 @@
     "json-stable-stringify": "^1.0.0",
     "lightsaber": "^0.5.1",
     "lodash": "^3.10.0",
+    "native-promisify-if-present": "^1.0.1",
     "xhr": "^2.0.3"
   },
   "devDependencies": {
