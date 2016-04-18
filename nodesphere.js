@@ -57,14 +57,15 @@ var Nodesphere =
 	adaptors = {
 	  Ipfs: __webpack_require__(2),
 	  Json: __webpack_require__(408),
-	  GoogleSpreadsheet: __webpack_require__(418),
-	  Metamaps: __webpack_require__(437)
+	  GoogleDrive: __webpack_require__(418),
+	  GoogleSpreadsheet: __webpack_require__(421),
+	  Metamaps: __webpack_require__(439)
 	};
 
 	Nodesphere = {
 	  Node: __webpack_require__(416),
 	  Edge: __webpack_require__(417),
-	  Sphere: __webpack_require__(436),
+	  Sphere: __webpack_require__(420),
 	  adaptors: adaptors,
 	  adaptor: adaptors
 	};
@@ -55926,10 +55927,247 @@ var Nodesphere =
 /* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var GoogleDrive, Sphere, _, d, defaults, promisify,
+	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+	d = __webpack_require__(4).d;
+
+	defaults = (_ = __webpack_require__(5)).defaults;
+
+	promisify = __webpack_require__(419);
+
+	Sphere = __webpack_require__(420);
+
+	GoogleDrive = (function() {
+	  function GoogleDrive() {
+	    this.toSphere = bind(this.toSphere, this);
+	  }
+
+	  GoogleDrive.create = promisify(function(args, callback) {
+	    if (typeof gapi === "undefined" || gapi === null) {
+	      callback("Google API (global 'gapi' object) not found.  See: https://developers.google.com/drive/v3/web/quickstart/js");
+	    }
+	    defaults(args, {
+	      scope: 'https://www.googleapis.com/auth/drive',
+	      immediate: true
+	    });
+	    return gapi.auth.authorize(args, (function(_this) {
+	      return function(authResult) {
+	        return _this.handleAuthResult(authResult, args, callback);
+	      };
+	    })(this));
+	  });
+
+	  GoogleDrive.handleAuthResult = function(authResult, args, callback) {
+	    if (authResult && !authResult.error) {
+	      return callback(null, new GoogleDrive);
+	    } else {
+	      _.assign(args, {
+	        immediate: false
+	      });
+	      return gapi.auth.authorize(args, (function(_this) {
+	        return function(authResult) {
+	          return _this.handleAuthResult(authResult, args, callback);
+	        };
+	      })(this));
+	    }
+	  };
+
+	  GoogleDrive.prototype.fetch = promisify(function(arg, callback) {
+	    var filter, rootNodeId;
+	    rootNodeId = arg.rootNodeId;
+	    filter = "'" + rootNodeId + "' in parents";
+	    return this.getFiles(filter).then((function(_this) {
+	      return function(files) {
+	        var sphere;
+	        sphere = _this.toSphere(rootNodeId, files);
+	        return callback(null, sphere);
+	      };
+	    })(this));
+	  });
+
+	  GoogleDrive.prototype.toSphere = function(rootNodeId, files) {
+	    var file, i, len, root, sphere;
+	    sphere = new Sphere;
+	    root = sphere.addNode({
+	      id: rootNodeId
+	    });
+	    for (i = 0, len = files.length; i < len; i++) {
+	      file = files[i];
+	      sphere.addEdge({
+	        start: root,
+	        end: sphere.addNode(file)
+	      });
+	    }
+	    return sphere;
+	  };
+
+	  GoogleDrive.prototype.getFiles = promisify(function(filter, callback) {
+	    return gapi.client.load('drive', 'v3', function() {
+	      var initialRequest, retrievePageOfFiles;
+	      retrievePageOfFiles = function(request, result) {
+	        return request.execute(function(resp) {
+	          var nextPageToken;
+	          result = result.concat(resp.items);
+	          nextPageToken = resp.nextPageToken;
+	          if (nextPageToken) {
+	            request = gapi.client.drive.files.list({
+	              q: filter,
+	              pageToken: nextPageToken
+	            });
+	            return retrievePageOfFiles(request, result);
+	          } else {
+	            return callback(null, result);
+	          }
+	        });
+	      };
+	      initialRequest = gapi.client.drive.files.list({
+	        'q': filter
+	      });
+	      return retrievePageOfFiles(initialRequest, []);
+	    });
+	  });
+
+	  return GoogleDrive;
+
+	})();
+
+	module.exports = GoogleDrive;
+
+
+/***/ },
+/* 419 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {var isFunc = __webpack_require__(412)
+	var slice = Array.prototype.slice
+	var Promise
+
+	if (typeof window !== 'undefined') {
+	  Promise = window.Promise
+	}
+	if (typeof global !== 'undefined') {
+	  Promise = global.Promise
+	}
+
+	module.exports = function promisify (func) {
+	  if (Promise) {
+	    return function () {
+	      var args = slice.call(arguments)
+	      var ctx = this
+	      if (isFunc(args.slice(-1))) {
+	        return func.apply(ctx, args)
+	      } else {
+	        return new Promise(function (resolve, reject) {
+	          args.push(function (err, result) {
+	            if (err) {
+	              reject(err)
+	            } else {
+	              resolve.apply(this, slice.call(arguments, 1))
+	            }
+	          })
+	          func.apply(ctx, args)
+	        })
+	      }
+	    }
+	  } else {
+	    return func
+	  }
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 420 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Edge, Node, Sphere, p, pjson, ref;
+
+	ref = __webpack_require__(4), pjson = ref.pjson, p = ref.p;
+
+	Node = __webpack_require__(416);
+
+	Edge = __webpack_require__(417);
+
+	Sphere = (function() {
+	  function Sphere(args) {
+	    this.id = (args != null ? args.id : void 0) || Node.randomKey();
+	    this.nodes = {};
+	    this.edges = {};
+	  }
+
+	  Sphere.prototype.attr = function(predicate, object) {
+	    return this.triple(this.id, predicate, object);
+	  };
+
+	  Sphere.prototype.triple = function(subject, predicate, object) {
+	    return this.addEdge({
+	      start: this.addNode({
+	        name: subject
+	      }),
+	      end: this.addNode({
+	        name: object
+	      }),
+	      data: {
+	        name: predicate
+	      }
+	    });
+	  };
+
+	  Sphere.prototype.addNode = function(attrs) {
+	    var node;
+	    node = new Node(attrs);
+	    this.nodes[node.id()] = node;
+	    return node;
+	  };
+
+	  Sphere.prototype.addEdge = function(attrs) {
+	    var edge;
+	    edge = new Edge(attrs);
+	    this.edges[edge.id()] = edge;
+	    return edge;
+	  };
+
+	  Sphere.prototype.getNode = function(id) {
+	    return this.nodes[id];
+	  };
+
+	  Sphere.prototype.load = function() {
+	    return Promise.resolve(this);
+	  };
+
+	  Sphere.prototype.toJson = function(args) {
+	    var replacer, space;
+	    if (args == null) {
+	      args = {};
+	    }
+	    replacer = args.replacer, space = args.space;
+	    return JSON.stringify(this.data(), replacer, space);
+	  };
+
+	  Sphere.prototype.data = function() {
+	    return {
+	      id: this.id,
+	      nodes: this.nodes,
+	      edges: this.edges
+	    };
+	  };
+
+	  return Sphere;
+
+	})();
+
+	module.exports = Sphere;
+
+
+/***/ },
+/* 421 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var GoogleSpreadsheet, Promise, Sphere, lightsaber, log, p, request, startsWith,
 	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-	request = __webpack_require__(419);
+	request = __webpack_require__(422);
 
 	Promise = __webpack_require__(54);
 
@@ -55939,7 +56177,7 @@ var Nodesphere =
 
 	startsWith = __webpack_require__(5).startsWith;
 
-	Sphere = __webpack_require__(436);
+	Sphere = __webpack_require__(420);
 
 	GoogleSpreadsheet = (function() {
 	  var URL_PATTERN;
@@ -56048,25 +56286,25 @@ var Nodesphere =
 
 
 /***/ },
-/* 419 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(420);
+	module.exports = __webpack_require__(423);
 
 /***/ },
-/* 420 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(421);
-	var utils = __webpack_require__(422);
-	var dispatchRequest = __webpack_require__(423);
-	var InterceptorManager = __webpack_require__(431);
-	var isAbsoluteURL = __webpack_require__(432);
-	var combineURLs = __webpack_require__(433);
-	var bind = __webpack_require__(434);
-	var transformData = __webpack_require__(427);
+	var defaults = __webpack_require__(424);
+	var utils = __webpack_require__(425);
+	var dispatchRequest = __webpack_require__(426);
+	var InterceptorManager = __webpack_require__(434);
+	var isAbsoluteURL = __webpack_require__(435);
+	var combineURLs = __webpack_require__(436);
+	var bind = __webpack_require__(437);
+	var transformData = __webpack_require__(430);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -56149,7 +56387,7 @@ var Nodesphere =
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(435);
+	axios.spread = __webpack_require__(438);
 
 	// Expose interceptors
 	axios.interceptors = defaultInstance.interceptors;
@@ -56180,12 +56418,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 421 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -56249,7 +56487,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 422 */
+/* 425 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -56499,7 +56737,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 423 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -56521,10 +56759,10 @@ var Nodesphere =
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(424);
+	        adapter = __webpack_require__(427);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(424);
+	        adapter = __webpack_require__(427);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -56540,17 +56778,17 @@ var Nodesphere =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 424 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
-	var buildURL = __webpack_require__(425);
-	var parseHeaders = __webpack_require__(426);
-	var transformData = __webpack_require__(427);
-	var isURLSameOrigin = __webpack_require__(428);
-	var btoa = window.btoa || __webpack_require__(429);
+	var utils = __webpack_require__(425);
+	var buildURL = __webpack_require__(428);
+	var parseHeaders = __webpack_require__(429);
+	var transformData = __webpack_require__(430);
+	var isURLSameOrigin = __webpack_require__(431);
+	var btoa = window.btoa || __webpack_require__(432);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -56625,7 +56863,7 @@ var Nodesphere =
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(430);
+	    var cookies = __webpack_require__(433);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -56676,12 +56914,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 425 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -56749,12 +56987,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 426 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	/**
 	 * Parse headers into an object
@@ -56792,12 +57030,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 427 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	/**
 	 * Transform the data for a request or a response
@@ -56818,12 +57056,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 428 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -56892,7 +57130,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 429 */
+/* 432 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -56934,12 +57172,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 430 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -56993,12 +57231,12 @@ var Nodesphere =
 
 
 /***/ },
-/* 431 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(422);
+	var utils = __webpack_require__(425);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -57051,7 +57289,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 432 */
+/* 435 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -57071,7 +57309,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 433 */
+/* 436 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -57089,7 +57327,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 434 */
+/* 437 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -57106,7 +57344,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 435 */
+/* 438 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -57139,90 +57377,7 @@ var Nodesphere =
 
 
 /***/ },
-/* 436 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Edge, Node, Sphere, p, pjson, ref;
-
-	ref = __webpack_require__(4), pjson = ref.pjson, p = ref.p;
-
-	Node = __webpack_require__(416);
-
-	Edge = __webpack_require__(417);
-
-	Sphere = (function() {
-	  function Sphere(args) {
-	    this.id = (args != null ? args.id : void 0) || Node.randomKey();
-	    this.nodes = {};
-	    this.edges = {};
-	  }
-
-	  Sphere.prototype.attr = function(predicate, object) {
-	    return this.triple(this.id, predicate, object);
-	  };
-
-	  Sphere.prototype.triple = function(subject, predicate, object) {
-	    return this.addEdge({
-	      start: this.addNode({
-	        name: subject
-	      }),
-	      end: this.addNode({
-	        name: object
-	      }),
-	      data: {
-	        name: predicate
-	      }
-	    });
-	  };
-
-	  Sphere.prototype.addNode = function(attrs) {
-	    var node;
-	    node = new Node(attrs);
-	    this.nodes[node.id()] = node;
-	    return node;
-	  };
-
-	  Sphere.prototype.addEdge = function(attrs) {
-	    var edge;
-	    edge = new Edge(attrs);
-	    this.edges[edge.id()] = edge;
-	    return edge;
-	  };
-
-	  Sphere.prototype.getNode = function(id) {
-	    return this.nodes[id];
-	  };
-
-	  Sphere.prototype.load = function() {
-	    return Promise.resolve(this);
-	  };
-
-	  Sphere.prototype.toJson = function(args) {
-	    var replacer, space;
-	    if (args == null) {
-	      args = {};
-	    }
-	    replacer = args.replacer, space = args.space;
-	    return JSON.stringify(this.data(), replacer, space);
-	  };
-
-	  Sphere.prototype.data = function() {
-	    return {
-	      id: this.id,
-	      nodes: this.nodes,
-	      edges: this.edges
-	    };
-	  };
-
-	  return Sphere;
-
-	})();
-
-	module.exports = Sphere;
-
-
-/***/ },
-/* 437 */
+/* 439 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var MetamapsAdaptor, Promise, Sphere, axios, d, pjson, ref;
@@ -57231,9 +57386,9 @@ var Nodesphere =
 
 	Promise = __webpack_require__(54);
 
-	axios = __webpack_require__(419);
+	axios = __webpack_require__(422);
 
-	Sphere = __webpack_require__(436);
+	Sphere = __webpack_require__(420);
 
 	MetamapsAdaptor = (function() {
 	  function MetamapsAdaptor() {}
