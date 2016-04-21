@@ -14,18 +14,18 @@
 
     <script defer="true">
       // to run from localhost, use http://localhost:8080
-      // for another domain, create a new client ID here: https://console.developers.google.com/
-      GDRIVE_CLIENT_ID = '240536525529-mgoi35jr7ead3ks85q1m5dr2jcsq0v3o.apps.googleusercontent.com'
+      // to run from another domain, create a new client ID here: https://console.developers.google.com/
+      var GDRIVE_CLIENT_ID = '240536525529-mgoi35jr7ead3ks85q1m5dr2jcsq0v3o.apps.googleusercontent.com'
 
-      DEMO_GDRIVE_FOLDER = '0B3Va7rwgRKG2d3EwU0NFOURxUTg'
-      folderId = window.location.hash.slice(1) || DEMO_GDRIVE_FOLDER
+      var DEMO_GDRIVE_FOLDER = '0B3Va7rwgRKG2d3EwU0NFOURxUTg'
+      var folderId = window.location.hash.slice(1) || DEMO_GDRIVE_FOLDER
 
-      url = 'https://drive.google.com/drive/u/0/folders/' + folderId
+      var url = 'https://drive.google.com/drive/u/0/folders/' + folderId
       message.innerHTML =
         'Fetching Google Drive folder from <a href="' + url + '">' + url + '</a>...'
 
-      window.nodesphere_load_google_drive_folder = function () {
-        GoogleDrive = Nodesphere.adaptors.GoogleDrive
+      window.loadGoogleDriveFolder = function () {
+        var GoogleDrive = Nodesphere.adaptors.GoogleDrive
 
         GoogleDrive.create({client_id: GDRIVE_CLIENT_ID})
         .then(function(source) {
@@ -37,12 +37,12 @@
             'Retrieved data, printing resulting nodesphere:'
           rawData.innerHTML = sphere.toJson({space: 4})
         }).catch (function(error) {
-          console.error(error)
+          console.error('ERROR: ' + error)
         })
       }
     </script>
 
-    <script src="https://apis.google.com/js/client.js?onload=nodesphere_load_google_drive_folder"></script>
+    <script src="//apis.google.com/js/client.js?onload=loadGoogleDriveFolder"></script>
 
   </body>
 </html>
