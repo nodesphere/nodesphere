@@ -26,8 +26,18 @@ class GoogleDrive
   fetch: promisify ({rootNodeId}, callback)->
     filter = "'#{rootNodeId}' in parents" # only finds files *directly* in this folder (not in subfolders)
     @getFiles(filter).then (files) =>
+      @addMetadata files
       sphere = @toSphere rootNodeId, files
       callback null, sphere
+
+  addMetadata: (files) ->
+    for file in files
+      if file.id? and not file.viewUrl?
+        file.viewUrl ?= "http://drive.google.com/uc?export=view&id=#{file.id}"
+      if file.id? and not file.downloadUrl?
+        file.downloadUrl ?= "http://drive.google.com/uc?export=download&id=#{file.id}"
+      if file.id? and file.mimeType.startsWith('image/') and not file.thumbnailUrl?
+        file.thumbnailUrl ?= "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=#{file.id}"
 
   toSphere: (rootNodeId, files) =>
     sphere = new Sphere
@@ -40,9 +50,9 @@ class GoogleDrive
 
   getFiles: promisify (filter, callback) ->
     gapi.client.load 'drive', 'v3', ->
-      retrievePageOfFiles = (request, result) ->
+      retrievePageOfFiles = (request, files) ->
         request.execute((resp) ->
-          result = result.concat resp.files
+          files = files.concat resp.files
           nextPageToken = resp.nextPageToken
           if nextPageToken
             request = gapi.client.drive.files.list
@@ -50,10 +60,9 @@ class GoogleDrive
               pageToken: nextPageToken
             retrievePageOfFiles request, result
           else
-            callback null, result
+            callback null, files
         )
-      initialRequest = gapi.client.drive.files.list 'q': filter
-
+      initialRequest = gapi.client.drive.files.list q: filter
       retrievePageOfFiles initialRequest, []
 
   # ####################################################################
