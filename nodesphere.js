@@ -55980,11 +55980,36 @@ var Nodesphere =
 	    return this.getFiles(filter).then((function(_this) {
 	      return function(files) {
 	        var sphere;
+	        _this.addMetadata(files);
 	        sphere = _this.toSphere(rootNodeId, files);
 	        return callback(null, sphere);
 	      };
 	    })(this));
 	  });
+
+	  GoogleDrive.prototype.addMetadata = function(files) {
+	    var file, i, len, results;
+	    results = [];
+	    for (i = 0, len = files.length; i < len; i++) {
+	      file = files[i];
+	      if ((file.id != null) && (file.viewUrl == null)) {
+	        if (file.viewUrl == null) {
+	          file.viewUrl = "http://drive.google.com/uc?export=view&id=" + file.id;
+	        }
+	      }
+	      if ((file.id != null) && (file.downloadUrl == null)) {
+	        if (file.downloadUrl == null) {
+	          file.downloadUrl = "http://drive.google.com/uc?export=download&id=" + file.id;
+	        }
+	      }
+	      if ((file.id != null) && file.mimeType.startsWith('image/') && (file.thumbnailUrl == null)) {
+	        results.push(file.thumbnailUrl != null ? file.thumbnailUrl : file.thumbnailUrl = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id);
+	      } else {
+	        results.push(void 0);
+	      }
+	    }
+	    return results;
+	  };
 
 	  GoogleDrive.prototype.toSphere = function(rootNodeId, files) {
 	    var file, i, len, root, sphere;
@@ -56005,13 +56030,10 @@ var Nodesphere =
 	  GoogleDrive.prototype.getFiles = promisify(function(filter, callback) {
 	    return gapi.client.load('drive', 'v3', function() {
 	      var initialRequest, retrievePageOfFiles;
-	      retrievePageOfFiles = function(request, result) {
+	      retrievePageOfFiles = function(request, files) {
 	        return request.execute(function(resp) {
 	          var nextPageToken;
-	          d({
-	            resp: resp
-	          });
-	          result = result.concat(resp.files);
+	          files = files.concat(resp.files);
 	          nextPageToken = resp.nextPageToken;
 	          if (nextPageToken) {
 	            request = gapi.client.drive.files.list({
@@ -56020,15 +56042,12 @@ var Nodesphere =
 	            });
 	            return retrievePageOfFiles(request, result);
 	          } else {
-	            d({
-	              result: result
-	            });
-	            return callback(null, result);
+	            return callback(null, files);
 	          }
 	        });
 	      };
 	      initialRequest = gapi.client.drive.files.list({
-	        'q': filter
+	        q: filter
 	      });
 	      return retrievePageOfFiles(initialRequest, []);
 	    });
