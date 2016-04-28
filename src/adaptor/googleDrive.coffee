@@ -11,7 +11,7 @@ class GoogleDrive
       callback "Google API (global 'gapi' object) not found.  See: https://developers.google.com/drive/v3/web/quickstart/js"
 
     defaults args,
-      scope: 'https://www.googleapis.com/auth/drive'
+      scope: 'https://www.googleapis.com/auth/drive.readonly'
       immediate: true
 
     gapi.auth.authorize args, (authResult) => @handleAuthResult(authResult, args, callback)
@@ -32,12 +32,7 @@ class GoogleDrive
 
   addMetadata: (files) ->
     for file in files
-      if file.id? and not file.viewUrl?
-        file.viewUrl ?= "http://drive.google.com/uc?export=view&id=#{file.id}"
-      if file.id? and not file.downloadUrl?
-        file.downloadUrl ?= "http://drive.google.com/uc?export=download&id=#{file.id}"
-      if file.id? and file.mimeType.startsWith('image/') and not file.thumbnailUrl?
-        file.thumbnailUrl ?= "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=#{file.id}"
+      file.exifOrFileCreated ?= file.imageMediaMetadata?.time ? file.createdTime
 
   toSphere: (rootNodeId, files) =>
     sphere = new Sphere
@@ -48,22 +43,21 @@ class GoogleDrive
         end: sphere.addNode(file)
     sphere
 
-  getFiles: promisify (filter, callback) ->
-    gapi.client.load 'drive', 'v3', ->
-      retrievePageOfFiles = (request, files) ->
-        request.execute((resp) ->
-          files = files.concat resp.files
-          nextPageToken = resp.nextPageToken
-          if nextPageToken
-            request = gapi.client.drive.files.list
-              q: filter
-              pageToken: nextPageToken
-            retrievePageOfFiles request, result
-          else
-            callback null, files
-        )
-      initialRequest = gapi.client.drive.files.list q: filter
-      retrievePageOfFiles initialRequest, []
+  getFiles: (filter, allFiles=[], nextPageToken=null) ->
+    gapi.client.request
+      path: "drive/v3/files"
+      params:
+        q: filter
+        pageToken: nextPageToken
+        fields: 'files,kind,nextPageToken'
+        pageSize: 1000
+    .then (response) =>
+      {result: {files, nextPageToken}} = response
+      allFiles.push files...
+      if nextPageToken
+        @getFiles filter, allFiles, nextPageToken
+      else
+        allFiles
 
   # ####################################################################
   # # Filename utilities
