@@ -40,15 +40,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: "json-loader"
-      },
-      {
-        test: /\.js$/,
-        include: /node_modules\/(ipfs-*|wreck)/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015'],
-          plugins: ['transform-runtime']
-        }
       }
     ]
   },
