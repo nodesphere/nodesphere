@@ -55948,7 +55948,7 @@ var Nodesphere =
 	      callback("Google API (global 'gapi' object) not found.  See: https://developers.google.com/drive/v3/web/quickstart/js");
 	    }
 	    defaults(args, {
-	      scope: 'https://www.googleapis.com/auth/drive',
+	      scope: 'https://www.googleapis.com/auth/drive.readonly',
 	      immediate: true
 	    });
 	    return gapi.auth.authorize(args, (function(_this) {
@@ -55988,25 +55988,11 @@ var Nodesphere =
 	  });
 
 	  GoogleDrive.prototype.addMetadata = function(files) {
-	    var file, i, len, results;
+	    var file, i, len, ref, ref1, results;
 	    results = [];
 	    for (i = 0, len = files.length; i < len; i++) {
 	      file = files[i];
-	      if ((file.id != null) && (file.viewUrl == null)) {
-	        if (file.viewUrl == null) {
-	          file.viewUrl = "http://drive.google.com/uc?export=view&id=" + file.id;
-	        }
-	      }
-	      if ((file.id != null) && (file.downloadUrl == null)) {
-	        if (file.downloadUrl == null) {
-	          file.downloadUrl = "http://drive.google.com/uc?export=download&id=" + file.id;
-	        }
-	      }
-	      if ((file.id != null) && file.mimeType.startsWith('image/') && (file.thumbnailUrl == null)) {
-	        results.push(file.thumbnailUrl != null ? file.thumbnailUrl : file.thumbnailUrl = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id);
-	      } else {
-	        results.push(void 0);
-	      }
+	      results.push(file.exifOrFileCreated != null ? file.exifOrFileCreated : file.exifOrFileCreated = (ref = (ref1 = file.imageMediaMetadata) != null ? ref1.time : void 0) != null ? ref : file.createdTime);
 	    }
 	    return results;
 	  };
@@ -56027,31 +56013,34 @@ var Nodesphere =
 	    return sphere;
 	  };
 
-	  GoogleDrive.prototype.getFiles = promisify(function(filter, callback) {
-	    return gapi.client.load('drive', 'v3', function() {
-	      var initialRequest, retrievePageOfFiles;
-	      retrievePageOfFiles = function(request, files) {
-	        return request.execute(function(resp) {
-	          var nextPageToken;
-	          files = files.concat(resp.files);
-	          nextPageToken = resp.nextPageToken;
-	          if (nextPageToken) {
-	            request = gapi.client.drive.files.list({
-	              q: filter,
-	              pageToken: nextPageToken
-	            });
-	            return retrievePageOfFiles(request, result);
-	          } else {
-	            return callback(null, files);
-	          }
-	        });
+	  GoogleDrive.prototype.getFiles = function(filter, allFiles, nextPageToken) {
+	    if (allFiles == null) {
+	      allFiles = [];
+	    }
+	    if (nextPageToken == null) {
+	      nextPageToken = null;
+	    }
+	    return gapi.client.request({
+	      path: "drive/v3/files",
+	      params: {
+	        q: filter,
+	        pageToken: nextPageToken,
+	        fields: 'files,kind,nextPageToken',
+	        pageSize: 1000
+	      }
+	    }).then((function(_this) {
+	      return function(response) {
+	        var files, ref;
+	        ref = response.result, files = ref.files, nextPageToken = ref.nextPageToken;
+	        allFiles.push.apply(allFiles, files);
+	        if (nextPageToken) {
+	          return _this.getFiles(filter, allFiles, nextPageToken);
+	        } else {
+	          return allFiles;
+	        }
 	      };
-	      initialRequest = gapi.client.drive.files.list({
-	        q: filter
-	      });
-	      return retrievePageOfFiles(initialRequest, []);
-	    });
-	  });
+	    })(this));
+	  };
 
 	  return GoogleDrive;
 
