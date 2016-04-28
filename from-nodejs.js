@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-d = require('lightsaber').d
+d = require('lightsaber/lib/log').d
 
 Nodesphere = require('..')
 Metamaps = Nodesphere.adaptor.Metamaps
