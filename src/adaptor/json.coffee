@@ -1,4 +1,4 @@
-{ json, log, p, pjson } = require 'lightsaber'
+{ json, log, p, pjson } = require 'lightsaber/lib/log'
 { defaults, values } = require 'lodash'
 Promise = require 'bluebird'
 xhr = Promise.promisify require 'xhr'  # TODO use axios instead, for conistency

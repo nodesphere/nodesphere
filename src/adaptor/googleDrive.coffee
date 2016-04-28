@@ -1,4 +1,4 @@
-{d} = require 'lightsaber'
+{d} = require 'lightsaber/lib/log'
 {defaults} = _ = require 'lodash'
 promisify = require 'native-promisify-if-present'
 

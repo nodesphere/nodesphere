@@ -1,4 +1,4 @@
-{ json, log, d, pjson } = require 'lightsaber'
+{ json, log, d, pjson } = require 'lightsaber/lib/log'
 { find, isEmpty, unique, values } = require 'lodash'
 Promise = require 'bluebird'
 ipfsApi = require 'ipfs-api'

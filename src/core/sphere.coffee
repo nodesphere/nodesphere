@@ -1,4 +1,4 @@
-{pjson, p} = require 'lightsaber'
+{pjson, p} = require 'lightsaber/lib/log'
 
 Node = require './node'
 Edge = require './edge'

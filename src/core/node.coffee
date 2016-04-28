@@ -1,4 +1,5 @@
-{ json, log, p, pjson, sha256 } = require 'lightsaber'
+{ json, log, p, pjson } = require 'lightsaber/lib/log'
+{ sha256 } = require 'lightsaber/lib/hash'
 canonicalJson = require 'json-stable-stringify'
 
 class Node

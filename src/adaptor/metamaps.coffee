@@ -1,4 +1,4 @@
-{ d, pjson } = require 'lightsaber'
+{ d, pjson } = require 'lightsaber/lib/log'
 Promise = require 'bluebird'
 axios = require 'axios'
 

@@ -1,4 +1,4 @@
-{json, p} = require 'lightsaber'
+{json, p} = require 'lightsaber/lib/log'
 
 Node = require './node'
 

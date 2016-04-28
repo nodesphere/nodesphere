@@ -1,7 +1,6 @@
 request = require 'axios'
 Promise = require 'bluebird'
-lightsaber = require 'lightsaber'
-{ log, p } = lightsaber
+{ log, p } = require 'lightsaber/lib/log'
 { startsWith } = require 'lodash'
 
 Sphere = require '../core/sphere'
