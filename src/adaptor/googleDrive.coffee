@@ -32,11 +32,17 @@ class GoogleDrive
 
   addMetadata: (files) ->
     for file in files
+      if file.id? and not file.viewUrl?
+        file.viewUrl ?= "http://drive.google.com/uc?export=view&id=#{file.id}"
+      if file.id? and not file.downloadUrl?
+        file.downloadUrl ?= "http://drive.google.com/uc?export=download&id=#{file.id}"
+      if file.id? and file.mimeType.startsWith('image/') and not file.thumbnailUrl?
+        file.thumbnailUrl ?= "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=#{file.id}"
       file.exifOrFileCreated ?= file.imageMediaMetadata?.time ? file.createdTime
 
   toSphere: (rootNodeId, files) =>
     sphere = new Sphere
-    root = sphere.addNode id: rootNodeId
+    root = sphere.addRootNode id: rootNodeId
     for file in files
       sphere.addEdge
         start: root

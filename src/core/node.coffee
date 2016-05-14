@@ -1,5 +1,6 @@
 { json, log, p, pjson } = require 'lightsaber/lib/log'
 { sha256 } = require 'lightsaber/lib/hash'
+_ = require 'lodash'
 canonicalJson = require 'json-stable-stringify'
 
 class Node
@@ -12,7 +13,7 @@ class Node
 
   name: -> @data.name #or @data.id
 
-  get: (propertyName) -> @data[propertyName]
+  get: (propertyName) -> _.get @data, propertyName
 
   @randomKey = (key_length=88) ->
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, I, or l chars

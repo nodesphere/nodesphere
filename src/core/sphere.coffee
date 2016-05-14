@@ -20,6 +20,10 @@ class Sphere
       data:
         name: predicate
 
+  addRootNode: (attrs) ->
+    @rootNode = addNode attrs
+    @rootNode
+
   addNode: (attrs) ->
     node = new Node attrs
     @nodes[node.id()] = node
