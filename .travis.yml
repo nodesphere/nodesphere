@@ -6,8 +6,9 @@ before_install:
   - npm install -g npm@latest
 
 node_js:
-  - '4'
-  - '5'
+  - 4
+  - 5
+  - 6
   - stable
 
 notifications:
