@@ -1,24 +1,21 @@
 { json, log, p, pjson } = require 'lightsaber/lib/log'
-{ sha256 } = require 'lightsaber/lib/hash'
-_ = require 'lodash'
-canonicalJson = require 'json-stable-stringify'
+{ defaults } = _ = require 'lodash'
 
-class Node
+Identified = require './identified'
 
-  constructor: (@data={}) ->
+class Node extends Identified
 
-  id: -> @data.id ? @hash()
+  constructor: (@_data={}, args={}) ->
+    @setKey args
 
-  hash: -> "sha256-#{sha256 canonicalJson @data}"
+  id: -> @_data.id or @_id
 
-  name: -> @data.name #or @data.id
+  name: -> @_data.name
 
-  get: (propertyName) -> _.get @data, propertyName
+  get: (propertyName) -> _.get @_data, propertyName
 
-  @randomKey = (key_length=88) ->
-    alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, I, or l chars
-    chars = for i in [0...key_length]
-      alphabet[Math.floor Math.random() * 58]
-    chars.join ''
+  set: (propertyName, propertyValue) -> @_data[propertyName] = propertyValue
+
+  data: -> defaults @_data, id: @id()
 
 module.exports = Node

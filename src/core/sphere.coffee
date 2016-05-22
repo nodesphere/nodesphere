@@ -1,17 +1,23 @@
-{pjson, p} = require 'lightsaber/lib/log'
+{pjson, d} = require 'lightsaber/lib/log'
+{ omit } = require 'lodash'
 
 Node = require './node'
 Edge = require './edge'
+Identified = require './identified'
 
-class Sphere
+class Sphere extends Identified
+
+  DEFAULT_KEY_LENGTH: 44
 
   constructor: (args) ->
-    @id = args?.id or Node.randomKey()
+    @setKey args
     @nodes = {}
     @edges = {}
 
+  id: -> @_id
+
   attr: (predicate, object) ->
-    @triple @id, predicate, object
+    @triple @id(), predicate, object
 
   triple: (subject, predicate, object) ->
     @addEdge
@@ -25,7 +31,7 @@ class Sphere
     @rootNode
 
   addNode: (attrs) ->
-    node = new Node attrs
+    node = new Node(attrs, {@keyLength})
     @nodes[node.id()] = node
     node
 
@@ -47,6 +53,23 @@ class Sphere
     {replacer, space} = args
     JSON.stringify @data(), replacer, space
 
-  data: -> { @id, @nodes, @edges }
+  data: ->
+    {
+      id: @id()
+      nodes: @nodesData()
+      edges: @edgesData()
+    }
+
+  nodesData: ->
+    nodesData = {}
+    for key, node of @nodes
+      nodesData[key] = omit node.data(), 'id'
+    nodesData
+
+  edgesData: ->
+    edgesData = {}
+    for key, edge of @edges
+      edgesData[key] = edge.data()
+    edgesData
 
 module.exports = Sphere
