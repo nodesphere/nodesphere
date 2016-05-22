@@ -6,6 +6,9 @@ Sphere = require '../core/sphere'
 
 class MetamapsAdaptor
 
+  @create: (args) ->
+    Promise.resolve new MetamapsAdaptor args
+
   fetch: ({protocol, domain, mapId}) ->
     protocol ?= 'https://'
     canonicalUrl = "#{protocol}#{domain}/api/v1/maps/#{mapId}"
