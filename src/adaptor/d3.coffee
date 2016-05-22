@@ -1,30 +1,39 @@
-{ json, log, p, pjson } = require 'lightsaber/lib/log'
+{ json, log, d, pjson } = require 'lightsaber/lib/log'
 { defaults, values } = require 'lodash'
 Promise = require 'bluebird'
-xhr = Promise.promisify require 'xhr'  # TODO use axios instead, for conistency
+request = require 'axios'
 
 Node = require '../core/node'
 Edge = require '../core/edge'
 
-class JsonAdaptor
-  fetch: ({sourceUri}) ->
-    xhr { uri: sourceUri }
+# This adaptor understands JSON in the graph format
+# used by the D3 toolkit, eg:
+#
+# currently expects data in the format:
+# {
+#   "nodes":[
+#     { "name": "Myriel",             "group":  1 },   // implicit ID 0
+#     { "name": "Napoleon",           "group":  1 },   // implicit ID 1
+#   ]
+#   "links":[
+#     { "source":  1,  "target":  0,  "value":  1 },
+#     { "source":  2,  "target":  0,  "value":  8 },
+#   ]
+# }
+#
+# full example: https://github.com/d3/d3-plugins/blob/d238d9448758f2a2a8a33c4b3a50b809fdcf614b/graph/data/miserables.json
+
+class D3Adaptor
+  @create: (args) ->
+    Promise.resolve new D3Adaptor args
+
+  fetch: (args) ->
+    {url} = args
+    request {url}
       .then @process
       .catch (error) -> throw error
 
-  # currently expects data in the format:
-  # {
-  #   "nodes":[
-  #     {"name":"Myriel","group":1}     // implicit ID 0
-  #     {"name":"Napoleon","group":1}   // implicit ID 1
-  #   ]
-  #   "links":[
-  #     {"source":1,"target":0,"value":1}
-  #     {"source":2,"target":0,"value":8}
-  #   ]
-  # }
-  process: ([res]) =>
-    data = JSON.parse res.body
+  process: ({data}) =>
     nodeMap = {}
     edges = []
     edgesStartingWithNode = {}
@@ -52,4 +61,4 @@ class JsonAdaptor
     nodeMap[id] ?= new Node props
     nodeMap[id]
 
-module.exports = JsonAdaptor
+module.exports = D3Adaptor
