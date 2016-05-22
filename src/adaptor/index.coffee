@@ -4,3 +4,4 @@ module.exports =
   GoogleSpreadsheet: require './googleSpreadsheet'
   Ipfs:              require './ipfs'
   Metamaps:          require './metamaps'
+  Nodesphere:        require './nodesphere'
