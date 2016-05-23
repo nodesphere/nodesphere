@@ -27,7 +27,7 @@ class Sphere extends Identified
         name: predicate
 
   addRootNode: (attrs) ->
-    @rootNode = addNode attrs
+    @rootNode = @addNode attrs
     @rootNode
 
   addNode: (attrs) ->
