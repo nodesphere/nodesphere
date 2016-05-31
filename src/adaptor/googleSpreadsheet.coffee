@@ -1,7 +1,7 @@
 request = require 'axios'
 Promise = require 'bluebird'
 { log, p } = require 'lightsaber/lib/log'
-{ startsWith } = require 'lodash'
+{ camelCase, startsWith } = require 'lodash'
 
 Sphere = require '../core/sphere'
 
@@ -16,9 +16,13 @@ class GoogleSpreadsheet
     Promise.resolve new GoogleSpreadsheet args
 
   constructor: (@options={}) ->
-    @options.id ?= @options.source_gsheet
+    for key, value of @options
+      if key isnt camelCase(key)
+        @options[camelCase(key)] = value
+
+    @options.orientation ?= @options.gsheetOrientation ?= 'columns'   # support legacy option name
+    @options.id ?= @options.gsheetId ?= @options.sourceGsheet         # support legacy option name
     throw new Error "Either ID or URL required" unless @options.url? or @options.id?
-    @options.gsheet_orientation ?= 'columns'
     if @options.url
       @options.id = URL_PATTERN.exec(@options.url)[1]
       throw new Error "Could not parse spreadsheet ID from URL: #{@options.url}" unless @options.id
@@ -55,11 +59,11 @@ class GoogleSpreadsheet
 
     # populate nodes:
     @each_cell spreadsheet, (text, primary_index, secondary_index) =>
-      # primary_header = primary_headers[primary_index]
+      primary_header = primary_headers[primary_index]
       secondary_header = secondary_headers[secondary_index]
 
       if primary_index > 1 and secondary_index > 1
-        sphere.triple primary_headers[primary_index], secondary_header or null, text
+        sphere.triple primary_header, secondary_header or null, text
 
     sphere
 
@@ -69,10 +73,10 @@ class GoogleSpreadsheet
       text = cell.content.$t
       id = cell.id.$t
       [match, row, col] = /R(\d+)C(\d+)$/.exec id  # eg: for row 3, col 2, the ID (a URI) ends in R3C2
-      if @options.gsheet_orientation == 'columns'
+      if @options.orientation == 'columns'
         callback text, Number(col), Number(row)
-      else if @options.gsheet_orientation == 'rows'
+      else if @options.orientation == 'rows'
         callback text, Number(row), Number(col)
-      else throw new Error "Unexpected value for options.gsheet_orientation: '#{@options.gsheet_orientation}'"
+      else throw new Error "Unexpected value for options.orientation: '#{@options.orientation}'"
 
 module.exports = GoogleSpreadsheet
