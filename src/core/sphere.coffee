@@ -1,18 +1,28 @@
-{pjson, d} = require 'lightsaber/lib/log'
-{ omit } = require 'lodash'
+{ pjson, d } = require 'lightsaber/lib/log'
+{ type } = require 'lightsaber/lib/type'
+{ cloneDeep, omit } = require 'lodash'
 
 Node = require './node'
 Edge = require './edge'
-Identified = require './identified'
+Element = require './element'
 
-class Sphere extends Identified
-
+class Sphere extends Element
   DEFAULT_KEY_LENGTH: 44
 
-  constructor: (args) ->
+  @copy: (sphere) ->
+    newSphere = new Sphere
+    for __, node of sphere.nodes
+      newSphere.addNode cloneDeep node.data()
+    for __, edge of sphere.edges
+      newSphere.addEdge cloneDeep edge.data()
+    newSphere
+
+  constructor: (args = {}) ->
     @setKey args
     @nodes = {}
     @edges = {}
+    if args.nodes then @addNodes args.nodes
+    if args.edges then @addEdges args.edges
 
   id: -> @_id
 
@@ -26,17 +36,39 @@ class Sphere extends Identified
       data:
         name: predicate
 
-  addRootNode: (attrs) ->
-    @rootNode = @addNode attrs
+  addNodes: (nodes) ->
+    @addNode(node) for node in nodes
+
+  addRootNode: (data) ->
+    @rootNode = @addNode data
     @rootNode
 
-  addNode: (attrs) ->
-    node = new Node(attrs, {@keyLength})
+  addNode: (data) ->
+    node = if data instanceof Node
+      data
+    else if type(data) is 'string'
+      nodeId = data
+      if @nodes[nodeId]
+        @nodes[nodeId]
+      else
+        new Node({id: nodeId}, {@keyLength})
+    else
+      new Node(data, {@keyLength})
     @nodes[node.id()] = node
     node
 
-  addEdge: (attrs) ->
-    edge = new Edge attrs
+  addEdges: (edges) ->
+    @addEdge(edge) for edge in edges
+
+  addEdge: (params) ->
+    edge = if params instanceof Edge
+      params
+    else
+      { start, end, data } = params
+      new Edge
+        start: @addNode start
+        end: @addNode end
+        data: data
     @edges[edge.id()] = edge
     edge
 
@@ -45,13 +77,6 @@ class Sphere extends Identified
   # override this, eg for an adaptor sphere,
   # which gets its data async
   load: -> Promise.resolve @
-
-  # for pretty printed JSON:
-  # toJson(space: 4)
-  #
-  toJson: (args = {}) ->
-    {replacer, space} = args
-    JSON.stringify @data(), replacer, space
 
   data: ->
     {

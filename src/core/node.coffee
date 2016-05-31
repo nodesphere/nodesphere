@@ -1,21 +1,21 @@
 { json, log, p, pjson } = require 'lightsaber/lib/log'
 { defaults } = _ = require 'lodash'
 
-Identified = require './identified'
+Element = require './element'
 
-class Node extends Identified
+class Node extends Element
 
-  constructor: (@_data={}, args={}) ->
-    @setKey args
+  constructor: (@attrs={}, args={}) ->
+    @setKey @attrs
 
-  id: -> @_data.id or @_id
+  id: -> @attrs.id or @_id
 
-  name: -> @_data.name
+  name: -> @attrs.name
 
-  get: (propertyName) -> _.get @_data, propertyName
+  get: (propertyName) -> _.get @attrs, propertyName
 
-  set: (propertyName, propertyValue) -> @_data[propertyName] = propertyValue
+  set: (propertyName, propertyValue) -> @attrs[propertyName] = propertyValue
 
-  data: -> defaults @_data, id: @id()
+  data: -> defaults @attrs, id: @id()
 
 module.exports = Node
