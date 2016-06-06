@@ -10,7 +10,7 @@ class Node extends Element
 
   id: -> @attrs.id or @_id
 
-  name: -> @attrs.name
+  name: -> @get 'name'
 
   get: (propertyName) -> _.get @attrs, propertyName
 
