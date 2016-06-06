@@ -1,4 +1,5 @@
 {pjson, d} = require 'lightsaber/lib/log'
+_ = require 'lodash'
 
 class Element
 
@@ -23,6 +24,9 @@ class Element
   #
   toJson: (args = {}) ->
     {replacer, space} = args
-    JSON.stringify @data(), replacer, space
+    omit = args.omit
+    data = @data()
+    data = _.omit data, omit if omit
+    JSON.stringify data, replacer, space
 
 module.exports = Element
