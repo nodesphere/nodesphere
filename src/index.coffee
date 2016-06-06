@@ -3,5 +3,5 @@ module.exports =
   Edge:     require './core/edge'
   Sphere:   require './core/sphere'
   adaptors: require './adaptor'
-  adaptor:  require './adaptor'  # don't break if using old style
+  adaptor:  require './adaptor'  # legacy
   algebra:  require './algebra'
