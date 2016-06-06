@@ -12,10 +12,10 @@ class GoogleSpreadsheet
   @understands: (url) ->
     URL_PATTERN.exec(url)?
 
-  @create: (args) ->
-    Promise.resolve new GoogleSpreadsheet args
+  @create: (options = {}) ->
+    Promise.resolve new GoogleSpreadsheet
 
-  constructor: (@options={}) ->
+  fetch: (@options={}) ->
     for key, value of @options
       if key isnt camelCase(key)
         @options[camelCase(key)] = value
@@ -27,16 +27,8 @@ class GoogleSpreadsheet
       @options.id = URL_PATTERN.exec(@options.url)[1]
       throw new Error "Could not parse spreadsheet ID from URL: #{@options.url}" unless @options.id
       @options.url = null
-
     @json_url = "https://spreadsheets.google.com/feeds/cells/#{@options.id}/1/public/basic?alt=json"
-    # @json_url = if @options.id
-    #   "https://spreadsheets.google.com/feeds/cells/#{@options['id']}/1/public/basic?alt=json"
-    # else if @options.fixture
-    #   "/fixtures/#{@options.fixture}.json"
-    # else
-    #   throw new Error "GoogleSpreadsheet#as_sphere expected options.id or options.fixture, got neither"
 
-  fetch: ->
     request
       url: @json_url
     .then (response) =>
