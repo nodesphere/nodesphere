@@ -57,7 +57,6 @@ You can also see examples running live in the browser:
 - http://nodesphere.github.io/nodesphere/gsheet.html
 - http://nodesphere.github.io/nodesphere/gdrive.html
 - http://nodesphere.github.io/nodesphere/metamaps.html
-- http://nodesphere.github.io/nodesphere/nodesphere.html
 
 These are intentionally written in simple JS directly in the page source.
 
