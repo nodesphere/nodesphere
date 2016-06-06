@@ -19,10 +19,45 @@ Nodesphere is designed to help enable the curation, sharing, visualization, and 
 
 ## Examples
 
-For examples of usage in both Node.js and within a browser, see: https://github.com/nodesphere/nodesphere/tree/master/examples
+```javascript
+const nodesphere = require('nodesphere')
+```
 
-You can also see example(s) running live in the browser here:
-http://nodesphere.github.io/nodesphere/
+### IPFS (InterPlanetary File System)
+
+```javascript
+nodesphere.adaptor.Ipfs.create({protocol: 'http', host: 'ipfs.io', port: 80})
+.then((ipfs) => {
+  return ipfs.fetch({rootNodeId: 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'})
+}).then((sphere) => {
+  console.log(sphere.data())
+})
+
+// prints something like:
+// {
+//   nodes: {
+//     QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr: {},
+//     QmeJTXoV3NeYjScPNAbzk81z9qa7kgb91AnxTgQicpGQXs: { name: '2010', size: 46656, ipfsType: 1 },
+//     QmYg9SGT2qBu8BL7NbbT3Wzh1CXyJVGSMFuRLPcLquRhmX: { name: 'index.html', size: 134539, ipfsType: 2 },
+//     ...
+//   },
+//   edges: {
+//     'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr -> QmeJTXoV3NeYjScPNAbzk81z9qa7kgb91AnxTgQicpGQXs': { start: [Object], end: [Object] },
+//     'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr -> QmYg9SGT2qBu8BL7NbbT3Wzh1CXyJVGSMFuRLPcLquRhmX': { start: [Object], end: [Object] },
+//     ...
+//   }
+// }
+```
+
+For examples of usage in both Node.js and browser, see: https://github.com/nodesphere/nodesphere/tree/master/examples
+
+You can also see examples running live in the browser:
+
+- http://nodesphere.github.io/nodesphere/ipfs.html
+- http://nodesphere.github.io/nodesphere/gsheet.html
+- http://nodesphere.github.io/nodesphere/gdrive.html
+- http://nodesphere.github.io/nodesphere/metamaps.html
+- http://nodesphere.github.io/nodesphere/nodesphere.html
 
 These are intentionally written in simple JS directly in the page source.
 
