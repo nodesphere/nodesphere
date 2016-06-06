@@ -51,7 +51,7 @@ class Sphere extends Element
       if @nodes[nodeId]
         @nodes[nodeId]
       else
-        new Node({id: nodeId}, {@keyLength})
+        new Node({name: nodeId}, {@keyLength})
     else
       new Node(data, {@keyLength})
     @nodes[node.id()] = node
