@@ -49,6 +49,8 @@ nodesphere.adaptor.Ipfs.create({protocol: 'http', host: 'ipfs.io', port: 80})
 // }
 ```
 
+### Other Examples
+
 For examples of usage in both Node.js and browser, see: https://github.com/nodesphere/nodesphere/tree/master/examples
 
 You can also see examples running live in the browser:
@@ -73,11 +75,6 @@ Nodesphere is being developed primarily in the context of the [Core Network](htt
 > Nodesphere is currently pre-alpha, and things are likely to change. We don't recommend you use it in production yet.
 >
 > Nodesphere had a complete rewrite on a fresh branch with a new history as of v0.4.0.  The older version can be found on the [0.3.x](https://github.com/nodesphere/nodesphere/tree/0.3.x) tree.
-
-### Architectural Notes
-
-- Both Nodes and Edges are implemented as _maps_, or sets of key-value pairs.
-- Edges have the special keys `start` and `end` which point to those respective nodes.
 
 ### In the browser
 
