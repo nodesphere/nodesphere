@@ -24,7 +24,7 @@
       gsheetId = window.location.hash.slice(1) || '1fyezdzoWucdoaMvOkWNXAiarkBrTv63zWCzlcW-vWgQ',
 
       GoogleSpreadsheet.create({
-        gsheetId: gsheetId
+        gsheetId: gsheetId,
         orientation: 'rows'
       }).then(function(gsheet) {
         return gsheet.fetch()
