@@ -18,13 +18,14 @@
       message = document.getElementById('message')
       rawData = document.getElementById('rawData')
 
-      message.innerHTML =
-        'Fetching from spreadsheet...'
+      gsheetId = window.location.hash.slice(1) || '1fyezdzoWucdoaMvOkWNXAiarkBrTv63zWCzlcW-vWgQ',
 
       GoogleSpreadsheet.create({
-        gsheetId: '1fyezdzoWucdoaMvOkWNXAiarkBrTv63zWCzlcW-vWgQ',
+        gsheetId: gsheetId,
         orientation: 'rows'
       }).then(function(gsheet) {
+        message.innerHTML =
+          'Fetching from spreadsheet...'
         return gsheet.fetch()
       }).then(function(sphere) {
         message.innerHTML += '<br /><br />' +
