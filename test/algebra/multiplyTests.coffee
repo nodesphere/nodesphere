@@ -34,8 +34,8 @@ describe 'multiply', ->
 
     resultSphere = multiply contentSphere, filterSphere
     edges = resultSphere.edges
-    edges["time poem -> the"].get('weight').should.equal 25  # sample: original edges copied from content sphere
-    size(edges).should.equal size(contentSphere.edges) + 3, "expected result sphere to have only 3 more edges than content sphere, but got: #{pjson edges}"
+    edges["time poem -> the"].get('weight').should.equal 25  # check a sample: original edges are copied from content sphere
+    size(edges).should.equal size(contentSphere.edges) + 3, "expected result sphere to have 3 more edges than content sphere, but got: #{pjson edges}"
 
     edges["time poem -> saturn"].get('weight').should.equal 3
     edges["beauty poem -> venus"].get('weight').should.equal 2
