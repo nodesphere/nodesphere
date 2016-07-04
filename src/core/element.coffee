@@ -1,5 +1,9 @@
 {pjson, d} = require 'lightsaber/lib/log'
-_ = require 'lodash'
+multihashing = require 'multihashing'
+_ = { isEmpty } = require 'lodash'
+canonicalJson = require 'json-stable-stringify'
+Buffer = require('buffer/').Buffer
+bs58 = require 'bs58'
 
 class Element
 
@@ -10,8 +14,21 @@ class Element
       please override constructor in inheriting classes"
 
   setKey: (args) ->
-    @keyLength = args?.keyLength or @DEFAULT_KEY_LENGTH
-    @_id = args?.id or randomKey(@keyLength)
+    # TODO allow args.idAlgorithm to choose hash alg, or random
+    @_id = if args?.id
+      args?.id
+    else if isEmpty @data()
+      @keyLength = args?.keyLength or @DEFAULT_KEY_LENGTH
+      @_id = args?.id or randomKey(@keyLength)
+    else
+      @hash()
+
+  hash: ->
+    data = canonicalJson @data()
+    buffer = new Buffer data
+    multihash = multihashing(buffer, 'sha2-256')
+    digest = multihash
+    bs58.encode digest
 
   randomKey = (keyLength) ->
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".split /// ///   # base 58 -- no 0, O, I, or l chars
