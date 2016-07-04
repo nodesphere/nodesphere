@@ -39,6 +39,7 @@ class GoogleSpreadsheet
   sphere_from: (spreadsheet) =>
     sphere = new Sphere
     sphere.attr 'url', @json_url
+    filter = sphere.addNode {type: 'filter', rank: 0}
 
     # populate row headers and col headers:
     primary_headers = {}
@@ -56,6 +57,7 @@ class GoogleSpreadsheet
 
       if primary_index > 1 and secondary_index > 1
         sphere.triple primary_header, secondary_header or null, text
+        sphere.addEdge start: filter, end: primary_header
 
     sphere
 

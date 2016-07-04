@@ -9,6 +9,7 @@ class Algebra
     product = Sphere.copy contentSphere
     for __, contentEdge of contentSphere.edges
       for __, filterEdge of filterSphere.edges
+        # d content: contentEdge.end.toJson(omit: 'id').toLowerCase(), filter: filterEdge.end.toJson(omit: 'id').toLowerCase()
         if contentEdge.end.toJson(omit: 'id').toLowerCase() is filterEdge.end.toJson(omit: 'id').toLowerCase()
           weight = if isFinite(contentEdge.get('weight')) and isFinite(filterEdge.get('weight'))
             contentEdge.get('weight') * filterEdge.get('weight')

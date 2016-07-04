@@ -96,4 +96,13 @@ class Sphere extends Element
       edgesData[key] = edge.data()
     edgesData
 
+  initialFilter: ->
+    filters = filter(@nodes, (node) -> node.data.get('type') is 'filter')
+    initialFilter = first sortBy @filterNodes(), (filter) -> filter.get('rank')
+    results = {}
+    for edgeId, edge of @edges
+      if edge.start.id() is initialFilter.id()
+        results[edge.end.id()] = edge.end
+    results
+
 module.exports = Sphere
