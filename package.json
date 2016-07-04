@@ -33,7 +33,7 @@
     "buffer": "^4.6.0",
     "ipfs-api": "^3.0.2",
     "json-stable-stringify": "^1.0.1",
-    "lightsaber": "^0.5.3",
+    "lightsaber": "^0.6.4",
     "lodash": "^3.10.0",
     "multihashing": "^0.2.1",
     "native-promisify-if-present": "^1.0.1"
