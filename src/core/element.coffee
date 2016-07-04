@@ -1,5 +1,5 @@
-{pjson, d} = require 'lightsaber/lib/log'
-{key} = require 'lightsaber/lib/key'
+{d, log, pjson} = require 'lightsaber/lib/log'
+{randomKey} = require 'lightsaber/lib/key'
 multihashing = require 'multihashing'
 _ = { isEmpty } = require 'lodash'
 canonicalJson = require 'json-stable-stringify'
@@ -18,9 +18,9 @@ class Element
     # TODO allow args.idAlgorithm to choose hash alg, or random
     @_id = if args?.id
       args?.id
-    else if isEmpty @data()
+    else if isEmpty @attrs
       @keySizeBits = args?.keySizeBits or @KEY_SIZE_BITS
-      @_id = args?.id or key(bits: @keySizeBits)
+      @_id = args?.id or randomKey(bits: @keySizeBits)
     else
       @hash()
 
