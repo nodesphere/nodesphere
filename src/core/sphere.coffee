@@ -7,7 +7,6 @@ Edge = require './edge'
 Element = require './element'
 
 class Sphere extends Element
-  DEFAULT_KEY_LENGTH: 44
 
   @copy: (sphere) ->
     newSphere = new Sphere
