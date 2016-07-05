@@ -4,6 +4,7 @@ d = require('lightsaber/lib/log').d
 
 Nodesphere = require('..')
 Metamaps = Nodesphere.adaptor.Metamaps
+Ipfs = Nodesphere.adaptor.Ipfs
 
 protocol = 'https://'
 domain = 'metamaps.herokuapp.com'
