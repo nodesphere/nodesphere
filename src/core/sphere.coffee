@@ -1,6 +1,6 @@
 { pjson, d } = require 'lightsaber/lib/log'
 { type } = require 'lightsaber/lib/type'
-{ cloneDeep, omit } = require 'lodash'
+{ cloneDeep, omit, sortBy } = _ = require 'lodash'
 
 Node = require './node'
 Edge = require './edge'
@@ -95,5 +95,19 @@ class Sphere extends Element
     for key, edge of @edges
       edgesData[key] = edge.data()
     edgesData
+
+  filterResults: (index) ->
+    filterNode = @filterNode index
+    nodeIds = []
+    for edgeId, edge of @edges
+      if edge.start.id() is filterNode.id()
+        nodeIds.push edge.end.id()
+    nodeIds
+
+  filterNode: (index) -> @filterNodes()[index]
+
+  filterNodes: ->
+    filterNodes = _.filter(@nodes, (node) -> node.get('type') is 'filter')
+    sortBy filterNodes, (filterNode) -> filterNode.get('rank')
 
 module.exports = Sphere
