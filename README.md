@@ -17,7 +17,7 @@ as these systems become practical and performant
 
 ## Format
 
-A nodesphere is a graph, as in graph theory.  A simple example nodesphere with a few nodes and edges, and some metadata:
+A nodesphere is a graph, with nodes, edges, and metadata.  A simple example nodesphere:
 
 ```js
 {
