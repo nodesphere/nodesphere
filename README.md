@@ -49,13 +49,11 @@ A nodesphere is a graph, with nodes, edges, and metadata.  A simple example node
 
 ## Examples
 
-```javascript
-const nodesphere = require('nodesphere')
-```
-
 ### IPFS (InterPlanetary File System)
 
 ```javascript
+const nodesphere = require('nodesphere')
+
 nodesphere.adaptor.Ipfs.create({protocol: 'http', host: 'ipfs.io', port: 80})
 .then((ipfs) => {
   return ipfs.fetch({rootNodeId: 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'})
