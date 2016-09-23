@@ -1,5 +1,9 @@
 # Nodesphere
 
+Everything we want to share is a graph, which can be seen as a group of knowledge nodes.
+We think of this as a "sphere" of nodes; thus _nodesphere_.
+Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
+
 ## Objectives
 
 Nodesphere is an interchange format for node networks. It has three primary objectives:
@@ -11,11 +15,37 @@ including social network data, online drives, and ultimately, any public or priv
 from traditional server & database systems toward secure, distributed public and private storage,
 as these systems become practical and performant
 
-## Philosophical
+## Format
 
-Everything we want to share is a graph, which can be seen as a group of knowledge nodes.
-We think of this as a "sphere" of nodes; thus _nodesphere_.
-Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
+A nodesphere is a graph, as in graph theory.  A simple example nodesphere with a few nodes and edges, and some metadata:
+
+```js
+{
+  "nodes": [
+    {
+      "id": "/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",
+      "name": "A Declaration of the Independence of Cyberspace"
+    },
+    {
+      "id": "https://homes.eff.org/~barlow/",
+      "name": "John Perry Barlow"
+    }
+  ],
+  "edges": [
+    {
+      "id": "QmbnrrcA7Gvo8um4AfzAZV8u8UXgWsmA1S1HU8gR2TZAam",  // multihash of canonical json of data
+      "data": {
+        "start": "/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",
+        "end": "https://homes.eff.org/~barlow/",
+        "content": "by"
+      }
+    }
+  ],
+  "metatdata": {
+    "name": "Manifestos"
+  }
+}
+```
 
 ## Examples
 
