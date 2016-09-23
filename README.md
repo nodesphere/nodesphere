@@ -14,7 +14,7 @@ as these systems become practical and performant
 ## Philosophical
 
 Everything we want to share is a graph, which can be seen as a group of knowledge nodes.
-We think of this as a "sphere" of nodes; thus the name _nodesphere_.
+We think of this as a "sphere" of nodes; thus _nodesphere_.
 Nodesphere is designed to help enable the curation, sharing, visualization, and navigation of all your graph data.
 
 ## Examples
