@@ -15,34 +15,118 @@ including social network data, online drives, and ultimately, any public or priv
 from traditional server & database systems toward secure, distributed public and private storage,
 as these systems become practical and performant
 
-## Format
+## Content Nodes
 
-A nodesphere is a graph, with nodes, edges, and metadata.  A simple example nodesphere:
+Nodes are canonically expressed in JSON.
+
+A node may contain its content directly in the `data` field:
 
 ```js
 {
-  "nodes": [
-    {
-      "id": "/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",
-      "name": "A Declaration of the Independence of Cyberspace"
-    },
-    {
-      "id": "https://homes.eff.org/~barlow/",
-      "name": "John Perry Barlow"
-    }
-  ],
-  "edges": [
-    {
-      "id": "QmbnrrcA7Gvo8um4AfzAZV8u8UXgWsmA1S1HU8gR2TZAam",  // multihash of canonical json of data
-      "data": {
-        "start": "/ipfs/QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",
-        "end": "https://homes.eff.org/~barlow/",
-        "content": "by"
-      }
-    }
-  ],
-  "metatdata": {
+  "id": "QmNusqXRpBzVzTjXjXX1hJyiNpfyRzKSNpEDDDpU1niYna",  // hash of data
+  "data": "\n                    THE CLUETRAIN MANIFESTO\n                    http://www.cluetrain.com\n\n\n..."
+}
+```
+
+The `data` field can also be any valid JSON data structure:
+
+```js
+{
+  "id": "QmVfkFMFgL24Xfpna6yGVUTmGNXE3oYVnKy1Ymmt3UQumf",  // hash of canonical JSON of data
+  "data": {
+    "name": "Jane Doe",
+    "jobTitle": "Professor",
+    "telephone": "(555) 123-4567",
+    "url": "http://www.example.com"
+  }
+}
+```
+
+A node may also refer to content in a mutable external resource by URL:
+
+```js
+{
+  "id": "http://www.cluetrain.com/cluetrain.pdf"
+}
+```
+
+A node may also refer to content in an immutable external resource by content address:
+
+```js
+{
+  "id": "QmUbcmbrw5XaEXLhdKbWMbF2kChkxnaCqpLMgryUMeQgzR"  // hash of resource
+}
+```
+
+## Edges
+
+An "edge" ties together a relationship between two nodes, eg:
+
+```js
+{
+  "id": "QmbnrrcA7Gvo8um4AfzAZV8u8UXgWsmA1S1HU8gR2TZAam",  // hash of canonical JSON of data
+  "data": {
+    "type": "edge",
+    "start": "QmUbcmbrw5XaEXLhdKbWMbF2kChkxnaCqpLMgryUMeQgzR",  // A Declaration of the Independence of Cyberspace
+    "content": "by",
+    "end": "https://homes.eff.org/~barlow/"  // John Perry Barlow
+  }
+}
+```
+
+## Nodesphere
+
+A nodesphere is a graph, with nodes, edges, and metadata.  An "expanded" nodesphere:
+
+```js
+{
+  "id": "QmZMdjuPHTvAQo88ZzAb1EyJPjxaghucCW6YHpf7Lr2Y2p",  // hash of canonical JSON of data
+  "data": {
+    "type": "sphere",
     "name": "Manifestos"
+    "nodes": [
+      {
+        "id": "QmSrSwSDfQhgh6ees1VbMRiQG64ixH12Xv1hoQYUFH77E7",  // hash of canonical JSON of data
+        "data": {
+          "name": "John Perry Barlow",
+          "jobTitle": "Cyberlibertarian",
+          "telephone": "800/654-4322",
+          "url": "https://homes.eff.org/~barlow/"
+        }
+      }
+    ]
+    "edges": [
+      {
+        "id": "QmbnrrcA7Gvo8um4AfzAZV8u8UXgWsmA1S1HU8gR2TZAam",  // hash of canonical JSON of data
+        "data": {
+          "type": "edge",
+          "start": "QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",  // A Declaration of the Independence of Cyberspace
+          "content": "by",
+          "end": "QmSrSwSDfQhgh6ees1VbMRiQG64ixH12Xv1hoQYUFH77E7"  // John Perry Barlow
+        }
+      }
+    ]
+  }
+}
+```
+
+The same nodesphere in "compacted" format, which assumes that the
+referenced nodes and edges are retrievable in their expanded form
+by their content addresses:
+
+```js
+{
+  "id": "QmZMdjuPHTvAQo88ZzAb1EyJPjxaghucCW6YHpf7Lr2Y2p",  // hash of canonical JSON of data
+  "data": {
+    "type": "sphere",
+    "name": "Manifestos"
+    "nodes": [
+      "QmVDWmkM87NfR85WE1LvfwfJLRcMEtfNnCBiCJQRePP7Ly",
+      "QmSrSwSDfQhgh6ees1VbMRiQG64ixH12Xv1hoQYUFH77E7"
+    ]
+    "edges": [
+      "QmbnrrcA7Gvo8um4AfzAZV8u8UXgWsmA1S1HU8gR2TZAam"
+    ]
   }
 }
 ```
