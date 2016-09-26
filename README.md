@@ -131,12 +131,15 @@ by their content addresses:
 }
 ```
 
-## Examples
+## Adaptors
+
+Nodesphere can read from several external data sources, including IPFS,
+Google Drive, and Google Spreadsheets.
 
 ### IPFS (InterPlanetary File System)
 
 ```javascript
-const nodesphere = require('nodesphere')
+var nodesphere = require('nodesphere')
 
 nodesphere.adaptor.Ipfs.create({protocol: 'http', host: 'ipfs.io', port: 80})
 .then((ipfs) => {

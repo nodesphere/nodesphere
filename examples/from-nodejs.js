@@ -1,25 +1,12 @@
 #!/usr/bin/env node
 
-d = require('lightsaber/lib/log').d
+nodesphere = require('..')
 
-Nodesphere = require('..')
-Metamaps = Nodesphere.adaptor.Metamaps
-Ipfs = Nodesphere.adaptor.Ipfs
-
-protocol = 'https://'
-domain = 'metamaps.herokuapp.com'
-mapId = 3
-url = protocol + domain + '/maps/' + mapId
-
-metamaps = new Metamaps()
-
-console.log('Fetching Metamap from ' + url + ' ...')
-
-return Ipfs.create()
-.then(function(ipfs) {
+nodesphere.adaptor.Ipfs.create({protocol: 'http', host: 'ipfs.io', port: 80})
+.then((ipfs) => {
   return ipfs.fetch({rootNodeId: 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr'})
-}).then(function(sphere) {
-  d(sphere)
+}).then((sphere) => {
+  console.log(sphere.data())
 }).catch(function(error) {
   console.error(error.stack);
 })
