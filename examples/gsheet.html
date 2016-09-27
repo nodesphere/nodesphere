@@ -18,15 +18,15 @@
       message = document.getElementById('message')
       rawData = document.getElementById('rawData')
 
-      gsheetId = window.location.hash.slice(1) || '1fyezdzoWucdoaMvOkWNXAiarkBrTv63zWCzlcW-vWgQ',
+      gsheetId = window.location.hash.slice(1) || '1fyezdzoWucdoaMvOkWNXAiarkBrTv63zWCzlcW-vWgQ'
 
-      GoogleSpreadsheet.create({
-        gsheetId: gsheetId,
-        orientation: 'rows'
-      }).then(function(gsheet) {
-        message.innerHTML =
-          'Fetching from spreadsheet...'
-        return gsheet.fetch()
+      GoogleSpreadsheet.create()
+      .then(function(gsheet) {
+        message.innerHTML = 'Fetching from spreadsheet...'
+        return gsheet.fetch({
+          gsheetId: gsheetId,
+          orientation: 'rows'
+        })
       }).then(function(sphere) {
         message.innerHTML += '<br /><br />' +
           'Retrieved data, printing resulting nodesphere:'
