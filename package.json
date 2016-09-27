@@ -9,16 +9,16 @@
     "clean": "rm -rf ./lib/",
     "compile": "coffee --output lib/ --compile src/",
     "watch": "coffee --watch --output lib/ --compile src/",
-    "prepublish": "in-publish && npm run compile || not-in-publish",
+    "prepublish": "in-publish && npm run compile && npm run build || not-in-publish",
     "shipit": "npm test && git push origin head",
     "test": "npm run compile && mocha",
     "pub": "npm run examples:publish",
-    "examples:publish": "npm-run-all examples publish:gh-pages publish:gh-pages:notify",
-    "examples": "npm-run-all build copy-dist-to-examples",
+    "examples:publish": "npm-run-all --silent examples publish:gh-pages publish:gh-pages:notify",
+    "examples": "npm-run-all --silent build copy-dist-to-examples",
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
     "publish:gh-pages": "gh-pages --dist examples --message 'Update gh-pages [ci skip]'",
     "publish:gh-pages:notify": "echo http://nodesphere.github.io/nodesphere",
-    "ipfs": "open https://v04x.ipfs.io/ipfs/`ipfs add -r -q examples | tail -n 1`"
+    "ipfs": "open https://v04x.ipfs.io/ipfs/`~/gocode/bin/ipfs add -r -q examples | tail -n 1`"
   },
   "author": "Harlan T Wood (https://github.com/harlantwood)",
   "contributors": [
