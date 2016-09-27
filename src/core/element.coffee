@@ -1,10 +1,8 @@
 {d, log, pjson} = require 'lightsaber/lib/log'
 {randomKey} = require 'lightsaber/lib/key'
-multihashing = require 'multihashing'
+{multihash} = require 'lightsaber/lib/hash'
 _ = { isEmpty } = require 'lodash'
 canonicalJson = require 'json-stable-stringify'
-Buffer = require('buffer/').Buffer
-bs58 = require 'bs58'
 
 class Element
 
@@ -26,10 +24,7 @@ class Element
 
   hash: ->
     data = canonicalJson @data()
-    buffer = new Buffer data
-    multihash = multihashing(buffer, 'sha2-256')
-    digest = multihash
-    bs58.encode digest
+    multihash data, 'sha2-256'
 
   # for pretty printed JSON:
   # toJson(space: 4)
