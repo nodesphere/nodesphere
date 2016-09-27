@@ -11,18 +11,17 @@ class MetamapsAdaptor
 
   fetch: ({protocol, domain, mapId}) ->
     protocol ?= 'https://'
-    canonicalUrl = "#{protocol}#{domain}/api/v1/maps/#{mapId}"
-    # corsHackUrl =  "#{protocol}cors-anywhere.herokuapp.com/#{domain}/api/v1/maps/#{mapId}"
-    axios.get canonicalUrl  # , headers: {'X-Requested-With': 'XMLHttpRequest'}
+    canonicalUrl = "#{protocol}#{domain}/api/v2/maps/#{mapId}?embed=topics,synapses"
+    axios.get canonicalUrl
     .then (response) ->
-      topics = {}
+      {topics, synapses} = response.data.data
       sphere = new Sphere id: canonicalUrl
-      for topic in response.data.topics
+      for topic in topics
         sphere.addNode topic
-      for synapse in response.data.synapses
+      for synapse in synapses
         sphere.addEdge
-          start: sphere.nodes[synapse.topic1_id]
-          end: sphere.nodes[synapse.topic2_id]
+          start: sphere.nodes[synapse.node1_id]
+          end: sphere.nodes[synapse.node2_id]
       sphere
 
 module.exports = MetamapsAdaptor
