@@ -1,6 +1,6 @@
 {
   "name": "nodesphere",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "graph interoperability",
   "main": "lib",
   "scripts": {
