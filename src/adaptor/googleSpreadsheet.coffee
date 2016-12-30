@@ -34,7 +34,7 @@ class GoogleSpreadsheet
     .then (response) =>
       @sphere_from response.data
     .catch (error) =>
-      throw new Error "Error getting '#{@json_url}': #{error.stack}"
+      throw new Error "Error getting '#{@json_url}': #{error}"
 
   sphere_from: (spreadsheet) =>
     sphere = new Sphere
