@@ -29,7 +29,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "bluebird": "^3.4.7",
-    "ipfs-api": "^3.0.3",
+    "ipfs-api": "^12.1.2",
     "json-stable-stringify": "^1.0.1",
     "lightsaber": "^0.6.8",
     "lodash": "^4.17.4",

@@ -26,7 +26,7 @@ class IpfsAdaptor
     @ipfs.add buffer
     .then (items) =>
       for item in items
-        item.Hash
+        item.hash
     .catch (err) ->
       console.error err
 
