@@ -18,7 +18,7 @@
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
     "publish:gh-pages": "gh-pages --dist examples --message 'Update gh-pages [ci skip]'",
     "publish:gh-pages:notify": "echo http://nodesphere.github.io/nodesphere",
-    "ipfs": "open https://v04x.ipfs.io/ipfs/`~/gocode/bin/ipfs add -r -q examples | tail -n 1`"
+    "ipfs": "open https://ipfs.io/ipfs/`~/gocode/bin/ipfs add -r -q examples | tail -n 1`"
   },
   "author": "Harlan T Wood (https://github.com/harlantwood)",
   "contributors": [
