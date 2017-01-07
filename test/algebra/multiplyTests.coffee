@@ -1,11 +1,11 @@
-{ d, pjson } = require 'lightsaber'
+{ d, json, pjson } = require 'lightsaber'
 { size } = require 'lodash'
-{ should } = require 'chai'
+{ expect } = require 'chai'
+
+{ assertEdge } = require '../testHelpers'
 
 Sphere = require '../../src/core/sphere'
 multiply = require '../../src/algebra/multiply'
-
-should()  # make should available on everything
 
 describe 'multiply', ->
 
@@ -33,10 +33,26 @@ describe 'multiply', ->
       ]
 
     resultSphere = multiply contentSphere, filterSphere
-    edges = resultSphere.edges
-    edges["time poem -> the"].get('weight').should.equal 25  # check a sample: original edges are copied from content sphere
-    size(edges).should.equal size(contentSphere.edges) + 3, "expected result sphere to have 3 more edges than content sphere, but got: #{pjson edges}"
 
-    edges["time poem -> saturn"].get('weight').should.equal 3
-    edges["beauty poem -> venus"].get('weight').should.equal 2
-    edges["beauty poem -> saturn"].get('weight').should.equal .25
+    # check a sample: original edges are copied from content sphere
+    assertEdge resultSphere,
+      subject: 'time poem'
+      predicate: {weight: 25}
+      object: 'the'
+
+    expect(size(resultSphere.edges)).to.equal size(contentSphere.edges) + 3, "expected result sphere to have 3 more edges than content sphere, but got: #{pjson resultSphere.edges}"
+
+    assertEdge resultSphere,
+      subject: 'time poem'
+      predicate: {weight: 3}
+      object: 'saturn'
+
+    assertEdge resultSphere,
+      subject: 'beauty poem'
+      predicate: {weight: 2}
+      object: 'venus'
+
+    assertEdge resultSphere,
+      subject: 'beauty poem'
+      predicate: {weight: .25}
+      object: 'saturn'
