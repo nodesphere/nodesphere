@@ -1,6 +1,6 @@
 { pjson, d } = require 'lightsaber/lib/log'
 { type } = require 'lightsaber/lib/type'
-{ cloneDeep, omit, sortBy } = _ = require 'lodash'
+{ cloneDeep, merge, omit, sortBy } = _ = require 'lodash'
 
 Node = require './node'
 Edge = require './edge'
@@ -20,6 +20,7 @@ class Sphere extends Element
     @setKey args
     @nodes = {}
     @edges = {}
+    @nodesBySubjectAndPredicate = {}
     if args.nodes then @addNodes args.nodes
     if args.edges then @addEdges args.edges
 
@@ -50,9 +51,9 @@ class Sphere extends Element
       if @nodes[nodeId]
         @nodes[nodeId]
       else
-        new Node({name: nodeId}, {@keyLength})
+        new Node({name: nodeId}, @)
     else
-      new Node(data, {@keyLength})
+      new Node(data, @)
     @nodes[node.id()] = node
     node
 
@@ -64,10 +65,19 @@ class Sphere extends Element
       params
     else
       { start, end, data } = params
-      new Edge
-        start: @addNode start
-        end: @addNode end
+      startNode = @addNode start
+      endNode = @addNode end
+      new_edge = new Edge
+        start: startNode
+        end: endNode
         data: data
+      startName = startNode.name()
+      predicateName = data?.name
+      if startName and predicateName
+        @nodesBySubjectAndPredicate[startName] or= {}
+        @nodesBySubjectAndPredicate[startName][predicateName] = endNode
+      new_edge
+
     @edges[edge.id()] = edge
     edge
 
@@ -109,5 +119,8 @@ class Sphere extends Element
   filterNodes: ->
     filterNodes = _.filter(@nodes, (node) -> node.get('type') is 'filter')
     sortBy filterNodes, (filterNode) -> filterNode.get('rank')
+
+  getRelatedNode: (subject, predicateName) ->
+    @nodesBySubjectAndPredicate[subject]?[predicateName]
 
 module.exports = Sphere

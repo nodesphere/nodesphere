@@ -6,7 +6,7 @@ Element = require './element'
 class Node extends Element
 
   constructor: (@attrs={}, args={}) ->
-    @setKey @attrs
+    @setKey @args
 
   id: -> @attrs.id or @_id
 
@@ -17,5 +17,10 @@ class Node extends Element
   set: (propertyName, propertyValue) -> @attrs[propertyName] = propertyValue
 
   data: -> defaults @attrs, id: @id()
+
+  related: (predicateName) ->
+    subject = @name()
+    return unless subject
+    @sphere.getRelatedNode(subject, predicateName)
 
 module.exports = Node
