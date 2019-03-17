@@ -1,8 +1,7 @@
 .DS_Store
+.idea/
 /.env
-
 /examples/
-
 /node_modules/
 /src/
 /tmp/
