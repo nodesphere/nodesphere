@@ -1,7 +1,7 @@
 { json, log, d, pjson } = require 'lightsaber/lib/log'
 { find, isEmpty, unique, values } = require 'lodash'
 Promise = require 'bluebird'
-ipfsApi = require 'ipfs-api'
+ipfsApi = require 'ipfs-api/dist'
 
 Sphere = require '../../lib/core/sphere'
 
