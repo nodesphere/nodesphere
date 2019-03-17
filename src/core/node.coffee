@@ -5,8 +5,8 @@ Element = require './element'
 
 class Node extends Element
 
-  constructor: (@attrs={}, args={}) ->
-    @setKey @args
+  constructor: (@attrs={}, @sphere) ->
+    @setKey()
 
   id: -> @attrs.id or @_id
 
