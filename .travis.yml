@@ -7,9 +7,9 @@ before_install:
 
 node_js:
   - 6
+  - 7
   - 8
-  - 10
-  - node
+  - 9
 
 notifications:
   slack:
