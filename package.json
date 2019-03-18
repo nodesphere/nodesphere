@@ -62,5 +62,8 @@
   ],
   "bugs": {
     "url": "https://github.com/nodesphere/nodesphere/issues"
+  },
+  "engines": {
+    "node": ">= 6 < 9"
   }
 }
