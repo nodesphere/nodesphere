@@ -10,6 +10,9 @@ node_js:
   - 7
   - 8
 
+script:
+  - yarn ci
+
 notifications:
   slack:
     secure: 0BFyKtWvJG/oMau7gJlsI8NLQXpa1r2orz0Fa09zfcH/qv+aQrwXBUUdp6kYIFsrERDrQMUimjmDc7AwqB1KtTnIztoVPF3S5cWPWIseKksXaN3mZLVYAZwD0n54l0Wq6yy5bnZM7R20pBrPajbqYPIwyX7KfS5bJJ4UKN6i5vI=

@@ -5,6 +5,7 @@
   "main": "lib",
   "scripts": {
     "build": "webpack",
+    "ci": "yarn-run-all --silent clean compile build test",
     "clean": "rm -rf ./lib/",
     "compile": "coffee --output lib/ --compile src/",
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
