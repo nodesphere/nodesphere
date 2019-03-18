@@ -4,6 +4,9 @@
 /examples/
 /node_modules/
 /src/
+/test/
 /tmp/
 favicon.ico
 npm-debug.log
+webpack.config.js
+yarn.lock
