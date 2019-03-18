@@ -42,7 +42,6 @@
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.12.2",
     "gh-pages": "^0.12.0",
-    "https-browserify": "0.0.1",
     "ipfsd-ctl": "^0.18.1",
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
@@ -56,7 +55,7 @@
     "url": "git@github.com:nodesphere/nodesphere.git"
   },
   "keywords": [
-    "content-addressable",
+    "content addressable",
     "edge",
     "graph",
     "node"
