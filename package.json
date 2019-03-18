@@ -5,12 +5,12 @@
   "main": "lib",
   "scripts": {
     "build": "webpack",
-    "ci": "npm-run-all --silent clean compile build test",
+    "ci": "yarn clean && yarn compile && yarn build && yarn test",
     "clean": "rm -rf ./lib/",
     "compile": "coffee --output lib/ --compile src/",
     "copy-dist-to-examples": "cp dist/nodesphere.js examples/",
-    "examples:publish": "npm-run-all --silent examples publish:gh-pages publish:gh-pages:notify",
-    "examples": "npm-run-all --silent build copy-dist-to-examples",
+    "examples:publish": "yarn examples && yarn publish:gh-pages && yarn publish:gh-pages:notify",
+    "examples": "yarn build && yarn copy-dist-to-examples",
     "ipfs": "open https://ipfs.io/ipfs/`~/gocode/bin/ipfs add -r -q examples | tail -n 1`",
     "link-all": "yarn link",
     "prepublishOnly": "yarn compile && yarn build",
@@ -47,7 +47,6 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
-    "npm-run-all": "^4.1.5",
     "stream-http": "^2.6.0",
     "webpack": "^1.14.0"
   },
